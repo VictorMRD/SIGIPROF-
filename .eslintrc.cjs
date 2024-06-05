@@ -18,7 +18,7 @@ module.exports = {
       extends: ['plugin:cypress/recommended']
     },
     {
-      files: ['src/views/**/*.vue'],
+      files: ['src/views/**/*.vue', 'src/Layout/*.vue'],
       rules: {
         'vue/multi-word-component-names': 0
       }
