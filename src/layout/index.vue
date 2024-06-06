@@ -29,16 +29,16 @@
               </li>
               <div class="flex flex-col items-start justify-center">
                 <RouterLink to="/publicaciones" title="Boton para el index Publicaciones" :class="navigationMenuTriggerStyle()">
-                  Publicaciones
+                  <NavigationMenuLink>Publicaciones</NavigationMenuLink>
                 </RouterLink>
                 <RouterLink to="/libros" title="Boton para el index Libros" :class="navigationMenuTriggerStyle()">
-                  Libros
+                  <NavigationMenuLink>Libros</NavigationMenuLink>
                 </RouterLink>
                 <RouterLink to="/cursos" title="Boton para el index Cursos" :class="navigationMenuTriggerStyle()">
-                  Cursos
+                  <NavigationMenuLink>Cursos</NavigationMenuLink>
                 </RouterLink>
                 <RouterLink to="/capacitaciones" title="Boton para el index Capacitaciones" :class="navigationMenuTriggerStyle()">
-                  Capacitaciones
+                  <NavigationMenuLink>Capacitaciones</NavigationMenuLink>
                 </RouterLink>
               </div>
             </ul>
@@ -63,10 +63,10 @@
               </li>
               <div class="flex flex-col items-start justify-center">
                 <RouterLink to="/proyectos" title="Boton para el index Lista de Proyectos" :class="navigationMenuTriggerStyle()">
-                  Lista de Proyectos
+                  <NavigationMenuLink>Lista de Proyectos</NavigationMenuLink>
                 </RouterLink>
                 <RouterLink to="/proyectos/registrar" title="Boton para el index Registrar proyecto" :class="navigationMenuTriggerStyle()">
-                  Registrar proyecto
+                  <NavigationMenuLink>Registrar un Proyecto</NavigationMenuLink>
                 </RouterLink>
               </div>
             </ul>
