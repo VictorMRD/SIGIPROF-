@@ -23,24 +23,28 @@ const routes = [
         children: [
           {
             path: '',
-            name: 'publications index',
+            name: 'publications-index',
             component: () => import('@/views/publications/index.vue')
           },
           {
             path: 'index',
-            name: 'publications'
+            name: 'publications',
+            component: () => import('@/views/publications/index.vue')
           },
           {
-            path: 'create',
-            name: 'publications-create'
+            path: 'crear',
+            name: 'publications-create',
+            component: () => import('@/views/publications/create.vue')
           },
           {
-            path: ':id/edit',
-            name: 'publications-edit'
+            path: ':id/editar',
+            name: 'publications-edit',
+            component: () => import('@/views/publications/edit.vue')
           },
           {
-            path: ':id',
-            name: 'publications-view'
+            path: ':id/visualizar',
+            name: 'publications-view',
+            component: () => import('@/views/publications/view.vue')
           }
         ]
       }
