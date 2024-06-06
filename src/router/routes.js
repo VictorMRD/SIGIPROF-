@@ -17,29 +17,30 @@ const routes = [
         component: () => import('@/views/index.vue')
       },
       {
-        path: '/users',
-        name: 'users',
+        path: '/publicaciones',
+        name: 'publications',
         meta: { requiresAuth: true },
         children: [
           {
             path: '',
-            name: 'users index'
+            name: 'publications index',
+            component: () => import('@/views/publications/index.vue')
           },
           {
             path: 'index',
-            name: 'users'
+            name: 'publications'
           },
           {
             path: 'create',
-            name: 'users-create'
+            name: 'publications-create'
           },
           {
             path: ':id/edit',
-            name: 'users-edit'
+            name: 'publications-edit'
           },
           {
             path: ':id',
-            name: 'users-view'
+            name: 'publications-view'
           }
         ]
       }

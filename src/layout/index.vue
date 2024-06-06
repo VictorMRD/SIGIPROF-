@@ -13,11 +13,12 @@
           <NavigationMenuTrigger>Producción</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul
-              class="grid gap-3 p-6 md:w-[500px] lg:w-[500px] lg:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)]"
+              class="grid gap-3 p-6 md:w-[500px] lg:w-[500px] md:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)] lg:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)]"
             >
               <li class="row-span-4">
                 <p
-                  class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-2 no-underline outline-none focus:shadow-md border-r-2 border-solid border-gray-200"
+                  class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-2 no-underline outline-none focus:shadow-md border-r-2 border-solid border-gray-200
+                  "
                 >
                   <img src="@/assets/uabcs-logo.png" class="w-32" />
                   <div class="mb-2 mt-4 text-xl font-medium">Producción</div>
@@ -47,7 +48,7 @@
           <NavigationMenuTrigger>Proyectos</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul
-              class="grid gap-3 p-6 md:w-[500px] lg:w-[500px] lg:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)]"
+              class="grid gap-3 p-6 md:w-[500px] lg:w-[500px] md:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)]  lg:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)]"
             >
               <li class="row-span-4">
                 <p
