@@ -3,7 +3,7 @@ const routes = [
     path: '/',
     name: 'Layout',
     redirect: '/index',
-    component: () => import('@/Layout/index.vue'),
+    component: () => import('@/layout/index.vue'),
     children: [
       {
         path: '/profile',
@@ -48,12 +48,12 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/Auth/login.vue')
+    component: () => import('@/views/auth/login.vue')
   },
   {
     path: '/register',
     name: 'register',
-    component: () => import('@/views/Auth/register.vue')
+    component: () => import('@/views/auth/register.vue')
   },
   {
     path: '/forgot',
