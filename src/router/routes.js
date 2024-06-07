@@ -49,6 +49,38 @@ const routes = [
         ]
       },
       {
+        path: '/cursos',
+        name: 'courses',
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '',
+            name: 'courses-index',
+            component: () => import('@/views/courses/index.vue')
+          },
+          {
+            path: 'index',
+            name: 'courses',
+            component: () => import('@/views/courses/index.vue')
+          },
+          {
+            path: 'crear',
+            name: 'courses-create',
+            component: () => import('@/views/courses/create.vue')
+          },
+          {
+            path: ':id/editar',
+            name: 'courses-edit',
+            component: () => import('@/views/courses/edit.vue')
+          },
+          {
+            path: ':id/visualizar',
+            name: 'courses-view',
+            component: () => import('@/views/courses/view.vue')
+          }
+        ]
+      },
+      {
         path: '/proyectos',
         name: 'projects',
         meta: { requiresAuth: true },
