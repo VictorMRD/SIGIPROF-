@@ -78,7 +78,7 @@
               </div>
               <div class="flex justify-end gap-3 select-none">
                 <RouterLink
-                  to="/publicaciones/:id/download"
+                  :to="`/publicaciones/${document.id}/download`"
                   class="flex flex-col justify-center items-center"
                 >
                   <div
