@@ -47,6 +47,18 @@ const routes = [
             component: () => import('@/views/publications/view.vue')
           }
         ]
+      },
+      {
+        path: '/libros',
+        name: 'books',
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '',
+            name: 'books',
+            component: () => import('@/views/books/index.vue')
+          }
+        ]
       }
     ]
   },
