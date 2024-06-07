@@ -202,8 +202,8 @@
         :default-page="1"
       >
         <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-          <PaginationFirst />
-          <PaginationPrev />
+          <PaginationFirst @click="changeData(1)" />
+          <PaginationPrev @click="changeData(actualPage - 1)" />
 
           <template v-for="(item, index) in items">
             <PaginationListItem
@@ -222,8 +222,8 @@
             </PaginationListItem>
             <PaginationEllipsis v-else :key="item.type" :index="index" />
           </template>
-          <PaginationNext />
-          <PaginationLast />
+          <PaginationNext @click="changeData(actualPage + 1)" />
+          <PaginationLast @click="changeData(1)" />
         </PaginationList>
       </Pagination>
     </div>
@@ -284,7 +284,7 @@ interface DocumentInfo {
   rolParticipacion: string
   participantes: string[]
 }
-const documents: DocumentInfo[] = [
+var documents: DocumentInfo[] = [
   {
     id: 1,
     titulo: 'Desarrollo de Inteligencia Artificial en la Era Moderna',
@@ -512,11 +512,16 @@ const documents: DocumentInfo[] = [
   }
 ]
 
-const originalDataCopy = documents
+const copyOfDocuments = ref(documents)
+const secondCopyOfDocuments = ref(documents)
 const paginatedInformation = ref([])
 const totalPages = ref(1)
 const totalDocuments = ref(3)
 const actualPage = ref(1)
+
+console.log(documents)
+console.log(copyOfDocuments.value)
+console.log(secondCopyOfDocuments.value)
 
 totalDocuments.value = documents.length
 totalPages.value = Math.ceil(documents.length / 5)
@@ -524,7 +529,7 @@ totalPages.value = Math.ceil(documents.length / 5)
 function paginateInformation(pageIndex) {
   const start = pageIndex * 5
   const end = start + 5
-  const paginatedInformationPlaceHolder = documents.slice(start, end)
+  const paginatedInformationPlaceHolder = copyOfDocuments.value.slice(start, end)
   return paginatedInformationPlaceHolder
 }
 
@@ -532,7 +537,6 @@ paginatedInformation.value = paginateInformation(0)
 
 function changeData(pageIndex) {
   paginatedInformation.value = paginateInformation(pageIndex - 1)
-  console.log(paginatedInformation.value)
   actualPage.value = pageIndex
 }
 
@@ -542,20 +546,23 @@ function deleteElement(deleteElementId) {
 }
 
 function filterData(searchQuery) {
-  if (searchQuery.trim() == '' || searchQuery == '') {
-    combinedDataRef.value = originalData
+  if (searchQuery.trim() == '' || searchQuery == '' || searchQuery == null) {
+    console.log('clean')
+    copyOfDocuments.value = secondCopyOfDocuments.value
+    paginatedInformation.value = paginateInformation(0)
+    totalDocuments.value = copyOfDocuments.value.length
+    totalPages.value = Math.ceil(copyOfDocuments.value.length / 5)
     return
   }
 
-  const filteredData = originalData.filter((item) => {
+  const filteredData = copyOfDocuments.value.filter((item) => {
     const searchString = [
-      item.user_email,
-      item.user_name,
-      item.user_lastname,
-      item.user_curp,
-      item.beneficiary_name,
-      item.beneficiary_lastname,
-      item.beneficiary_curp
+      item.titulo,
+      item.estado,
+      item.area,
+      item.fechaPublicacion,
+      item.autor,
+      item.rolParticipacion
     ]
       .join(' ')
       .toLowerCase()
@@ -563,6 +570,10 @@ function filterData(searchQuery) {
     return searchString.includes(searchQuery.toLowerCase())
   })
 
-  combinedDataRef.value = filteredData
+  totalDocuments.value = filteredData.length
+  totalPages.value = Math.floor(copyOfDocuments.value.length / 5)
+
+  copyOfDocuments.value = filteredData
+  paginatedInformation.value = paginateInformation(0)
 }
 </script>
