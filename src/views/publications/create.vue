@@ -43,7 +43,7 @@
                     </p>
                   </AlertDialogTitle>
                   <AlertDialogDescription class="h-60 overflow-auto">
-                    <div class="p-1 flex flex-col gap-2">
+                    <div class="flex flex-col gap-2">
                       <p>
                         <span class="capitalize text-gray-600 font-semibold">Título</span>:
                         {{ form.values.titulo }}
@@ -92,7 +92,7 @@
             </AlertDialog>
           </div>
         </div>
-        <div class="flex justify-between gap-10">
+        <div class="flex justify-between gap-10 border p-4 rounded-md mt-2">
           <div class="flex flex-col w-full">
             <FormField v-slot="{ componentField }" name="titulo">
               <FormItem>
@@ -283,11 +283,15 @@
             </FormField>
           </div>
         </div>
-        <div class="flex justify-between">
-          <div class="mt-4 w-full h-32 overflow-auto">
+        <div class="flex justify-between gap-10">
+          <div class="mt-4 w-full h-32 overflow-auto border p-4 rounded-md">
             <p>Referencias:</p>
             <ul>
-              <li class="flex items-center" v-for="reference in referencesList" :key="reference">
+              <li
+                class="flex items-center border p-4 rounded-md mt-2"
+                v-for="reference in referencesList"
+                :key="reference"
+              >
                 <div class="flex gap-4 items-center">
                   <DotFilledIcon />{{ reference }}
                   <Button
@@ -301,7 +305,7 @@
               </li>
             </ul>
           </div>
-          <div class="mt-4 w-full h-32 overflow-auto">
+          <div class="mt-4 w-full h-32 overflow-auto border p-4 rounded-md">
             <p>Participantes:</p>
             <ul>
               <li
