@@ -61,12 +61,28 @@
       </TabsList>
       <TabsContent value="cards">
         <div class="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
-          <Card v-for="book in books" :key="book.id" class="shadow-none">
-            <CardHeader class="flex justify-between">
-              <CardTitle>{{ book.titulo }}</CardTitle>
-              <CardDescription>{{ book.isbn }}</CardDescription>
-            </CardHeader>
-          </Card>
+          <div v-for="book in books" :key="book.id" class="flex flex-col border rounded-md cursor-pointer hover:shadow-md">
+            <div class="flex justify-between px-3 py-1">
+              <Badge variant="outline">{{ book.rol_autor }}</Badge>
+              <span class="text-xs text-muted">{{ book.ano_publicacion }}</span>
+            </div>
+            <Separator />
+            <div class="p-3 flex flex-col gap-2 flex-1">
+              <!-- title -->
+              <div class="flex-1">
+                <h1 class="text-sm font-semibold text-pretty">{{ book.titulo }}</h1>
+              </div>
+              <!-- status -->
+              <div>
+                <span v-if="book.estado_publicacion === 'Publicado'" class="rounded p-1 text-xs text-green-800 bg-green-100">Publicado</span>
+                <span v-else class="rounded p-1 text-xs text-yellow-800 bg-yellow-100">Revisión</span>
+              </div>
+            </div>
+            <div class="flex justify-between bg-zinc-100 text-zinc-500 px-3 py-1 text-xs">
+              <span>ISBN</span>
+              <span>{{ book.isbn }}</span>
+            </div>
+          </div>
         </div>
       </TabsContent>
       <TabsContent value="table"> Change your password here. </TabsContent>
@@ -88,6 +104,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Book, User, Construction, Grid2X2, Table } from 'lucide-vue-next'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
 import { ref, onMounted } from 'vue'
 
 const books = ref([])
@@ -98,8 +116,8 @@ onMounted(() => {
       id: 1,
       isbn: '978-3-16-148410-0',
       doi: '10.1000/xyz123',
-      titulo: 'Libro Ejemplo 1',
-      año_publicacion: 2010,
+      titulo: 'El Arte de Enseñar: Más Allá del Aula',
+      ano_publicacion: 2010,
       editorial: 'Editorial Alfa',
       pais: 'México',
       idioma: 'Español',
@@ -117,8 +135,8 @@ onMounted(() => {
       id: 2,
       isbn: '978-3-16-148411-7',
       doi: '10.1000/xyz124',
-      titulo: 'Libro Ejemplo 2',
-      año_publicacion: 2015,
+      titulo: 'Pedagogía Creativa: Innovación en la Enseñanza',
+      ano_publicacion: 2015,
       editorial: 'Editorial Beta',
       pais: 'Argentina',
       idioma: 'Español',
@@ -136,8 +154,8 @@ onMounted(() => {
       id: 3,
       isbn: '978-3-16-148412-4',
       doi: '10.1000/xyz125',
-      titulo: 'Libro Ejemplo 3',
-      año_publicacion: 2020,
+      titulo: 'Semillas del Conocimiento: Cultivando Mentes Jóvenes',
+      ano_publicacion: 2020,
       editorial: 'Editorial Gamma',
       pais: 'España',
       idioma: 'Español',
@@ -155,8 +173,8 @@ onMounted(() => {
       id: 4,
       isbn: '978-3-16-148413-1',
       doi: '10.1000/xyz126',
-      titulo: 'Libro Ejemplo 4',
-      año_publicacion: 2012,
+      titulo: 'La Ciencia de la Educación: Estrategias y Teorías Modernas',
+      ano_publicacion: 2012,
       editorial: 'Editorial Delta',
       pais: 'Chile',
       idioma: 'Español',
@@ -174,8 +192,8 @@ onMounted(() => {
       id: 5,
       isbn: '978-3-16-148414-8',
       doi: '10.1000/xyz127',
-      titulo: 'Libro Ejemplo 5',
-      año_publicacion: 2018,
+      titulo: 'Historias de Aula: Narrativas de un Docente',
+      ano_publicacion: 2018,
       editorial: 'Editorial Épsilon',
       pais: 'Perú',
       idioma: 'Español',
@@ -193,8 +211,8 @@ onMounted(() => {
       id: 6,
       isbn: '978-3-16-148415-5',
       doi: '10.1000/xyz128',
-      titulo: 'Libro Ejemplo 6',
-      año_publicacion: 2017,
+      titulo: 'El Desafío de Enseñar: Retos y Triunfos Educativos',
+      ano_publicacion: 2017,
       editorial: 'Editorial Zeta',
       pais: 'Colombia',
       idioma: 'Español',
@@ -212,8 +230,8 @@ onMounted(() => {
       id: 7,
       isbn: '978-3-16-148416-2',
       doi: '10.1000/xyz129',
-      titulo: 'Libro Ejemplo 7',
-      año_publicacion: 2016,
+      titulo: 'La Magia de la Educación Inclusiva',
+      ano_publicacion: 2016,
       editorial: 'Editorial Eta',
       pais: 'Uruguay',
       idioma: 'Español',
@@ -231,8 +249,8 @@ onMounted(() => {
       id: 8,
       isbn: '978-3-16-148417-9',
       doi: '10.1000/xyz130',
-      titulo: 'Libro Ejemplo 8',
-      año_publicacion: 2021,
+      titulo: 'Formando el Futuro: Guía para Educadores del Siglo XXI',
+      ano_publicacion: 2021,
       editorial: 'Editorial Theta',
       pais: 'Venezuela',
       idioma: 'Español',
