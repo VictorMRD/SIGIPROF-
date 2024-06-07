@@ -42,37 +42,73 @@
           <div id="cards" class="flex flex-col gap-4">
             <div
               id="card-object"
-              class="gap-2 flex flex-col h-fit w-full px-4 py-2 rounded-md border-2 border-gray-100 border-solid shadow-sm"
+              class="gap-2 flex flex-col h-fit w-full p-6 rounded-md border-2 border-gray-100 border-solid shadow-sm bg-gray-50"
               v-for="document in paginatedInformation"
               :key="document.id"
             >
-              <p class="text-xl font-semibold">
-                {{ document.titulo ? document.titulo : 'Undefined' }}
-              </p>
+              <div class="flex items-center gap-2">
+                <div
+                  class="text-2xl font-bold bg-gray-200 px-4 py-2 rounded-full flex items-center"
+                >
+                  {{ document.titulo ? document.titulo.slice(0, 1) : 'Undefined' }}
+                </div>
+                <div class="flex flex-col w-full">
+                  <p class="text-lg font-semibold">
+                    {{ document.titulo ? document.titulo : 'Undefined' }}
+                  </p>
+                  <span class="text-gray-600">{{
+                    document.autor ? document.autor : 'Undefined'
+                  }}</span>
+                </div>
+                <div class="w-1/4 text-nowrap flex justify-end items-center px-10 gap-2">
+                  <CalendarIcon />
+                  <span class="text-gray-600">{{
+                    document.fechaPublicacion ? document.fechaPublicacion : 'Undefined'
+                  }}</span>
+                </div>
+              </div>
+
               <div class="flex justify-between w-3/4 gap-2">
                 <div class="flex flex-col justify-between gap-1">
-                  <p>Estado: {{ document.estado ? document.estado : 'Undefined' }}</p>
-                  <p>Area: {{ document.area ? document.area : 'Undefined' }}</p>
                   <p>
-                    Publicación:
-                    {{ document.fechaPublicacion ? document.fechaPublicacion : 'Undefined' }}
+                    <span class="font-semibold">Estado</span><br />
+                    <span class="text-gray-600">{{
+                      document.estado ? document.estado : 'Undefined'
+                    }}</span>
+                  </p>
+                  <p>
+                    <span class="font-semibold">Area</span><br />
+                    <span class="text-gray-600">{{
+                      document.area ? document.area : 'Undefined'
+                    }}</span>
                   </p>
                 </div>
                 <div class="flex flex-col justify-between gap-1">
-                  <p>Autor: {{ document.autor ? document.autor : 'Undefined' }}</p>
                   <p>
-                    Referencias:
-                    {{ document.referencias ? document.referencias.length : 'Undefined' }}
+                    <span class="font-semibold">Autor</span><br />
+                    <span class="text-gray-600">{{
+                      document.autor ? document.autor : 'Undefined'
+                    }}</span>
                   </p>
                   <p class="text-nowrap">
-                    Rol de participación:
-                    {{ document.rolParticipacion ? document.rolParticipacion : 'Undefined' }}
+                    <span class="font-semibold">Rol de participación</span><br />
+                    <span class="text-gray-600">{{
+                      document.rolParticipacion ? document.rolParticipacion : 'Undefined'
+                    }}</span>
                   </p>
                 </div>
                 <div class="flex flex-col justify-between gap-1">
                   <p>
-                    Participantes:
-                    {{ document.participantes ? document.participantes.length : 'Undefined' }}
+                    <span class="font-semibold">Participantes</span><br />
+                    <span class="text-gray-600">
+                      {{ document.participantes ? document.participantes.length : 'Undefined' }}
+                    </span>
+                  </p>
+                  <p>
+                    <span class="font-semibold">Referencias</span><br />
+                    <span class="text-gray-600">{{
+                      document.referencias ? document.referencias.length : 'Undefined'
+                    }}</span>
                   </p>
                 </div>
               </div>
@@ -81,44 +117,44 @@
                   :to="`/publicaciones/${document.id}/download`"
                   class="flex flex-col justify-center items-center"
                 >
-                  <div
-                    class="border-2 border-gray-300 border-solid-2 p-3 rounded-full hover:bg-gray-100 transition-all duration-300"
+                  <Button
+                    class="border-2 border-gray-300 border-solid-2 p-3 rounded-full transition-all duration-300 flex gap-2"
                   >
                     <DownloadIcon />
-                  </div>
-                  <p class="text-xs">Descargar</p>
+                    <p class="text-xs">Descargar</p>
+                  </Button>
                 </RouterLink>
                 <RouterLink
                   :to="`/publicaciones/${document.id}/visualizar`"
                   class="flex flex-col justify-center items-center"
                 >
-                  <div
-                    class="border-2 border-gray-300 border-solid-2 p-3 rounded-full hover:bg-gray-100 transition-all duration-300"
+                  <Button
+                    class="border-2 border-gray-300 border-solid-2 p-3 rounded-full transition-all duration-300 flex gap-2"
                   >
                     <EyeOpenIcon />
-                  </div>
-                  <p class="text-xs">Visualizar</p>
+                    <p class="text-xs">Visualizar</p>
+                  </Button>
                 </RouterLink>
                 <RouterLink
                   :to="`/publicaciones/${document.id}/editar`"
                   class="flex flex-col justify-center items-center"
                 >
-                  <div
-                    class="border-2 border-gray-300 border-solid-2 p-3 rounded-full hover:bg-gray-100 transition-all duration-300"
+                  <Button
+                    class="border-2 border-gray-300 border-solid-2 p-3 rounded-full transition-all duration-300 flex gap-2"
                   >
                     <Pencil2Icon />
-                  </div>
-                  <p class="text-xs">Editar</p>
+                    <p class="text-xs">Editar</p>
+                  </Button>
                 </RouterLink>
                 <AlertDialog>
                   <AlertDialogTrigger>
-                    <div
-                      class="border-2 border-gray-300 border-solid-2 p-3 rounded-full hover:bg-gray-100 transition-all duration-300"
+                    <Button
+                      class="border-2 border-gray-300 border-solid-2 p-3 rounded-full transition-all duration-300"
                     >
                       <TrashIcon />
-                    </div>
-                    <p class="text-xs">Eliminar</p></AlertDialogTrigger
-                  >
+                      <p class="text-xs">Eliminar</p>
+                    </Button>
+                  </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle
@@ -223,6 +259,7 @@ import { InfoCircledIcon } from '@radix-icons/vue'
 import { Pencil2Icon } from '@radix-icons/vue'
 import { DownloadIcon } from '@radix-icons/vue'
 import { TrashIcon } from '@radix-icons/vue'
+import { CalendarIcon } from '@radix-icons/vue'
 import { EyeOpenIcon } from '@radix-icons/vue'
 import { Input } from '@/components/ui/input'
 import { ref } from 'vue'
