@@ -33,7 +33,12 @@
         </Alert>
       </div>
       <div class="flex flex-col gap-4">
-        <Input placeholder="Buscar publicación..." type="text" class="w-1/3" />
+        <Input
+          placeholder="Buscar publicación..."
+          type="text"
+          class="w-1/3"
+          @input="filterData($event.target.value)"
+        />
         <div class="flex flex-col gap-2">
           <div class="flex justify-between text-xs font-semibold text-gray-400">
             <p>Total de documentos: {{ totalDocuments }}</p>
@@ -42,11 +47,11 @@
           <div id="cards" class="flex flex-col gap-4">
             <div
               id="card-object"
-              class="gap-2 flex flex-col h-fit w-full p-6 rounded-md border-2 border-gray-100 border-solid shadow-sm bg-gray-50"
+              class="gap-2 flex flex-col h-fit w-full rounded-md border-2 border-gray-100 border-solid shadow-sm bg-gray-50"
               v-for="document in paginatedInformation"
               :key="document.id"
             >
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 bg-white p-4 border-b-2 border-gray-100">
                 <div
                   class="text-2xl font-bold bg-gray-200 px-4 py-2 rounded-full flex items-center"
                 >
@@ -68,7 +73,7 @@
                 </div>
               </div>
 
-              <div class="flex justify-between w-3/4 gap-2">
+              <div class="flex justify-between w-3/4 gap-2 p-4">
                 <div class="flex flex-col justify-between gap-1">
                   <p>
                     <span class="font-semibold">Estado</span><br />
@@ -112,7 +117,9 @@
                   </p>
                 </div>
               </div>
-              <div class="flex justify-end gap-3 select-none">
+              <div
+                class="flex justify-end gap-3 select-none p-4 bg-white border-t-2 border-gray-100"
+              >
                 <RouterLink
                   :to="`/publicaciones/${document.id}/download`"
                   class="flex flex-col justify-center items-center"
@@ -505,6 +512,7 @@ const documents: DocumentInfo[] = [
   }
 ]
 
+const originalDataCopy = documents
 const paginatedInformation = ref([])
 const totalPages = ref(1)
 const totalDocuments = ref(3)
@@ -531,5 +539,30 @@ function changeData(pageIndex) {
 function deleteElement(deleteElementId) {
   console.log(deleteElementId)
   toast.success('Su registro se ha eliminado con éxito')
+}
+
+function filterData(searchQuery) {
+  if (searchQuery.trim() == '' || searchQuery == '') {
+    combinedDataRef.value = originalData
+    return
+  }
+
+  const filteredData = originalData.filter((item) => {
+    const searchString = [
+      item.user_email,
+      item.user_name,
+      item.user_lastname,
+      item.user_curp,
+      item.beneficiary_name,
+      item.beneficiary_lastname,
+      item.beneficiary_curp
+    ]
+      .join(' ')
+      .toLowerCase()
+
+    return searchString.includes(searchQuery.toLowerCase())
+  })
+
+  combinedDataRef.value = filteredData
 }
 </script>
