@@ -49,6 +49,38 @@ const routes = [
         ]
       },
       {
+        path: '/capacitaciones',
+        name: 'capacitations',
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '',
+            name: 'capacitations-index',
+            component: () => import('@/views/capacitations/index.vue')
+          },
+          {
+            path: 'index',
+            name: 'capacitations',
+            component: () => import('@/views/capacitations/index.vue')
+          },
+          {
+            path: 'crear',
+            name: 'capacitations-create',
+            component: () => import('@/views/capacitations/create.vue')
+          },
+          {
+            path: ':id/editar',
+            name: 'capacitations-edit',
+            component: () => import('@/views/capacitations/edit.vue')
+          },
+          {
+            path: ':id/visualizar',
+            name: 'capacitations-view',
+            component: () => import('@/views/capacitations/view.vue')
+          }
+        ]
+      },
+      {
         path: '/libros',
         name: 'books',
         meta: { requiresAuth: true },
