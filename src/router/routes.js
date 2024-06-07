@@ -49,6 +49,38 @@ const routes = [
         ]
       },
       {
+        path: '/proyectos',
+        name: 'projects',
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '',
+            name: 'projects-index',
+            component: () => import('@/views/projects/index.vue')
+          },
+          {
+            path: 'index',
+            name: 'projects',
+            component: () => import('@/views/projects/index.vue')
+          },
+          {
+            path: 'crear',
+            name: 'projects-create',
+            component: () => import('@/views/projects/create.vue')
+          },
+          {
+            path: ':id/editar',
+            name: 'projects-edit',
+            component: () => import('@/views/projects/edit.vue')
+          },
+          {
+            path: ':id/visualizar',
+            name: 'projects-view',
+            component: () => import('@/views/projects/view.vue')
+          }
+        ]
+      },
+      {
         path: '/capacitaciones',
         name: 'capacitations',
         meta: { requiresAuth: true },
