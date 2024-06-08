@@ -124,9 +124,7 @@
                   :to="`/publicaciones/${document.id}/download`"
                   class="flex flex-col justify-center items-center"
                 >
-                  <Button
-                    class="border-2 border-gray-300 border-solid-2 p-3 rounded-full transition-all duration-300 flex gap-2"
-                  >
+                  <Button size="sm" class="flex gap-1 items-center">
                     <DownloadIcon />
                     <p class="text-xs">Descargar</p>
                   </Button>
@@ -135,9 +133,7 @@
                   :to="`/publicaciones/${document.id}/visualizar`"
                   class="flex flex-col justify-center items-center"
                 >
-                  <Button
-                    class="border-2 border-gray-300 border-solid-2 p-3 rounded-full transition-all duration-300 flex gap-2"
-                  >
+                  <Button size="sm" class="flex gap-1 items-center">
                     <EyeOpenIcon />
                     <p class="text-xs">Visualizar</p>
                   </Button>
@@ -146,9 +142,7 @@
                   :to="`/publicaciones/${document.id}/editar`"
                   class="flex flex-col justify-center items-center"
                 >
-                  <Button
-                    class="border-2 border-gray-300 border-solid-2 p-3 rounded-full transition-all duration-300 flex gap-2"
-                  >
+                  <Button size="sm" class="flex gap-1 items-center">
                     <Pencil2Icon />
                     <p class="text-xs">Editar</p>
                   </Button>
@@ -156,7 +150,8 @@
                 <AlertDialog>
                   <AlertDialogTrigger>
                     <Button
-                      class="border-2 border-gray-300 border-solid-2 p-3 rounded-full transition-all duration-300"
+                      size="sm"
+                      class="flex gap-1 items-center bg-red-500 text-white hover:text-white hover:bg-red-400"
                     >
                       <TrashIcon />
                       <p class="text-xs">Eliminar</p>
@@ -264,10 +259,10 @@ import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { InfoCircledIcon } from '@radix-icons/vue'
 import { Pencil2Icon } from '@radix-icons/vue'
-import { DownloadIcon } from '@radix-icons/vue'
 import { TrashIcon } from '@radix-icons/vue'
-import { CalendarIcon } from '@radix-icons/vue'
 import { EyeOpenIcon } from '@radix-icons/vue'
+import { DownloadIcon } from '@radix-icons/vue'
+import { CalendarIcon } from '@radix-icons/vue'
 import { Input } from '@/components/ui/input'
 import { ref } from 'vue'
 import { toast } from 'vue-sonner'
