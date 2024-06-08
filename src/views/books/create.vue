@@ -173,7 +173,7 @@
             <FormMessage />
           </FormItem>
         </FormField>
-        <!-- <FormField v-slot="{ componentField }" name="apoyo_conahcyt">
+        <FormField v-slot="{ componentField }" name="apoyo_conahcyt">
           <FormItem>
             <FormLabel>Recibió apoyo del CONAHCYT</FormLabel>
             <FormControl>
@@ -186,7 +186,73 @@
             </FormDescription>
             <FormMessage />
           </FormItem>
-        </FormField> -->
+        </FormField>
+        <FormField v-slot="{ componentField }" name="estado_publicacion">
+          <FormItem>
+            <FormLabel>Estado de la publicación</FormLabel>
+            <FormControl>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona un estado" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="Pendiente">
+                      Pendiente
+                    </SelectItem>
+                    <SelectItem value="Revisión">
+                      En Revisión
+                    </SelectItem>
+                    <SelectItem value="Publicado">
+                      Publicado
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="objetivo">
+          <FormItem>
+            <FormLabel>Objetivo de la publicación</FormLabel>
+            <FormControl>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona un objetivo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="1">
+                      Objetivo 1
+                    </SelectItem>
+                    <SelectItem value="2">
+                      Objetivo 2
+                    </SelectItem>
+                    <SelectItem value="3">
+                      Objetivo 3
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField> 
+        <FormField v-slot="{ componentField }" name="dictaminado">
+          <FormItem>
+            <FormLabel>Está dictaminado</FormLabel>
+            <FormControl>
+              <div>
+                <Switch v-bind="componentField" />
+              </div>
+            </FormControl>
+            <FormDescription>
+              Si el libro se encuentra dictaminado
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        </FormField>
       </div>
     </form>
   </div>
@@ -209,6 +275,15 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { CalendarIcon } from '@radix-icons/vue'
 import { Calendar } from '@/components/ui/calendar'
@@ -216,7 +291,6 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-
 import { DateFormatter, type DateValue, getLocalTimeZone } from '@internationalized/date'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
