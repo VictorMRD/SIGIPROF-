@@ -44,11 +44,11 @@ const routes = [
           {
             path: ':id/visualizar',
             name: 'publications-view',
-            component: () => import('@/views/publications/view.vue')
+            component: () => import('@/views/courses/view.vue')
           },
           {
             path: ':id/agregar-autores',
-            name: 'publications-view',
+            name: 'publications-authors',
             component: () => import('@/views/publications/add-authors.vue')
           }
         ]
