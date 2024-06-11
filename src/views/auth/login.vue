@@ -71,19 +71,18 @@ import {
 import * as z from 'zod'
 import { useForm } from 'vee-validate'
 import { useRouter } from 'vue-router'
+import axios from '@/lib/axios'
 
 /* Login Form Schema */
 const formSchema = toTypedSchema(
   z.object({
     email: z
       .string({ message: 'Debe ingresar su correo para poder iniciar sesión' })
-      .nonempty({ message: 'Debe ingresar su correo para poder iniciar sesión' })
       .email({ message: 'Debe ingresar un correo válido' })
       .min(2, { message: 'El correo debe tener al menos 2 caracteres' })
       .max(50, { message: 'El correo no debe exceder los 50 caracteres' }),
     password: z
       .string({ message: 'Debe ingresar su contraseña para poder iniciar sesión' })
-      .nonempty({ message: 'Debe ingresar su contraseña para poder iniciar sesión' })
       .min(2, { message: 'La contraseña debe tener al menos 2 caracteres' })
       .max(50, { message: 'La contraseña no debe exceder los 50 caracteres' })
   })
@@ -92,9 +91,17 @@ const form = useForm({
   validationSchema: formSchema
 })
 const router = useRouter()
-const onSubmit = form.handleSubmit((values) => {
+const onSubmit = form.handleSubmit(async (values) => {
   console.log('Form submitted!', values)
-  router.push('/index', { shallow: false })
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+
+    const res = await axios.post('/login', values)
+
+    console.log(res)
+  } catch (error) {
+    console.error(error)
+  }
 })
 </script>
 
