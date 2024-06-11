@@ -14,15 +14,21 @@ const router = createRouter({
   }
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
-  const user = JSON.parse(localStorage.getItem('user'))
 
   if (requiresAuth) {
-    if (!user) {
+    try {
+      const response = await axios.get('api/v1/user')
+
+      if (response.status === 200) {
+        next()
+      } else {
+        next({ name: 'login' })
+      }
+    } catch (error) {
+      console.error('API call failed:', error)
       next({ name: 'login' })
-    } else {
-      next()
     }
   } else {
     next()
