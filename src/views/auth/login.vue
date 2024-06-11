@@ -100,8 +100,8 @@ const onSubmit = form.handleSubmit(async (values) => {
     const res = await axios.post('/login', values)
 
     toast.success('Ha iniciado sesión con éxito')
+    localStorage.setItem('user', JSON.stringify(res))
     router.push(`/index`)
-    console.log(res)
   } catch (error) {
     console.error(error)
   }
