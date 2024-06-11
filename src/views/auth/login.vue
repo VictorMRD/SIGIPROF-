@@ -72,6 +72,7 @@ import * as z from 'zod'
 import { useForm } from 'vee-validate'
 import { useRouter } from 'vue-router'
 import axios from '@/lib/axios'
+import { toast } from 'vue-sonner'
 
 /* Login Form Schema */
 const formSchema = toTypedSchema(
@@ -98,6 +99,8 @@ const onSubmit = form.handleSubmit(async (values) => {
 
     const res = await axios.post('/login', values)
 
+    toast.success('Ha iniciado sesión con éxito')
+    router.push(`/index`)
     console.log(res)
   } catch (error) {
     console.error(error)
