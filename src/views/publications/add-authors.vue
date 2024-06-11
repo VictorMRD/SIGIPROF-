@@ -35,7 +35,7 @@
         <div class="border p-4 mt-4 rounded-md">
           <p class="text-2xl font-bold pb-4">Autores</p>
           <div class="flex w-full gap-4 justify-between">
-            <!-- <FormField v-slot="{ componentField }" name="nombre">
+            <FormField v-slot="{ componentField }" name="nombre">
               <FormItem class="w-full">
                 <FormLabel>Nombre del autor *</FormLabel>
                 <FormControl>
@@ -45,7 +45,7 @@
                 </FormControl>
                 <FormMessage />
               </FormItem>
-            </FormField> -->
+            </FormField>
             <FormField v-slot="{ componentField }" name="primer_apellido">
               <FormItem class="w-full">
                 <FormLabel>Apellido del autor *</FormLabel>
@@ -75,7 +75,7 @@
                 <FormLabel>ORC ID</FormLabel>
                 <FormControl>
                   <div class="flex gap-2">
-                    <Input type="number" v-bind="componentField" />
+                    <Input type="text" v-bind="componentField" />
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -85,20 +85,40 @@
           <Button type="submit" @click="onSubmit" class="bg-blue-500 hover:bg-blue-400 mt-4">
             Añadir
           </Button>
-          <div class="mt-4 w-full h-32 overflow-auto border p-4 rounded-md">
-            <p>Participantes:</p>
-            <ul>
-              <li
-                class="flex items-center"
-                v-for="participant in participantList"
-                :key="participant"
-              >
-                <div class="flex gap-4 items-center"><DotFilledIcon />{{ participant }}</div>
-              </li>
-            </ul>
-          </div>
         </div>
       </form>
+      <div class="mt-4 w-full max-h-72 overflow-auto border p-4 rounded-md">
+        <p>Autores:</p>
+        <Table>
+          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead class="w-[100px]"> ORC ID </TableHead>
+              <TableHead>Nombre</TableHead>
+              <TableHead>Primer Apellido</TableHead>
+              <TableHead>Segundo apellido</TableHead>
+              <!-- <TableHead class="text-right"> Accion </TableHead> -->
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow v-for="author in authorsList" :key="author.id">
+              <TableCell class="font-medium"> {{ author.orc_id }} </TableCell>
+              <TableCell>{{ author.nombre }}</TableCell>
+              <TableCell>{{ author.primer_apellido }}</TableCell>
+              <TableCell>{{ author.segundo_apellido }}</TableCell>
+              <!-- <TableCell class="text-right">
+                <button
+                  type="button"
+                  class="bg-black text-white p-1 rounded-md hover:bg-gray-900 transition-all duration-300"
+                  @click="deleteElement"
+                >
+                  Eliminar
+                </button>
+              </TableCell> -->
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
     </div>
   </div>
 </template>
@@ -140,6 +160,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -152,12 +181,18 @@ import * as z from 'zod'
 import { ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
 import { useRouter, useRoute } from 'vue-router'
+import axios from '@/lib/axios'
 
 const formSchema = toTypedSchema(
   z.object({
+    nombre: z.string().min(2).max(50),
     primer_apellido: z.string().min(2).max(50),
     segundo_apellido: z.string().min(2).max(50),
-    orc_id: z.number()
+    orc_id: z
+      .string()
+      .min(16, { message: 'El ORC ID debe de ser minimo de 18' })
+      .max(16, { message: 'El ORC ID es maximo de 18 caracteres' })
+      .regex(/^\d{16}$/, { message: 'El ORC ID debe contener solo números' })
   })
 )
 
@@ -275,29 +310,49 @@ const form = useForm({
   validationSchema: formSchema
 })
 
+const route = useRoute()
+const dataId = route.params.id
 const onSubmit = form.handleSubmit((values) => {
-  console.log('Form submitted!', values)
-  toast.success('Su registro ha sido añadido con éxito')
+  axios
+    .post(`api/v1/publications/${dataId}/authors`, values)
+    .then((res) => {
+      toast.success('Se ha añadido el autor con éxito')
+    })
+    .catch((error) => {
+      toast.error('Ha ocurrido un error inesperado.')
+      console.log(error)
+    })
 })
 
-function addParticipant() {
-  if (participantInformation.value) participantList.value.push(participantInformation.value)
-  participantInformation.value = ''
+const deleteElement = async (elementId) => {
+  await axios
+    .get(`api/v1/publications/${dataId}/authors`)
+    .then((res) => {
+      console.log(res.data)
+      authorsList.value = res.data
+    })
+    .catch((error) => {
+      toast.error('Ha ocurrido un error inesperado.')
+      console.log(error)
+    })
 }
 
-function addReference() {
-  if (referenceInformation.value) referencesList.value.push(referenceInformation.value)
-  referenceInformation.value = ''
+const authorsList = ref([])
+const askForPublicationAuthors = async () => {
+  await axios
+    .get(`api/v1/publications/${dataId}/authors`)
+    .then((res) => {
+      console.log(res.data)
+      authorsList.value = res.data
+    })
+    .catch((error) => {
+      toast.error('Ha ocurrido un error inesperado.')
+      console.log(error)
+    })
 }
+askForPublicationAuthors()
 
 const turnBack = () => {
   router.push(`/publicaciones`)
-}
-
-const removeItem = (list, value) => {
-  const index = list.indexOf(value)
-  if (index !== -1) {
-    list.splice(index, 1)
-  }
 }
 </script>

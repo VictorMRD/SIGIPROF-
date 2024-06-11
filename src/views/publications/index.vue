@@ -331,7 +331,7 @@ const actualPage = ref(1)
 
 const getPublications = async () => {
   try {
-    const res = await axios.get('api/v1/publications')
+    const res = await axios.get('api/v1/user/publications')
     const publications = res.data
 
     console.log(publications)
@@ -385,7 +385,7 @@ function changeData(pageIndex) {
 
 async function deleteElement(deleteElementId) {
   try {
-    const res = await axios.delete(`api/v1/publications/${deleteElementId}`)
+    const res = await axios.delete(`api/v1/users/publications/${deleteElementId}`)
     toast.success('Su registro se ha eliminado con éxito')
     getPublications()
   } catch (error) {
