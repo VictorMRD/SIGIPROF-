@@ -15,105 +15,76 @@
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Crear</BreadcrumbPage>
+          <BreadcrumbPage>Autores</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
     <div class="py-4 flex flex-col gap-4">
       <form @submit="onSubmit">
         <div class="flex justify-between">
-          <p class="text-3xl font-semibold">Crear una publicación</p>
+          <p class="text-3xl font-semibold">Agregar autores</p>
           <div class="flex gap-2">
             <Button
               type="button"
               @click="turnBack"
               class="bg-white-500 text-black hover:bg-gray-200"
-              >Cancelar</Button
+              >Regresar</Button
             >
-            <AlertDialog>
-              <AlertDialogTrigger>
-                <Button type="button" @click="showFormInfo">Confirmar</Button></AlertDialogTrigger
-              >
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle
-                    >¿Estas completamente seguro de que quieres añadir este nuevo elemento?
-                    <p class="text-sm font-normal">
-                      Esta acción no puede deshacerse, y una vez agregado el registro no podrá ser
-                      alterado a menos que se modifique especificamente, revisa la información 2
-                      veces antes de confirmar el registro.
-                    </p>
-                  </AlertDialogTitle>
-                  <AlertDialogDescription class="h-60 overflow-auto">
-                    <div class="flex flex-col gap-2">
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold">Título</span>:
-                        {{ form.values.titulo }}
-                      </p>
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold">Estado</span>:
-                        {{ form.values.estado }}
-                      </p>
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold"
-                          >Área de especialidad</span
-                        >: {{ form.values.area }}
-                      </p>
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold">Referencias</span>:
-                        {{ referencesList }}
-                      </p>
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold">Autor</span>:
-                        {{ form.values.autor }}
-                      </p>
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold"
-                          >Fecha de Publicación</span
-                        >: {{ form.values.fechaPublicacion }}
-                      </p>
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold"
-                          >Rol de Participación</span
-                        >: {{ form.values.rolParticipacion }}
-                      </p>
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold">Participantes</span>:
-                        {{ participantList }}
-                      </p>
-                    </div>
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction>
-                    <Button type="submit" @click="onSubmit">Confirmar</Button>
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
           </div>
         </div>
         <div class="border p-4 mt-4 rounded-md">
           <p class="text-2xl font-bold pb-4">Autores</p>
-          <FormField v-slot="{ componentField }" name="participantes">
-            <FormItem>
-              <FormControl>
-                <div class="flex gap-2">
-                  <Input type="text" v-bind="componentField" v-model="participantInformation" />
-                  <Button
-                    type="button"
-                    @click="addParticipant()"
-                    class="bg-blue-500 hover:bg-blue-400"
-                  >
-                    Añadir
-                  </Button>
-                </div>
-              </FormControl>
-              <FormDescription>Escribe aquí los participantes.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          </FormField>
+          <div class="flex w-full gap-4 justify-between">
+            <!-- <FormField v-slot="{ componentField }" name="nombre">
+              <FormItem class="w-full">
+                <FormLabel>Nombre del autor *</FormLabel>
+                <FormControl>
+                  <div class="flex gap-2">
+                    <Input type="text" v-bind="componentField" />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            </FormField> -->
+            <FormField v-slot="{ componentField }" name="primer_apellido">
+              <FormItem class="w-full">
+                <FormLabel>Apellido del autor *</FormLabel>
+                <FormControl>
+                  <div class="flex gap-2">
+                    <Input type="text" v-bind="componentField" />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            </FormField>
+            <FormField v-slot="{ componentField }" name="segundo_apellido">
+              <FormItem class="w-full">
+                <FormLabel>Segundo apellido del autor *</FormLabel>
+                <FormControl>
+                  <div class="flex gap-2">
+                    <Input type="text" v-bind="componentField" />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            </FormField>
+          </div>
+          <div class="flex gap-4">
+            <FormField v-slot="{ componentField }" name="orc_id">
+              <FormItem>
+                <FormLabel>ORC ID</FormLabel>
+                <FormControl>
+                  <div class="flex gap-2">
+                    <Input type="number" v-bind="componentField" />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            </FormField>
+          </div>
+          <Button type="submit" @click="onSubmit" class="bg-blue-500 hover:bg-blue-400 mt-4">
+            Añadir
+          </Button>
           <div class="mt-4 w-full h-32 overflow-auto border p-4 rounded-md">
             <p>Participantes:</p>
             <ul>
@@ -122,81 +93,10 @@
                 v-for="participant in participantList"
                 :key="participant"
               >
-                <div class="flex gap-4 items-center">
-                  <DotFilledIcon />{{ participant }}
-                  <Button
-                    type="button"
-                    class="p-0 px-2 bg-white shadow-none hover:bg-gray-200 text-gray-400 h-5"
-                    @click="removeItem(participantList, participant)"
-                  >
-                    X
-                  </Button>
-                </div>
+                <div class="flex gap-4 items-center"><DotFilledIcon />{{ participant }}</div>
               </li>
             </ul>
           </div>
-        </div>
-        <div class="flex justify-end pt-4">
-          <AlertDialog>
-            <AlertDialogTrigger> <Button type="button">Confirmar</Button></AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle
-                  >¿Estas completamente seguro de que quieres añadir este nuevo elemento?
-                  <p class="text-sm font-normal">
-                    Esta acción no puede deshacerse, y una vez agregado el registro no podrá ser
-                    alterado a menos que se modifique especificamente, revisa la información 2 veces
-                    antes de confirmar el registro.
-                  </p>
-                </AlertDialogTitle>
-                <AlertDialogDescription class="h-60 overflow-auto">
-                  <div class="p-1 flex flex-col gap-2">
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold">Título</span>:
-                      {{ form.values.titulo }}
-                    </p>
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold">Estado</span>:
-                      {{ form.values.status }}
-                    </p>
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold"
-                        >Área de especialidad</span
-                      >: {{ form.values.area }}
-                    </p>
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold">Referencias</span>:
-                      {{ referencesList }}
-                    </p>
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold">Autor</span>:
-                      {{ form.values.autor }}
-                    </p>
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold"
-                        >Fecha de Publicación</span
-                      >: {{ form.values.fechaPublicacion }}
-                    </p>
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold"
-                        >Rol de Participación</span
-                      >: {{ form.values.rolParticipacion }}
-                    </p>
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold">Participantes</span>:
-                      {{ participantList }}
-                    </p>
-                  </div>
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction>
-                  <Button type="submit" @click="onSubmit">Confirmar</Button>
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
         </div>
       </form>
     </div>
@@ -255,22 +155,9 @@ import { useRouter, useRoute } from 'vue-router'
 
 const formSchema = toTypedSchema(
   z.object({
-    titulo: z.string().min(2).max(100),
-    status: z.string().min(2).max(50),
-    area: z.string().min(2).max(50),
-    rolParticipacion: z.string().min(2).max(50),
-    tiene_issn: z.string(),
-    issn_impreso: z.number(),
-    issn_electronico: z.number(),
-    doi: z.string(),
-    nombre_revista: z.string(),
-    anio_publicacion: z.string(),
-    programa_conahcyt: z.string(),
-    objetivo: z.string(),
-    url_cita: z.string(),
-    cita_a: z.number(),
-    cita_b: z.number(),
-    total_citas: z.number()
+    primer_apellido: z.string().min(2).max(50),
+    segundo_apellido: z.string().min(2).max(50),
+    orc_id: z.number()
   })
 )
 
@@ -389,25 +276,8 @@ const form = useForm({
 })
 
 const onSubmit = form.handleSubmit((values) => {
-  values.referencesList = referencesList.value
-  values.participantList = participantList.value
-  values.recibio_apoyo_conahcyt = recibio_apoyo_conahcyt.value
-  console.log(recibio_apoyo_conahcyt.value)
-  if (form.values.programa_conahcyt == 'vacio' && recibio_apoyo_conahcyt.value) {
-    toast.error('Tiene que escoger un programa CONAHCYT valido')
-    return
-  } else if (!recibio_apoyo_conahcyt.value) {
-    values.programa_conahcyt = null
-  }
-  if (form.values.issn_electronico === 0) {
-    values.issn_electronico = null
-  }
-  if (form.values.issn_impreso === 0) {
-    values.issn_impreso = null
-  }
   console.log('Form submitted!', values)
   toast.success('Su registro ha sido añadido con éxito')
-  // router.push(`/publicaciones`);
 })
 
 function addParticipant() {
@@ -429,57 +299,5 @@ const removeItem = (list, value) => {
   if (index !== -1) {
     list.splice(index, 1)
   }
-}
-
-const showFormInfo = () => {
-  console.log(form.values.tiene_issn)
-  console.log(form.values)
-}
-
-watch(issn_type, async () => {
-  if (issn_type.value === 'impreso') {
-    isIssnImpresoEnabled.value = false
-    isIssnElectronicoEnabled.value = true
-    form.setFieldValue('issn_electronico', 0, { shouldValidate: false })
-    form.setFieldValue('issn_impreso', undefined, { shouldValidate: false })
-  } else if (issn_type.value === 'electronico') {
-    isIssnElectronicoEnabled.value = false
-    isIssnImpresoEnabled.value = true
-    form.setFieldValue('issn_impreso', 0, { shouldValidate: false })
-    form.setFieldValue('issn_electronico', undefined, { shouldValidate: false })
-  } else {
-    isIssnElectronicoEnabled.value = false
-    isIssnImpresoEnabled.value = false
-    form.setFieldValue('issn_impreso', undefined, { shouldValidate: false })
-    form.setFieldValue('issn_electronico', undefined, { shouldValidate: false })
-  }
-
-  await form.validateField('issn_impreso')
-  await form.validateField('issn_electronico')
-})
-
-watch(citas_aRef, async () => {
-  total_citasRef.value = citas_aRef.value + citas_bRef.value
-})
-watch(citas_bRef, async () => {
-  total_citasRef.value = citas_aRef.value + citas_bRef.value
-  form.setFieldValue('total_citas', total_citasRef.value, { shouldValidate: false })
-
-  await form.validateField('total_citas')
-})
-
-form.setFieldValue('programa_conahcyt', 'vacio', { shouldValidate: false })
-watch(recibio_apoyo_conahcyt, async () => {
-  if (recibio_apoyo_conahcyt.value) {
-    form.setFieldValue('programa_conahcyt', 'vacio', { shouldValidate: false })
-  } else {
-    form.setFieldValue('programa_conahcyt', null, { shouldValidate: false })
-  }
-
-  await form.validateField('programa_conahcyt')
-})
-
-const handleChange = () => {
-  recibio_apoyo_conahcyt.value = !recibio_apoyo_conahcyt.value
 }
 </script>
