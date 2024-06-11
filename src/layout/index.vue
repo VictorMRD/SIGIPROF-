@@ -1,5 +1,5 @@
 <template>
-  <div class="px-10 py-0 border-b-2 border-slate-200 border-solid w-full flex items-center justify-between">
+  <div class="px-10 py-0 border-b-2 border-slate-200 border-solid w-full flex items-center justify-between px-24">
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
@@ -79,7 +79,17 @@
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-    <div class="w-8 h-8 rounded-full bg-gray-400"></div>
+    <DropdownMenu>
+      <DropdownMenuTrigger class="w-8 h-8 rounded-full bg-gray-400"></DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>Mi perfil</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <!-- <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Billing</DropdownMenuItem>
+        <DropdownMenuItem>Team</DropdownMenuItem> -->
+        <DropdownMenuItem @click="logout">Cerrar Sesión</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   </div>
   <router-view />
 </template>
@@ -94,4 +104,28 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { useRouter } from 'vue-router'
+import axios from '@/lib/axios'
+import { toast } from 'vue-sonner'
+
+const router = useRouter()
+const logout = async () =>{
+  try{
+    const res = await axios.post('/logout')
+
+    toast.success('Ha cerrado sesión')
+    localStorage.removeItem('user')
+    router.push(`/login`)
+  }catch(error){
+    console.error(error)
+  }
+}
 </script>
