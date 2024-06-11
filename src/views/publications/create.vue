@@ -733,14 +733,16 @@ const onSubmit = form.handleSubmit((values) => {
   if (form.values.issn_impreso === '88888888') {
     values.issn_impreso = null
   }
-  try {
-    let res = axios.post('api/v1/user/publications', values)
-    console.log(res)
-    toast.success('Su publicacion ha sido creada con exito')
-    router.push(`/publicaciones`)
-  } catch (error) {
-    toast.error('Ha ocurrido un error al intentar crear su publicacion...')
-  }
+  axios
+    .post('api/v1/user/publications', values)
+    .then((res) => {
+      toast.success('Su publicacion ha sido agregado con éxito')
+      router.push(`/publicaciones`)
+    })
+    .catch((error) => {
+      toast.error('Ha ocurrido un error inesperado.')
+      console.log(error)
+    })
 })
 
 function addParticipant() {

@@ -604,8 +604,8 @@ const loadData = async () => {
     form.setFieldValue('cita_b', publicationData.cita_b)
     form.setFieldValue('total_citas', publicationData.total_citas)
     form.setFieldValue('eje_conahcyt', publicationData.eje_conahcyt)
-    recibio_apoyo_conahcyt.value = publicationData.recibio_apoyo_conahcyt == 1 ? false : true
-    console.log(recibio_apoyo_conahcyt.value)
+    recibio_apoyo_conahcyt.value = publicationData.recibio_apoyo_conahcyt == 1 ? true : false
+    if (recibio_apoyo_conahcyt.value == false) form.setFieldValue('programa_conahcyt', 'vacio')
     preSelectedProgram.value = publicationData.programa_conahcyt
   } catch (error) {
     console.error('Error al cargar los datos de la publicación:', error)
@@ -773,15 +773,16 @@ const onSubmit = form.handleSubmit((values) => {
     values.issn_impreso = null
   }
   values.issn_tipo = values.issn_tipo.toUpperCase()
-  try {
-    let res = axios.put(`api/v1/publications/${dataId}`, values)
-    console.log(res)
-    console.log(values)
-    toast.success('Su publicacion ha sido editada con exito')
-    router.push(`/publicaciones`)
-  } catch (error) {
-    toast.error('Ha ocurrido un error al intentar editar su publicacion...')
-  }
+  axios
+    .put(`api/v1/publications/${dataId}`, values)
+    .then((res) => {
+      toast.success('Su publicacion ha sido editada con éxito')
+      router.push(`/publicaciones`)
+    })
+    .catch((error) => {
+      toast.error('Ha ocurrido un error inesperado.')
+      console.log(error)
+    })
 })
 
 function addParticipant() {
