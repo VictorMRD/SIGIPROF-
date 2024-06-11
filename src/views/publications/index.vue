@@ -395,16 +395,8 @@ async function deleteElement(deleteElementId) {
   }
 }
 
-function filterData(searchQuery) {
-  if (searchQuery.trim() == '' || searchQuery == '' || searchQuery == null) {
-    copyOfDocuments.value = secondCopyOfDocuments.value
-    paginatedInformation.value = paginateInformation(0)
-    totalDocuments.value = copyOfDocuments.value.length
-    totalPages.value = Math.ceil(copyOfDocuments.value.length / 5)
-    return
-  }
-
-  const filteredData = copyOfDocuments.value.filter((item) => {
+function filterData(query) {
+  const filteredData = secondCopyOfDocuments.value.filter((item) => {
     const searchString = [
       item.titulo,
       item.estatus,
@@ -417,11 +409,11 @@ function filterData(searchQuery) {
       .join(' ')
       .toLowerCase()
 
-    return searchString.includes(searchQuery.toLowerCase())
+    return searchString.includes(query.toLowerCase())
   })
 
   totalDocuments.value = filteredData.length
-  totalPages.value = Math.floor(copyOfDocuments.value.length / 5)
+  totalPages.value = Math.ceil(filteredData.length / 8)
 
   copyOfDocuments.value = filteredData
   paginatedInformation.value = paginateInformation(0)
