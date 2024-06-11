@@ -80,7 +80,9 @@
       </NavigationMenuList>
     </NavigationMenu>
     <DropdownMenu>
-      <DropdownMenuTrigger class="w-8 h-8 rounded-full bg-gray-400"></DropdownMenuTrigger>
+      <DropdownMenuTrigger class="w-8 h-8 rounded-full bg-gray-400">
+        <img src="@/assets/new-uabcs-logo.png">
+      </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Mi perfil</DropdownMenuLabel>
         <DropdownMenuSeparator />
