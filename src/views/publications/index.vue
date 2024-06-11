@@ -20,7 +20,7 @@
           <Button class="py-0 px-10">Nuevo</Button>
         </RouterLink>
       </div>
-      <div>
+      <!--       <div>
         <Alert class="w-fit">
           <InfoCircledIcon class="h-4 w-4" />
           <AlertTitle
@@ -31,7 +31,7 @@
             y 1 en el científico.
           </AlertDescription>
         </Alert>
-      </div>
+      </div> -->
       <div class="flex flex-col gap-4">
         <Input
           placeholder="Buscar publicación..."
@@ -55,20 +55,20 @@
                 <div
                   class="text-2xl font-bold bg-gray-200 px-4 py-2 rounded-full flex items-center"
                 >
-                  {{ document.titulo ? document.titulo.slice(0, 1) : 'Undefined' }}
+                  {{ document.titulo ? document.titulo[0] : 'Undefined' }}
                 </div>
                 <div class="flex flex-col w-full">
                   <p class="text-lg font-semibold">
                     {{ document.titulo ? document.titulo : 'Undefined' }}
                   </p>
                   <span class="text-gray-600">{{
-                    document.autor ? document.autor : 'Undefined'
+                    document.nombre_revista ? document.nombre_revista : 'Undefined'
                   }}</span>
                 </div>
                 <div class="w-1/4 text-nowrap flex justify-end items-center px-10 gap-2">
                   <CalendarIcon />
                   <span class="text-gray-600">{{
-                    document.fechaPublicacion ? document.fechaPublicacion : 'Undefined'
+                    document.anio_publicacion ? document.anio_publicacion : 'Undefined'
                   }}</span>
                 </div>
               </div>
@@ -78,41 +78,61 @@
                   <p>
                     <span class="font-semibold">Estado</span><br />
                     <span class="text-gray-600">{{
-                      document.estado ? document.estado : 'Undefined'
+                      document.estatus ? document.estatus.join(', ') : 'Undefined'
                     }}</span>
                   </p>
                   <p>
-                    <span class="font-semibold">Area</span><br />
-                    <span class="text-gray-600">{{
-                      document.area ? document.area : 'Undefined'
-                    }}</span>
-                  </p>
-                </div>
-                <div class="flex flex-col justify-between gap-1">
-                  <p>
-                    <span class="font-semibold">Autor</span><br />
-                    <span class="text-gray-600">{{
-                      document.autor ? document.autor : 'Undefined'
-                    }}</span>
-                  </p>
-                  <p class="text-nowrap">
-                    <span class="font-semibold">Rol de participación</span><br />
-                    <span class="text-gray-600">{{
-                      document.rolParticipacion ? document.rolParticipacion : 'Undefined'
-                    }}</span>
-                  </p>
-                </div>
-                <div class="flex flex-col justify-between gap-1">
-                  <p>
-                    <span class="font-semibold">Participantes</span><br />
+                    <span class="font-semibold">Eje de CONAHCYT</span><br />
                     <span class="text-gray-600">
-                      {{ document.participantes ? document.participantes.length : 'Undefined' }}
+                      {{
+                        document.eje_conahcyt
+                          ? document.eje_conahcyt.join(', ').replace(/_/g, ' ').substring(0, 25) +
+                            (document.eje_conahcyt.join(', ').replace(/_/g, ' ').length > 25
+                              ? '...'
+                              : '')
+                          : 'Undefined'
+                      }}
+                    </span>
+                  </p>
+                </div>
+                <div class="flex flex-col justify-between gap-1">
+                  <p>
+                    <span class="font-semibold">Objetivo</span><br />
+                    <span class="text-gray-600">
+                      {{
+                        document.eje_conahcyt
+                          ? document.objetivo.join(', ').replace(/_/g, ' ').substring(0, 30) +
+                            (document.objetivo.join(', ').replace(/_/g, ' ').length > 30
+                              ? '...'
+                              : '')
+                          : 'Undefined'
+                      }}
+                    </span>
+                  </p>
+                  <p class="text-nowrap w-40 overflow-hidden">
+                    <span class="font-semibold">Programa CONAHCYT</span><br />
+                    <span class="text-gray-600">
+                      {{
+                        document.programa_conahcyt
+                          ? document.programa_conahcyt.join(', ').length > 30
+                            ? document.programa_conahcyt.join(', ').slice(0, 30) + '...'
+                            : document.programa_conahcyt.join(', ')
+                          : 'Undefined'
+                      }}
+                    </span>
+                  </p>
+                </div>
+                <div class="flex flex-col justify-between gap-1">
+                  <p>
+                    <span class="font-semibold">Citas A</span><br />
+                    <span class="text-gray-600">
+                      {{ document.cita_a !== undefined ? document.cita_a : 'Undefined' }}
                     </span>
                   </p>
                   <p>
-                    <span class="font-semibold">Referencias</span><br />
+                    <span class="font-semibold">Citas B</span><br />
                     <span class="text-gray-600">{{
-                      document.referencias ? document.referencias.length : 'Undefined'
+                      document.cita_b !== undefined ? document.cita_b : 'Undefined'
                     }}</span>
                   </p>
                 </div>
@@ -127,6 +147,15 @@
                   <Button size="sm" class="flex gap-1 items-center">
                     <DownloadIcon />
                     <p class="text-xs">Descargar</p>
+                  </Button>
+                </RouterLink>
+                <RouterLink
+                  :to="`/publicaciones/${document.id}/agregar-autores`"
+                  class="flex flex-col justify-center items-center"
+                >
+                  <Button size="sm" class="flex gap-1 items-center">
+                    <PersonIcon />
+                    <p class="text-xs">Autores</p>
                   </Button>
                 </RouterLink>
                 <RouterLink
@@ -260,266 +289,87 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { InfoCircledIcon } from '@radix-icons/vue'
 import { Pencil2Icon } from '@radix-icons/vue'
 import { TrashIcon } from '@radix-icons/vue'
+import { PersonIcon } from '@radix-icons/vue'
 import { EyeOpenIcon } from '@radix-icons/vue'
 import { DownloadIcon } from '@radix-icons/vue'
 import { CalendarIcon } from '@radix-icons/vue'
 import { Input } from '@/components/ui/input'
 import { ref } from 'vue'
 import { toast } from 'vue-sonner'
+import axios from '@/lib/axios'
 
 /* Fake data */
 /* Aqui estaremos haciendo las llamadas a la API */
 interface DocumentInfo {
-  titulo: string
-  estado: string
-  area: string
-  fechaPublicacion: string
-  autor: string
-  referencias: string[]
-  rolParticipacion: string
-  participantes: string[]
+  id: number1
+  issn_tipo: string
+  issn_impreso: string
+  issn_electronico: string
+  doi: string
+  nombre_revista: string
+  titulo: string[]
+  anio_publicacion: number
+  recibio_apoyo_conahcyt: boolean
+  programa_conahcyt: string[]
+  estatus: string[]
+  objetivo: string[]
+  url_cita: string[]
+  cita_a: number
+  cita_b: number
+  total_citas: string[]
+  eje_conahcyt: string[]
 }
-var documents: DocumentInfo[] = [
-  {
-    id: 1,
-    titulo: 'Desarrollo de Inteligencia Artificial en la Era Moderna',
-    estado: 'Publicado',
-    area: 'Tecnología',
-    fechaPublicacion: '2024-05-20',
-    autor: 'Dr. Juan Pérez',
-    referencias: [
-      'Artículo de la revista IA Avanzada, 2023',
-      'Conferencia Internacional de Tecnología, 2022',
-      "Libro: 'Futuro de la IA', 2021"
-    ],
-    rolParticipacion: 'Investigador Principal',
-    participantes: ['María López', 'Carlos García', 'Ana Rodríguez', 'Luis Fernández']
-  },
-  {
-    id: 2,
-    titulo: 'Avances en Medicina Genómica',
-    estado: 'Publicado',
-    area: 'Salud',
-    fechaPublicacion: '2024-02-10',
-    autor: 'Dr. Ricardo Sánchez',
-    referencias: [
-      'Revista de Medicina Moderna, 2022',
-      'Conferencia de Genómica, 2023',
-      "Libro: 'Genética y Salud', 2020"
-    ],
-    rolParticipacion: 'Investigador Asociado',
-    participantes: ['Marta Ruiz', 'Jorge Ramírez', 'Sofía Torres', 'Esteban Morales']
-  },
-  {
-    id: 3,
-    titulo: 'Economía Digital y su Impacto Global',
-    estado: 'En Proceso',
-    area: 'Economía',
-    fechaPublicacion: '2024-08-05',
-    autor: 'Dr. Alberto Gómez',
-    referencias: [
-      'Estudio del Banco Mundial, 2022',
-      'Informe de la OCDE, 2023',
-      'Artículo en la revista Economía Digital, 2021'
-    ],
-    rolParticipacion: 'Coordinador',
-    participantes: ['Clara Fernández', 'José Luis Pérez', 'Raquel Moreno']
-  },
-  {
-    id: 4,
-    titulo: 'Innovaciones en Energía Renovable',
-    estado: 'Publicado',
-    area: 'Energía',
-    fechaPublicacion: '2023-11-25',
-    autor: 'Dra. Laura Muñoz',
-    referencias: [
-      'Conferencia de Energía Limpia, 2022',
-      'Artículo en la revista Energía y Futuro, 2021',
-      'Estudio de la Agencia Internacional de Energía, 2023'
-    ],
-    rolParticipacion: 'Autora Principal',
-    participantes: ['Sergio Vargas', 'Patricia Delgado', 'Andrés Gómez']
-  },
-  {
-    id: 5,
-    titulo: 'Tecnologías de la Información en la Educación',
-    estado: 'Publicado',
-    area: 'Educación',
-    fechaPublicacion: '2024-03-10',
-    autor: 'Dra. Cecilia Ruiz',
-    referencias: [
-      'Revista de Tecnología Educativa, 2023',
-      'Conferencia Internacional sobre Educación y Tecnología, 2022',
-      'Estudio del Ministerio de Educación, 2021'
-    ],
-    rolParticipacion: 'Investigadora Principal',
-    participantes: ['Francisco Jiménez', 'Isabel García', 'Javier Martín']
-  },
-  {
-    id: 6,
-    titulo: 'Desafíos de la Ciberseguridad en el Siglo XXI',
-    estado: 'En Revisión',
-    area: 'Seguridad',
-    fechaPublicacion: '2024-01-15',
-    autor: 'Dr. Alejandro Castro',
-    referencias: [
-      'Conferencia de Ciberseguridad, 2023',
-      'Artículo en la revista Seguridad Informática, 2022',
-      'Informe de la Agencia Nacional de Ciberseguridad, 2021'
-    ],
-    rolParticipacion: 'Coautor',
-    participantes: ['Elena Muñoz', 'Miguel Torres', 'Sara Díaz']
-  },
-  {
-    id: 7,
-    titulo: 'Innovaciones en Biotecnología Agrícola',
-    estado: 'Publicado',
-    area: 'Biotecnología',
-    fechaPublicacion: '2024-04-22',
-    autor: 'Dra. Sofía Morales',
-    referencias: [
-      'Revista de Biotecnología, 2023',
-      'Conferencia de Innovación Agrícola, 2022',
-      "Libro: 'Biotecnología y Agricultura', 2020"
-    ],
-    rolParticipacion: 'Investigadora Asociada',
-    participantes: ['Alberto Sánchez', 'Cristina Romero', 'Javier Molina']
-  },
-  {
-    id: 8,
-    titulo: 'Nuevas Tendencias en el Diseño Urbano',
-    estado: 'En Proceso',
-    area: 'Arquitectura',
-    fechaPublicacion: '2024-06-30',
-    autor: 'Arq. Roberto Hernández',
-    referencias: [
-      'Estudio de Diseño Urbano, 2023',
-      'Revista de Arquitectura Moderna, 2022',
-      'Informe del Instituto de Urbanismo, 2021'
-    ],
-    rolParticipacion: 'Coordinador',
-    participantes: ['Lorena Navarro', 'David Ruiz', 'Sonia Martínez']
-  },
-  {
-    id: 9,
-    titulo: 'Evolución de las Energías Limpias',
-    estado: 'Publicado',
-    area: 'Energía',
-    fechaPublicacion: '2024-05-18',
-    autor: 'Ing. Pablo Domínguez',
-    referencias: [
-      'Conferencia de Energías Renovables, 2023',
-      'Artículo en la revista Energía Sostenible, 2022',
-      'Informe del Consejo de Energía, 2021'
-    ],
-    rolParticipacion: 'Autor Principal',
-    participantes: ['Valeria Ortega', 'Tomás Pérez', 'Gabriela Sánchez']
-  },
-  {
-    id: 10,
-    titulo: 'Estudio de la Biodiversidad en Ecosistemas Marinos',
-    estado: 'En Revisión',
-    area: 'Biología',
-    fechaPublicacion: '2024-02-25',
-    autor: 'Dra. Marina Alonso',
-    referencias: [
-      'Revista de Biología Marina, 2023',
-      'Conferencia Internacional de Ecosistemas, 2022',
-      'Informe del Instituto de Investigación Marina, 2021'
-    ],
-    rolParticipacion: 'Coautora',
-    participantes: ['Julio Fernández', 'Nuria López', 'Diego Moreno']
-  },
-  {
-    id: 11,
-    titulo: 'Avances en Robótica y Automatización',
-    estado: 'Publicado',
-    area: 'Ingeniería',
-    fechaPublicacion: '2024-04-05',
-    autor: 'Dr. Manuel Ortega',
-    referencias: [
-      'Conferencia de Robótica, 2023',
-      'Revista de Automatización Industrial, 2022',
-      "Libro: 'Futuro de la Robótica', 2020"
-    ],
-    rolParticipacion: 'Investigador Principal',
-    participantes: ['Alejandro García', 'Clara Martínez', 'Juan Sánchez']
-  },
-  {
-    id: 12,
-    titulo: 'Estudio de la Migración y sus Efectos Socioeconómicos',
-    estado: 'En Proceso',
-    area: 'Sociología',
-    fechaPublicacion: '2024-07-10',
-    autor: 'Dra. Rosa Gutiérrez',
-    referencias: [
-      'Revista de Sociología, 2023',
-      'Conferencia Internacional sobre Migración, 2022',
-      'Informe del Instituto de Estudios Sociales, 2021'
-    ],
-    rolParticipacion: 'Investigadora Principal',
-    participantes: ['Mario Castillo', 'Paula Rivas', 'Rodrigo Morales']
-  },
-  {
-    id: 13,
-    titulo: 'Innovación en el Transporte Público Urbano',
-    estado: 'Publicado',
-    area: 'Transporte',
-    fechaPublicacion: '2024-01-28',
-    autor: 'Ing. Javier Domínguez',
-    referencias: [
-      'Conferencia de Transporte Urbano, 2023',
-      'Revista de Movilidad Sostenible, 2022',
-      'Informe del Ministerio de Transporte, 2021'
-    ],
-    rolParticipacion: 'Autor Principal',
-    participantes: ['Ana Rivera', 'Carlos Martínez', 'Elena Vázquez']
-  },
-  {
-    id: 14,
-    titulo: 'Estudio del Impacto de la Inteligencia Emocional en el Trabajo',
-    estado: 'En Revisión',
-    area: 'Psicología',
-    fechaPublicacion: '2024-03-15',
-    autor: 'Dra. Laura Castillo',
-    referencias: [
-      'Revista de Psicología Laboral, 2023',
-      'Conferencia sobre Inteligencia Emocional, 2022',
-      'Informe del Instituto de Psicología Aplicada, 2021'
-    ],
-    rolParticipacion: 'Coautora',
-    participantes: ['Raúl González', 'Verónica Muñoz', 'Estefanía Ortega']
-  },
-  {
-    id: 15,
-    titulo: 'Impacto del Cambio Climático en la Agricultura',
-    estado: 'En Revisión',
-    area: 'Medio Ambiente',
-    fechaPublicacion: '2023-12-15',
-    autor: 'Dra. Elena Martínez',
-    referencias: [
-      'Estudio de la Universidad de Agricultura, 2022',
-      'Informe del IPCC, 2021',
-      'Artículo en la revista Clima y Sociedad, 2023'
-    ],
-    rolParticipacion: 'Coautora',
-    participantes: ['Pedro González', 'Lucía Hernández', 'Fernando Torres']
-  }
-]
 
-const copyOfDocuments = ref(documents)
-const secondCopyOfDocuments = ref(documents)
+const documents = ref<DocumentInfo[]>([])
+
+var copyOfDocuments = ref(documents.value)
+var secondCopyOfDocuments = ref(documents.value)
 const paginatedInformation = ref([])
 const totalPages = ref(1)
 const totalDocuments = ref(3)
 const actualPage = ref(1)
 
-console.log(documents)
-console.log(copyOfDocuments.value)
-console.log(secondCopyOfDocuments.value)
+const getPublications = async () => {
+  try {
+    const res = await axios.get('api/v1/publications')
+    const publications = res.data
 
-totalDocuments.value = documents.length
-totalPages.value = Math.ceil(documents.length / 5)
+    console.log(publications)
+    const processedPublications: DocumentInfo[] = publications.map((publication: any) => ({
+      id: publication.id,
+      issn_tipo: publication.issn_tipo || '',
+      issn_impreso: publication.issn_impreso || '',
+      issn_electronico: publication.issn_electronico || '',
+      doi: publication.doi || '',
+      nombre_revista: publication.nombre_revista || '',
+      titulo: publication.titulo ? publication.titulo : [],
+      anio_publicacion: publication.anio_publicacion || 0,
+      recibio_apoyo_conahcyt: publication.recibio_apoyo_conahcyt || false,
+      programa_conahcyt: publication.programa_conahcyt
+        ? publication.programa_conahcyt.split(',')
+        : [],
+      estatus: publication.estatus ? publication.estatus.split(',') : [],
+      objetivo: publication.objetivo ? publication.objetivo.split(',') : [],
+      url_cita: publication.url_cita ? publication.url_cita.split(',') : [],
+      cita_a: publication.cita_a || 0,
+      cita_b: publication.cita_b || 0,
+      total_citas: publication.total_citas ? publication.total_citas : [],
+      eje_conahcyt: publication.eje_conahcyt ? publication.eje_conahcyt.split(',') : []
+    }))
+
+    documents.value = processedPublications
+    copyOfDocuments = ref(documents.value)
+    secondCopyOfDocuments = ref(documents.value)
+    paginatedInformation.value = paginateInformation(0)
+
+    totalDocuments.value = documents.value.length
+    totalPages.value = Math.ceil(documents.value.length / 5)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+getPublications()
 
 function paginateInformation(pageIndex) {
   const start = pageIndex * 5
@@ -528,21 +378,25 @@ function paginateInformation(pageIndex) {
   return paginatedInformationPlaceHolder
 }
 
-paginatedInformation.value = paginateInformation(0)
-
 function changeData(pageIndex) {
   paginatedInformation.value = paginateInformation(pageIndex - 1)
   actualPage.value = pageIndex
 }
 
-function deleteElement(deleteElementId) {
-  console.log(deleteElementId)
-  toast.success('Su registro se ha eliminado con éxito')
+async function deleteElement(deleteElementId) {
+  try {
+    const res = await axios.delete(`api/v1/publications/${deleteElementId}`)
+    toast.success('Su registro se ha eliminado con éxito')
+    getPublications()
+  } catch (error) {
+    console.log(error)
+    toast.error('Ha ocurrido un error al intentar eliminar su registro...')
+    toast.error(error)
+  }
 }
 
 function filterData(searchQuery) {
   if (searchQuery.trim() == '' || searchQuery == '' || searchQuery == null) {
-    console.log('clean')
     copyOfDocuments.value = secondCopyOfDocuments.value
     paginatedInformation.value = paginateInformation(0)
     totalDocuments.value = copyOfDocuments.value.length
@@ -553,11 +407,12 @@ function filterData(searchQuery) {
   const filteredData = copyOfDocuments.value.filter((item) => {
     const searchString = [
       item.titulo,
-      item.estado,
-      item.area,
-      item.fechaPublicacion,
-      item.autor,
-      item.rolParticipacion
+      item.estatus,
+      item.objetivo,
+      item.cita_a,
+      item.cita_b,
+      item.eje_conahcyt,
+      item.programa_conahcyt
     ]
       .join(' ')
       .toLowerCase()
