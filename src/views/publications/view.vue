@@ -53,7 +53,7 @@
       </div>
       <div class="prose prose-gray max-w-none dark:prose-invert border p-4 rounded-md my-4">
         <p class="text-gray-800 font-semibold">Detalles adicionales:</p>
-        <ul class="flex my-2">
+        <ul class="flex my-2 gap-10">
           <div class="flex flex-col gap-1">
             <li>
               <span class="text-gray-500">Año de publicación:</span>
