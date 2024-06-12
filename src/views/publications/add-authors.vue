@@ -317,6 +317,7 @@ const onSubmit = form.handleSubmit((values) => {
     .post(`api/v1/publications/${dataId}/authors`, values)
     .then((res) => {
       toast.success('Se ha añadido el autor con éxito')
+      askForPublicationAuthors()
     })
     .catch((error) => {
       toast.error('Ha ocurrido un error inesperado.')

@@ -385,7 +385,7 @@ function changeData(pageIndex) {
 
 async function deleteElement(deleteElementId) {
   try {
-    const res = await axios.delete(`api/v1/users/publications/${deleteElementId}`)
+    const res = await axios.delete(`api/v1/publications/${deleteElementId}`)
     toast.success('Su registro se ha eliminado con éxito')
     getPublications()
   } catch (error) {
