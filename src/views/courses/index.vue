@@ -40,7 +40,7 @@
               style="display: flex; flex-direction: column; justify-content: space-between"
             >
               <CardHeader>
-                <CardTitle class="text-xl font-bold">{{ document.nombre_curso }}</CardTitle>
+                <CardTitle class="text-xl font-bold">{{ document.nombre }}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-4 justify-center px-8">
                 <div className="flex gap-2">
@@ -121,7 +121,7 @@
       </div>
       <Pagination
         v-slot="{ page }"
-        :total="totalDocuments * 2"
+        :total="totalDocuments * 1.5"
         :sibling-count="1"
         show-edges
         :default-page="1"
@@ -204,6 +204,7 @@ import { EyeOpenIcon } from '@radix-icons/vue'
 import { Input } from '@/components/ui/input'
 import { ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
+import axios from '@/lib/axios'
 
 /* Fake data */
 /* Aqui estaremos haciendo las llamadas a la API */
@@ -219,83 +220,50 @@ interface DocumentInfo {
   descripcion: string
 }
 
-const documents: DocumentInfo[] = [
-  {
-    id: 1,
-    tipo_formacion: 'Taller',
-    nombre_curso: 'Introducción a la Inteligencia Artificial',
-    anio_curso: '2023',
-    horas_totales: '40',
-    institucion: 'Universidad Tecnológica Nacional',
-    tipo_institucion: ['Universidad', 'Institución Pública'],
-    modalidad_institucion: 'Presencial',
-    descripcion:
-      'Un taller introductorio sobre los conceptos básicos de la inteligencia artificial, incluyendo aprendizaje automático y redes neuronales.'
-  },
-  {
-    id: 2,
-    tipo_formacion: 'Curso',
-    nombre_curso: 'Desarrollo de Aplicaciones Web',
-    anio_curso: '2022',
-    horas_totales: '60',
-    institucion: 'Instituto de Tecnología de Monterrey',
-    tipo_institucion: ['Instituto', 'Institución Privada'],
-    modalidad_institucion: 'En línea',
-    descripcion:
-      'Curso intensivo sobre desarrollo de aplicaciones web modernas utilizando HTML, CSS, JavaScript y frameworks populares.'
-  },
-  {
-    id: 3,
-    tipo_formacion: 'Diplomado',
-    nombre_curso: 'Ciencia de Datos y Big Data',
-    anio_curso: '2024',
-    horas_totales: '100',
-    institucion: 'Centro de Estudios Superiores en Computación',
-    tipo_institucion: ['Centro de Estudios', 'Institución Pública'],
-    modalidad_institucion: 'Mixta',
-    descripcion:
-      'Diplomado que cubre técnicas avanzadas en ciencia de datos, análisis de big data, y herramientas de visualización de datos.'
-  },
-  {
-    id: 4,
-    tipo_formacion: 'Certificación',
-    nombre_curso: 'Ciberseguridad y Protección de Datos',
-    anio_curso: '2021',
-    horas_totales: '80',
-    institucion: 'Escuela de Ingeniería de la UNAM',
-    tipo_institucion: ['Universidad', 'Institución Pública'],
-    modalidad_institucion: 'Presencial',
-    descripcion:
-      'Certificación profesional en ciberseguridad, cubriendo temas de protección de datos, criptografía y políticas de seguridad informática.'
-  },
-  {
-    id: 5,
-    tipo_formacion: 'Seminario',
-    nombre_curso: 'Tecnologías de la Información y la Comunicación',
-    anio_curso: '2023',
-    horas_totales: '30',
-    institucion: 'Facultad de Ciencias de la Comunicación, Universidad Autónoma de México',
-    tipo_institucion: ['Facultad', 'Institución Pública'],
-    modalidad_institucion: 'En línea',
-    descripcion:
-      'Seminario sobre el impacto de las tecnologías de la información y la comunicación en la sociedad moderna, incluyendo estudios de caso y análisis de tendencias.'
-  }
-]
+const documents = ref<DocumentInfo[]>([])
 
-const copyOfDocuments = ref(documents)
-const secondCopyOfDocuments = ref(documents)
+const getCourses = async () => {
+  try {
+    const res = await axios.get('api/v1/user/courses')
+    const courses = res.data
+
+    console.log(courses)
+    const processedCourses: DocumentInfo[] = courses.map((publication: any) => ({
+      id: publication.id,
+      tipo_formacion: publication.tipo_formacion || '',
+      nombre: publication.nombre || '',
+      anio_curso: publication.anio || '',
+      horas_totales: publication.horas_totales || '',
+      institucion: publication.institucion || '',
+      tipo_institucion: publication.tipo_institucion || '',
+      modalidad_institucion: publication.modalidad_institucion || '',
+      descripcion: publication.descripcion || ''
+    }))
+
+    documents.value = processedCourses
+    copyOfDocuments = ref(documents.value)
+    secondCopyOfDocuments = ref(documents.value)
+    paginatedInformation.value = paginateInformation(0)
+
+    totalDocuments.value = documents.value.length
+    totalPages.value = Math.ceil(documents.value.length / 6)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+getCourses()
+
+var copyOfDocuments = ref(documents)
+var secondCopyOfDocuments = ref(documents)
 const paginatedInformation = ref([])
 const totalPages = ref(1)
 const totalDocuments = ref(3)
 const actualPage = ref(1)
 const searchQueryTrack = ref('')
 
-console.log(documents)
-console.log(copyOfDocuments.value)
-console.log(secondCopyOfDocuments.value)
-
 totalDocuments.value = documents.length
-totalPages.value = Math.ceil(documents.length / 8)
+totalPages.value = Math.ceil(documents.length / 6)
 
 function paginateInformation(pageIndex) {
   const start = pageIndex * 6
@@ -311,19 +279,20 @@ function changeData(pageIndex) {
   actualPage.value = pageIndex
 }
 
-function deleteElement(deleteElementId) {
-  console.log(deleteElementId)
-  toast.success('Su registro se ha eliminado con éxito')
+async function deleteElement(deleteElementId) {
+  try {
+    const res = await axios.delete(`api/v1/courses/${deleteElementId}`)
+    toast.success('Su registro se ha eliminado con éxito')
+    getCourses()
+  } catch (error) {
+    console.log(error)
+    toast.error('Ha ocurrido un error al intentar eliminar su registro...')
+  }
 }
 
 function filterData(query) {
   const filteredData = secondCopyOfDocuments.value.filter((item) => {
-    const searchString = [
-      item.nombre_curso,
-      item.horas_totales,
-      item.tipo_institucion.join(' '),
-      item.institucion
-    ]
+    const searchString = [item.nombre, item.horas_totales, item.tipo_institucion, item.institucion]
       .join(' ')
       .toLowerCase()
 
@@ -331,7 +300,7 @@ function filterData(query) {
   })
 
   totalDocuments.value = filteredData.length
-  totalPages.value = Math.ceil(filteredData.length / 8)
+  totalPages.value = Math.ceil(filteredData.length / 6)
 
   copyOfDocuments.value = filteredData
   paginatedInformation.value = paginateInformation(0)
