@@ -26,84 +26,116 @@
           <RouterLink :to="`/publicaciones`">
             <Button class="py-0 px-10">Regresar</Button>
           </RouterLink>
-          <RouterLink :to="`/publicaciones/${appointmentId}/editar`">
+          <RouterLink :to="`/publicaciones/${dataId}/editar`">
             <Button class="py-0 px-10">Editar</Button>
           </RouterLink>
         </div>
       </div>
     </div>
     <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg p-6 md:p-8  mx-auto">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold mb-1">Example Title</h1>
-          <div className="flex items-center space-x-4">
+          <h1 class="text-2xl font-bold mb-1">{{ publicationArray.titulo }}</h1>
+          <div class="flex items-center space-x-4">
             <div
-              className="px-3 py-1 rounded-full bg-green-100 text-green-600 font-medium text-sm dark:bg-green-900/20 dark:text-green-400"
+              class="px-3 py-1 rounded-full bg-green-100 text-green-600 font-medium text-sm dark:bg-green-900/20 dark:text-green-400"
             >
-              Publicado
+              {{ publicationArray.estatus }}
             </div>
-            <div className="text-gray-500 dark:text-gray-400 text-sm">by John Doe</div>
+            <span class="text-gray-500">DOI: {{ publicationArray.doi }}</span>
           </div>
         </div>
-        <div className="mt-4 md:mt-0 text-sm text-gray-500 dark:text-gray-400">
-          <div>Area de trabajo: Tecnología</div>
-          <div>Rol de participacion: Autor</div>
-          <div>Publicado: Junio 7, 2024</div>
+        <div class="mt-4 md:mt-0 text-sm text-gray-500 dark:text-gray-400">
+          <div>Tipo ISSN: {{ publicationArray.issn_tipo }}</div>
+          <div>ISSN Impreso: {{ publicationArray.issn_impreso }}</div>
+          <div>ISSN Electrónico: {{ publicationArray.issn_electronico }}</div>
         </div>
       </div>
-      <div className="prose prose-gray max-w-none dark:prose-invert">
-        <p class="text-gray-500">Descripción</p>
-        <p>
-          En esta publicación, exploramos los emocionantes avances en el desarrollo web y las
-          tecnologías que están dando forma al futuro de internet. Desde el auge de las
-          arquitecturas sin servidor hasta la creciente importancia de la accesibilidad y el
-          rendimiento, profundizamos en las tendencias e innovaciones que están transformando la
-          forma en que construimos y desplegamos aplicaciones web.
-        </p>
-        <br />
-        <p>
-          Ya seas un desarrollador experimentado o estés comenzando tu viaje en el mundo del
-          desarrollo web, esta publicación ofrece valiosas ideas y orientación práctica para
-          ayudarte a mantenerte a la vanguardia. Únete a nosotros mientras descubrimos los secretos
-          para construir experiencias web rápidas, escalables y fáciles de usar que cautivarán a tu
-          audiencia e impulsarán tu negocio hacia adelante.
-        </p>
-        <br />
-        <div class="flex justify-between">
-          <div class="w-full">
-            <h2 class="text-2xl font-bold">Lista de Participantes:</h2>
-            <ul class="px-4">
-              <li class="text-gray-700 pb-2 flex items-center">
-                <span><DotFilledIcon /></span>Advancements in front-end frameworks and libraries
-              </li>
-              <li class="text-gray-700 pb-2 flex items-center">
-                <span><DotFilledIcon /></span>The importance of accessibility and inclusive design
-              </li>
-              <li class="text-gray-700 pb-2 flex items-center">
-                <span><DotFilledIcon /></span>Strategies for optimizing web performance
-              </li>
-              <li class="text-gray-700 pb-2 flex items-center">
-                <span><DotFilledIcon /></span>Emerging trends in web development tools and workflows
-              </li>
-            </ul>
+      <div class="prose prose-gray max-w-none dark:prose-invert border p-4 rounded-md my-4">
+        <p class="text-gray-800 font-semibold">Detalles adicionales:</p>
+        <ul class="flex my-2">
+          <div class="flex flex-col gap-1">
+            <li>
+              <span class="text-gray-500">Año de publicación:</span>
+              {{ publicationArray.anio_publicacion }}
+            </li>
+            <li>
+              <span class="text-gray-500">Nombre de la revista:</span>
+              {{ publicationArray.nombre_revista }}
+            </li>
+            <li>
+              <span class="text-gray-500">Programa CONAHCYT:</span>
+              {{ publicationArray.programa_conahcyt }}
+            </li>
+            <li>
+              <span class="text-gray-500">Objetivo:</span>
+              {{ publicationArray.objetivo }}
+            </li>
+            <li>
+              <span class="text-gray-500">URL de la cita:</span>
+              {{ publicationArray.url_cita }}
+            </li>
+            <li>
+              <span class="text-gray-500">Cita A:</span>
+              {{ publicationArray.cita_a }}
+            </li>
           </div>
-          <div class="w-full">
-            <h2 class="text-2xl font-bold">Lista de Referencias:</h2>
-            <ul class="px-4">
-              <li class="text-gray-700 pb-2 flex items-center">
-                <span><DotFilledIcon /></span>Advancements in front-end frameworks and libraries
-              </li>
-              <li class="text-gray-700 pb-2 flex items-center">
-                <span><DotFilledIcon /></span>The importance of accessibility and inclusive design
-              </li>
-              <li class="text-gray-700 pb-2 flex items-center">
-                <span><DotFilledIcon /></span>Strategies for optimizing web performance
-              </li>
-              <li class="text-gray-700 pb-2 flex items-center">
-                <span><DotFilledIcon /></span>Emerging trends in web development tools and workflows
-              </li>
-            </ul>
+          <div class="flex flex-col gap-1">
+            <li>
+              <span class="text-gray-500">Cita B:</span>
+              {{ publicationArray.cita_b }}
+            </li>
+            <li>
+              <span class="text-gray-500">Total de citas:</span>
+              {{ publicationArray.total_citas }}
+            </li>
+            <li>
+              <span class="text-gray-500">Eje CONAHCYT:</span>
+              {{ publicationArray.eje_conahcyt }}
+            </li>
+            <li>
+              <span class="text-gray-500">Recibió apoyo CONAHCYT:</span>
+              {{ publicationArray.recibio_apoyo_conahcyt ? 'Sí' : 'No' }}
+            </li>
+            <li>
+              <span class="text-gray-500">Programa preseleccionado:</span>
+              {{ publicationArray.preSelectedProgram }}
+            </li>
           </div>
+        </ul>
+      </div>
+      <div class="flex justify-between border p-4 rounded-md my-4">
+        <div class="w-full">
+          <h2 class="text-lg font-bold">Lista de autores:</h2>
+          <Table>
+            <TableCaption>Lista de los autors participantes en la publicacion.</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead class="w-[100px]"> ORC ID </TableHead>
+                <TableHead>Nombre</TableHead>
+                <TableHead>Primer Apellido</TableHead>
+                <TableHead>Segundo apellido</TableHead>
+                <!-- <TableHead class="text-right"> Accion </TableHead> -->
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow v-for="author in authorList" :key="author.id">
+                <TableCell class="font-medium"> {{ author.orc_id }} </TableCell>
+                <TableCell>{{ author.nombre }}</TableCell>
+                <TableCell>{{ author.primer_apellido }}</TableCell>
+                <TableCell>{{ author.segundo_apellido }}</TableCell>
+                <!-- <TableCell class="text-right">
+                  <button
+                    type="button"
+                    class="bg-black text-white p-1 rounded-md hover:bg-gray-900 transition-all duration-300"
+                    @click="deleteElement"
+                  >
+                    Eliminar
+                  </button>
+                </TableCell> -->
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
       </div>
     </div>
@@ -121,7 +153,65 @@ import {
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
+import axios from '@/lib/axios'
 import { useRouter, useRoute } from 'vue-router'
+import { ref } from 'vue'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
+
 const route = useRoute()
-const appointmentId = route.params.id
+const dataId = route.params.id
+const preSelectedProgram = ref('')
+const publicationArray = ref([]) // Arreglo para almacenar los datos de la publicación
+const authorList = ref([])
+
+const loadData = async () => {
+  try {
+    const res = await axios.get(`api/v1/publications/${dataId}`)
+    const resAuthors = await axios.get(`api/v1/publications/${dataId}/authors`)
+    authorList.value = resAuthors.data
+    const publicationData = res.data
+
+    // Crear el arreglo con los datos de la publicación
+    publicationArray.value = {
+      issn_tipo: publicationData.issn_tipo,
+      issn_impreso:
+        publicationData.issn_impreso !== null ? publicationData.issn_impreso.toString() : 'Vacio',
+      issn_electronico:
+        publicationData.issn_electronico !== null
+          ? publicationData.issn_electronico.toString()
+          : 'Vacio',
+      doi: publicationData.doi,
+      nombre_revista: publicationData.nombre_revista,
+      titulo: publicationData.titulo,
+      anio_publicacion: publicationData.anio_publicacion.toString(),
+      programa_conahcyt: publicationData.programa_conahcyt,
+      estatus: publicationData.estatus,
+      objetivo: publicationData.objetivo,
+      url_cita: publicationData.url_cita,
+      cita_a: publicationData.cita_a,
+      cita_b: publicationData.cita_b,
+      total_citas: publicationData.total_citas,
+      eje_conahcyt: publicationData.eje_conahcyt,
+      recibio_apoyo_conahcyt: publicationData.recibio_apoyo_conahcyt == 1 ? true : false,
+      preSelectedProgram: publicationData.programa_conahcyt
+    }
+
+    if (publicationData.recibio_apoyo_conahcyt == 0) {
+      publicationArray.value.programa_conahcyt = 'vacio'
+    }
+    console.log(publicationData)
+  } catch (error) {
+    console.error('Error al cargar los datos de la publicación:', error)
+  }
+}
+
+loadData()
 </script>

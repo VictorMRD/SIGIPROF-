@@ -90,7 +90,7 @@
       <div class="mt-4 w-full max-h-72 overflow-auto border p-4 rounded-md">
         <p>Autores:</p>
         <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableCaption>Lista de los autors participantes en la publicacion.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead class="w-[100px]"> ORC ID </TableHead>
