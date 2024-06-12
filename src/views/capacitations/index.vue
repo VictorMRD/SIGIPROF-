@@ -47,7 +47,9 @@
               <CardHeader>
                 <CardTitle class="text-xl font-bold">{{ document.nombre_capacitacion }}</CardTitle>
               </CardHeader>
-              <CardContent className="flex flex-col justify-start items-start h-full gap-4 px-8">
+              <CardContent
+                className="flex flex-col justify-start items-start h-full gap-4 px-8 overflow-hidden"
+              >
                 <div className="flex gap-4 flex-wrap">
                   <div className="flex items-center gap-2">
                     <ClockIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
@@ -70,10 +72,8 @@
                     <span>{{ document.certificacion ? 'Certificado' : 'No certificado' }}</span>
                   </div>
                 </div>
-                <div className="prose text-sm pb-4">
-                  <p>
-                    {{ document.descripcion }}
-                  </p>
+                <div className="prose text-sm pb-4 overflow-hidden">
+                  <p>{{ document.descripcion }}</p>
                 </div>
               </CardContent>
               <CardFooter
