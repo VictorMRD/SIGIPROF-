@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { SelectScrollUpButton, useForwardProps } from "radix-vue";
-import { ChevronUpIcon } from "@radix-icons/vue";
+import { ChevronUp } from "lucide-vue-next";
 import { cn } from "@/lib/utils";
 
 const props = defineProps({
@@ -27,7 +27,7 @@ const forwardedProps = useForwardProps(delegatedProps);
     "
   >
     <slot>
-      <ChevronUpIcon />
+      <ChevronUp class="h-4 w-4" />
     </slot>
   </SelectScrollUpButton>
 </template>

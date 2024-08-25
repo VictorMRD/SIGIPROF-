@@ -63,13 +63,17 @@
       </TabsList>
       <TabsContent value="cards">
         <div class="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
-          <RouterLink
+          <!-- <RouterLink
             v-for="book in books"
             :key="book.id"
             :to="`/libros/${book.id}`"
-            title="Boton para el index Cursos"
+          > -->
+          <div
+            v-for="book in books"
+            :key="book.id"
+            class="flex flex-col border rounded-md cursor-pointer hover:shadow-md"
           >
-            <div class="flex flex-col border rounded-md cursor-pointer hover:shadow-md">
+            <RouterLink :to="`/libros/${book.id}`">
               <!-- header  -->
               <div class="flex justify-between px-3 py-1">
                 <span class="text-xs font-semibold">{{ capitalize(book.pivot.rol) }}</span>
@@ -128,8 +132,9 @@
                 <span>ISBN</span>
                 <span>{{ formatISBN(book.isbn) }}</span>
               </div>
-            </div>
-          </RouterLink>
+            </RouterLink>
+          </div>
+          <!-- </RouterLink> -->
         </div>
       </TabsContent>
       <TabsContent value="table"> Change your password here. </TabsContent>
@@ -154,7 +159,6 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { ref, onMounted } from 'vue'
 import axios from '@/lib/axios'
-import { c } from 'vite/dist/node/types.d-aGj9QkWt'
 
 const books = ref([])
 
