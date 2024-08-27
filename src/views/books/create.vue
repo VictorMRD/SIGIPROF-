@@ -22,41 +22,41 @@
     <h1 class="text-3xl font-semibold">Crear un libro</h1>
     <div class="grid grid-cols-5 gap-4">
       <div class="col-span-3">
-        <form @submit="onSubmit" class="space-y-3">
-          <div class="border rounded-md p-4 col-span-2">
+        <form @submit="handleSubmit" class="space-y-5">
+          <!-- Section General  -->
+          <div class="bg-background border rounded-md p-4 col-span-2 shadow space-y-4">
             <div>
               <h2 class="text-lg font-semibold">Información general</h2>
-              <p class="text-muted-foreground text-sm">Llena los siguientes campos para crear un libro</p>
+              <p class="text-muted-foreground text-sm">
+                Llena los siguientes campos para crear un libro
+              </p>
               <Separator class="mt-2 mb-3" />
             </div>
             <FormField v-slot="{ componentField }" name="titulo">
               <FormItem>
-                <FormLabel>Título</FormLabel>
+                <FormLabel>Título*</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="El principito" v-bind="componentField" />
+                  <Input type="text" v-bind="componentField" />
                 </FormControl>
-                <FormDescription> Título del libro a crear </FormDescription>
                 <FormMessage />
               </FormItem>
             </FormField>
             <div class="grid gap-4 sm:grid-cols-2">
               <FormField v-slot="{ componentField }" name="isbn">
                 <FormItem>
-                  <FormLabel>ISBN</FormLabel>
+                  <FormLabel>ISBN*</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
+                    <Input type="text" v-bind="componentField" />
                   </FormControl>
-                  <FormDescription> ISBN del libro a crear </FormDescription>
                   <FormMessage />
                 </FormItem>
               </FormField>
               <FormField v-slot="{ componentField }" name="doi">
                 <FormItem>
-                  <FormLabel>DOI</FormLabel>
+                  <FormLabel>DOI*</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
+                    <Input type="text" v-bind="componentField" />
                   </FormControl>
-                  <FormDescription> DOI del libro a crear </FormDescription>
                   <FormMessage />
                 </FormItem>
               </FormField>
@@ -64,85 +64,158 @@
             <div class="grid gap-4 md:grid-cols-3">
               <FormField v-slot="{ componentField }" name="ano_publication">
                 <FormItem>
-                  <FormLabel>Año de publicación</FormLabel>
-                  <FormControl>
-                    <Select>
+                  <FormLabel>Año de publicación*</FormLabel>
+                  <Select v-bind="componentField">
+                    <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecciona un año." />
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Año de publicación </SelectLabel>
-                          <SelectItem v-for="n in years" :value="String(n + 1899)">{{
+                          <SelectLabel>Año de publicación</SelectLabel>
+                          <SelectItem v-for="n in years" :value="String(n + 1899)" :key="n">{{
                             n + 1899
                           }}</SelectItem>
                         </SelectGroup>
                       </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <!-- <FormDescription>Año jde publicaciónque el libro fue publicado </FormDescription> -->
+                    </FormControl>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               </FormField>
               <FormField v-slot="{ componentField }" name="pais">
                 <FormItem>
-                  <FormLabel>País</FormLabel>
+                  <FormLabel>País*</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="México" v-bind="componentField" />
+                    <Input type="text" v-bind="componentField" />
                   </FormControl>
-                  <FormDescription> País donde el libro fue publicado </FormDescription>
                   <FormMessage />
                 </FormItem>
               </FormField>
               <FormField v-slot="{ componentField }" name="idioma">
                 <FormItem>
-                  <FormLabel>Idioma</FormLabel>
+                  <FormLabel>Idioma*</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="Español" v-bind="componentField" />
+                    <Input type="text" v-bind="componentField" />
                   </FormControl>
-                  <FormDescription> Idioma </FormDescription>
                   <FormMessage />
                 </FormItem>
               </FormField>
             </div>
             <FormField v-slot="{ componentField }" name="editorial">
               <FormItem>
-                <FormLabel>Editorial</FormLabel>
+                <FormLabel>Editorial*</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Editorial de muestra" v-bind="componentField" />
+                  <Input type="text" v-bind="componentField" />
                 </FormControl>
-                <FormDescription> La editorial de tu libro </FormDescription>
                 <FormMessage />
               </FormItem>
             </FormField>
-          </div>
-
-          <div class="gap-4 grid md:grid-cols-3">
-            <div class="border rounded-md p-4 col-span-1">
-              <div>
-                <h2 class="text-lg font-semibold">Traducción</h2>
-                <p class="text-zinc-500 text-sm">
-                  Si el libro es una traducción, llena los siguientes campos
-                </p>
-                <Separator class="mt-2 mb-3" />
-              </div>
-              <FormField v-slot="{ componentField }" name="titulo_traduccion">
+            <div class="grid grid-cols-2 gap-4">
+              <FormField v-slot="{ componentField }" name="estado_publicacion">
                 <FormItem>
-                  <FormLabel>Título</FormLabel>
-                  <FormControl>
-                    <Input type="text" placeholder="El principito" />
-                  </FormControl>
-                  <FormDescription> Título de la traducción </FormDescription>
+                  <FormLabel>Estado de la publicación</FormLabel>
+                  <Select v-bind="componentField">
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecciona un estado" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Pendiente"> Pendiente </SelectItem>
+                          <SelectItem value="Revisión"> En Revisión </SelectItem>
+                          <SelectItem value="Publicado"> Publicado </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </FormControl>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               </FormField>
+              <FormField v-slot="{ componentField }" name="dictaminado">
+                <FormItem>
+                  <FormLabel>Está dictaminado</FormLabel>
+                  <FormControl>
+                    <div class="border rounded-md p-[.35rem]">
+                      <Switch v-bind="componentField" />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+            </div>
+          </div>
+
+          <!-- Section Conahcyt -->
+          <div class="border p-4 rounded-md bg-background shadow space-y-4">
+            <FormField v-slot="{ value, handleChange }" name="apoyo_conahcyt">
+              <FormItem class="flex items-center justify-between">
+                <div class="space-y-0.5">
+                  <FormLabel class="text-lg font-semibold">Recibió apoyo del CONAHCYT</FormLabel>
+                  <FormDescription class="text-muted-foreground text-sm">
+                    Llena los siguientes campos relacionados con el CONAHCYT
+                  </FormDescription>
+                </div>
+                <FormControl>
+                  <div>
+                    <Switch :checked="value" @update:checked="handleChange" />
+                  </div>
+                </FormControl>
+              </FormItem>
+            </FormField>
+            <div v-if="form.values.apoyo_conahcyt">
+              <Separator class="mt-2 mb-3" />
+              <FormField v-slot="{ componentField }" name="programa_conahcyt">
+                <FormItem>
+                  <FormLabel>Programa</FormLabel>
+                  <Select v-bind="componentField">
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecciona un programa" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="programa1"> Programa 1 </SelectItem>
+                          <SelectItem value="programa2"> Programa 2 </SelectItem>
+                          <SelectItem value="programa3"> Programa 3 </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </FormControl>
+                  </Select>
+                  <FormDescription>
+                    Seleccione el programa que apoyó la publicación
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+            </div>
+          </div>
+
+          <!-- Section Translation -->
+          <div class="border rounded-md p-4 col-span-1 bg-background shadow space-y-4">
+            <div>
+              <h2 class="text-lg font-semibold">Traducción</h2>
+              <p class="text-zinc-500 text-sm">
+                Si el libro es una traducción, llena los siguientes campos
+              </p>
+              <Separator class="mt-2 mb-3" />
+            </div>
+            <FormField v-slot="{ componentField }" name="titulo_traduccion">
+              <FormItem>
+                <FormLabel>Título</FormLabel>
+                <FormControl>
+                  <Input type="text" v-bind="componentField" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            </FormField>
+            <div class="grid grid-cols-2 gap-4">
               <FormField v-slot="{ componentField }" name="isbn_traduccion">
                 <FormItem>
-                  <FormLabel>ISBN</FormLabel>
+                  <FormLabel>ISBN</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
+                    <Input type="text" v-bind="componentField" />
                   </FormControl>
-                  <FormDescription> ISBN de la traducción </FormDescription>
                   <FormMessage />
                 </FormItem>
               </FormField>
@@ -150,57 +223,27 @@
                 <FormItem>
                   <FormLabel>Idioma</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
+                    <Input type="text" v-bind="componentField" />
                   </FormControl>
-                  <FormDescription>Idioma de la traducción</FormDescription>
                   <FormMessage />
                 </FormItem>
               </FormField>
             </div>
           </div>
 
-          <div class="border p-4 rounded-md">
+          <div class="border p-4 rounded-md bg-background shadow">
+            <div>
+              <h2 class="text-lg font-semibold">Autores</h2>
+              <p class="text-muted-foreground text-sm">Agrega los autores del libro</p>
+              <Separator class="mt-2 mb-3" />
+            </div>
             <FormField v-slot="{ componentField }" name="rol_autor">
               <FormItem>
                 <FormLabel>Rol del autor</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
+                  <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
                 </FormControl>
-                <FormDescription>Idioma de la traducción</FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="apoyo_conahcyt">
-              <FormItem>
-                <FormLabel>Recibió apoyo del CONAHCYT</FormLabel>
-                <FormControl>
-                  <div>
-                    <Switch v-bind="componentField" />
-                  </div>
-                </FormControl>
-                <FormDescription>
-                  Si el libro recibió apoyo del CONAHCYT, selecciona esta opción
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="estado_publicacion">
-              <FormItem>
-                <FormLabel>Estado de la publicación</FormLabel>
-                <FormControl>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona un estado" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="Pendiente"> Pendiente </SelectItem>
-                        <SelectItem value="Revisión"> En Revisión </SelectItem>
-                        <SelectItem value="Publicado"> Publicado </SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
+                <FormDescription>Idioma de la traducción</FormDescription>
                 <FormMessage />
               </FormItem>
             </FormField>
@@ -224,26 +267,100 @@
                 <FormMessage />
               </FormItem>
             </FormField>
-            <FormField v-slot="{ componentField }" name="dictaminado">
-              <FormItem>
-                <FormLabel>Está dictaminado</FormLabel>
-                <FormControl>
-                  <div>
-                    <Switch v-bind="componentField" />
-                  </div>
-                </FormControl>
-                <FormDescription> Si el libro se encuentra dictaminado </FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
+          </div>
+          <div class="border p-4 rounded-md bg-background shadow">
+            <div>
+              <h2 class="text-lg font-semibold">Citas</h2>
+              <p class="text-muted-foreground text-sm">Agrega las citas del libro</p>
+              <Separator class="mt-2 mb-3" />
+            </div>
           </div>
         </form>
       </div>
       <div class="col-span-2">
-        <div class="border rounded-md p-4">
-            <h1 class="text-lg font-semibold">Vista previa</h1>
-            <p class="text-sm text-muted-foreground">Lorem Ipsum.</p>
-            <Separator class="mt-2"/>
+        <div class="border rounded-md p-4 sticky top-5 bg-background shadow">
+          <h1 class="text-lg font-semibold">Vista previa</h1>
+          <p class="text-sm text-muted-foreground">
+            Revisa la información antes de continuar
+            <Separator class="mt-2 mb-3" />
+          </p>
+          <div class="space-y-2">
+            <h3 class="text-sm font-semibold">Información General</h3>
+            <div>
+              <h4 class="text-muted-foreground text-xs">Título</h4>
+              <Separator class="mt-[1.45rem]" v-if="!form.values.titulo" />
+              <p>{{ form.values.titulo }}</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <h4 class="text-muted-foreground text-xs">ISBN</h4>
+                <Separator class="mt-5" v-if="!form.values.isbn" />
+                <p class="text-sm">{{ form.values.isbn }}</p>
+              </div>
+              <div>
+                <h4 class="text-muted-foreground text-xs">DOI</h4>
+                <Separator class="mt-5" v-if="!form.values.doi" />
+                <p class="text-sm">{{ form.values.doi }}</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <h4 class="text-muted-foreground text-xs">Año de publicación</h4>
+                <Separator class="mt-5" v-if="!form.values.ano_publication" />
+                <p class="text-sm">{{ form.values.ano_publication }}</p>
+              </div>
+              <div>
+                <h4 class="text-muted-foreground text-xs">País</h4>
+                <Separator class="mt-5" v-if="!form.values.pais" />
+                <p class="text-sm">{{ form.values.pais }}</p>
+              </div>
+              <div>
+                <h4 class="text-muted-foreground text-xs">Idioma</h4>
+                <Separator class="mt-5" v-if="!form.values.idioma" />
+                <p class="text-sm">{{ form.values.idioma }}</p>
+              </div>
+            </div>
+            <div>
+              <h4 class="text-muted-foreground text-xs">Editorial</h4>
+              <Separator class="mt-5" v-if="!form.values.editorial" />
+              <p class="text-sm">{{ form.values.editorial }}</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <h4 class="text-muted-foreground text-xs">Estado</h4>
+                <Separator class="mt-5" v-if="!form.values.editorial" />
+                <p class="text-sm">{{ form.values.editorial }}</p>
+              </div>
+              <div>
+                <h4 class="text-muted-foreground text-xs">Dictaminado</h4>
+                <p v-if="form.values.dictaminado" class="text-sm">Si</p>
+                <p v-else class="text-sm">No</p>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-2 mt-4">
+            <h3 class="text-sm font-semibold">Traducción</h3>
+            <div>
+              <h4 class="text-muted-foreground text-xs">Título</h4>
+              <Separator class="mt-5" v-if="!form.values.titulo_traduccion" />
+              <p class="text-sm">{{ form.values.titulo_traduccion }}</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <h4 class="text-muted-foreground text-xs">ISBN</h4>
+                <Separator class="mt-5" v-if="!form.values.isbn_traduccion" />
+                <p class="text-sm">{{ form.values.isbn_traduccion }}</p>
+              </div>
+              <div>
+                <h4 class="text-muted-foreground text-xs">Idioma</h4>
+                <Separator class="mt-5" v-if="!form.values.idioma_traduccion" />
+                <p class="text-sm">{{ form.values.idioma_traduccion }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <Button class="mt-4 w-28" @click="() => form.submit()">Enviar</Button>
+          </div>
         </div>
       </div>
     </div>
@@ -277,52 +394,54 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { CalendarIcon } from '@radix-icons/vue'
-import { Calendar } from '@/components/ui/calendar'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { DateFormatter, type DateValue, getLocalTimeZone } from '@internationalized/date'
+import { Button } from '@/components/ui/button'
+
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
+import { z } from '@/lib/zod'
 
+// Define the form schema
 const formSchema = toTypedSchema(
-  z.object({
-    isbn: z.string().length(13, { message: 'Must be 13 characters long' }),
-    doi: z.string().min(2),
-    titulo: z.string(),
-    ano_publication: z.number().min(1900).max(2100),
-    editorial: z.string(),
-    pais: z.string(),
-    idioma: z.string(),
-    isbn_traduccion: z.string(),
-    idioma_traduccion: z.string(),
-    titulo_traduccion: z.string(),
-
-    apoyo_conahcyt: z.boolean(),
-    rol_autor: z.string(),
-    estado_publicacion: z.string(),
-    objetivo: z.string(),
-    dictaminado: z.boolean(),
-    portada: z.string()
-  })
+  z
+    .object({
+      isbn: z.string().length(13),
+      doi: z.string().min(2),
+      titulo: z.string(),
+      ano_publication: z.number().min(1900).max(2100),
+      editorial: z.string(),
+      pais: z.string(),
+      idioma: z.string(),
+      isbn_traduccion: z.string(),
+      idioma_traduccion: z.string(),
+      titulo_traduccion: z.string(),
+      apoyo_conahcyt: z.boolean().default(false),
+      programa_conahcyt: z.string().optional(),
+      rol_autor: z.string(),
+      estado_publicacion: z.string(),
+      objetivo: z.string(),
+      dictaminado: z.boolean().default(false),
+      portada: z.string()
+    })
+    .superRefine(({ apoyo_conahcyt, programa_conahcyt }, refinementContext) => {
+      // Require programa_conahcyt if apoyo_conahcyt is true
+      if (apoyo_conahcyt && programa_conahcyt == '') {
+        return refinementContext.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Requerido',
+          path: ['programa_conahcyt']
+        })
+      }
+    })
 )
 
+// Create the form instance
 const form = useForm({
   validationSchema: formSchema
 })
 
-const { handleSubmit } = form
-
-// const onSubmit = form.handleSubmit((values, actions) => {
-//   actions.setFieldValue('ano_publication', 1999);
-//   console.log('Form submitted!', values)
-// })
-
-const onSubmit = form.handleSubmit((values, actions) => {
-  // actions.setFieldValue('ano_publication', Svalues.ano_publication);
+const handleSubmit = form.handleSubmit((values, actions) => {
   console.log('Form submitted!', values)
 })
 
