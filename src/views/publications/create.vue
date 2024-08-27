@@ -28,8 +28,9 @@
               type="button"
               @click="turnBack"
               class="bg-white-500 text-black hover:bg-gray-200"
-              >Cancelar</Button
             >
+              Cancelar
+            </Button>
             <AlertDialog>
               <AlertDialogTrigger>
                 <Button type="button" @click="showFormInfo">Confirmar</Button></AlertDialogTrigger
@@ -112,10 +113,14 @@
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction>
-                    <Button type="submit" @click="onSubmit">Confirmar</Button>
-                  </AlertDialogAction>
+                  <AlertDialogCancel> Cancelar</AlertDialogCancel>
+                  <AlertDialogCancel
+                    class="bg-black text-white hover:bg-slate-800 hover:text-white"
+                    type="submit"
+                    @click="onSubmit"
+                  >
+                    Confirmar
+                  </AlertDialogCancel>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -349,7 +354,7 @@
           <div class="flex gap-4 w-full">
             <FormField v-slot="{ componentField }" name="cita_a">
               <FormItem class="w-full">
-                <FormLabel>URL de la cita</FormLabel>
+                <FormLabel>Cantidad de citas A</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -358,13 +363,13 @@
                     v-model="citas_aRef"
                   />
                 </FormControl>
-                <FormDescription>Escribe aquí el nombre de la revista.</FormDescription>
+                <FormDescription>Total de citas del documento A.</FormDescription>
                 <FormMessage />
               </FormItem>
             </FormField>
             <FormField v-slot="{ componentField }" name="cita_b" class="w-full">
               <FormItem class="w-full">
-                <FormLabel>URL de la cita</FormLabel>
+                <FormLabel>Cantidad de citas B</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -373,13 +378,13 @@
                     v-model="citas_bRef"
                   />
                 </FormControl>
-                <FormDescription>Escribe aquí el nombre de la revista.</FormDescription>
+                <FormDescription>Total de citas del documento B.</FormDescription>
                 <FormMessage />
               </FormItem>
             </FormField>
             <FormField v-slot="{ componentField }" name="total_citas" class="w-full">
               <FormItem class="w-full">
-                <FormLabel>URL de la cita</FormLabel>
+                <FormLabel>Total de citas</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -389,7 +394,7 @@
                     v-model="total_citasRef"
                   />
                 </FormControl>
-                <FormDescription>Escribe aquí el nombre de la revista.</FormDescription>
+                <FormDescription>Suma total de citas.</FormDescription>
                 <FormMessage />
               </FormItem>
             </FormField>
@@ -432,10 +437,13 @@
             </FormItem>
           </FormField>
         </div>
-        <div class="flex justify-end pt-4">
+        <div class="flex justify-end pt-4 gap-2">
+          <Button type="button" @click="turnBack" class="bg-white-500 text-black hover:bg-gray-200">
+            Cancelar
+          </Button>
           <AlertDialog>
             <AlertDialogTrigger> <Button type="button">Confirmar</Button></AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent v-if="validationPassed">
               <AlertDialogHeader>
                 <AlertDialogTitle
                   >¿Estas completamente seguro de que quieres añadir este nuevo elemento?
@@ -510,10 +518,14 @@
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction>
-                  <Button type="submit" @click="onSubmit">Confirmar</Button>
-                </AlertDialogAction>
+                <AlertDialogCancel> Cancelar</AlertDialogCancel>
+                <AlertDialogCancel
+                  class="bg-black text-white hover:bg-slate-800 hover:text-white"
+                  type="submit"
+                  @click="onSubmit"
+                >
+                  Confirmar
+                </AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -588,7 +600,7 @@ const formSchema = toTypedSchema(
     nombre_revista: z.string().min(2, { message: 'Demasiado corto' }),
     titulo: z.string().min(2).max(100),
     anio_publicacion: z.string().min(2, { message: 'Demasiado corto' }),
-    programa_conahcyt: z.string().min(2, { message: 'Demasiado corto' }),
+    programa_conahcyt: z.string().min(2, { message: 'Demasiado corto' }).optional(),
     estatus: z.string().min(2).max(50),
     objetivo: z.string().min(2, { message: 'Demasiado corto' }),
     url_cita: z
@@ -617,6 +629,7 @@ const quantityOfYears = 125
 const total_citasRef = ref(0)
 const citas_aRef = ref(null)
 const citas_bRef = ref(null)
+const validationPassed = ref(true)
 const programas_conahcyt = ref([
   'FONDO_INSTITUCIONAL',
   'FONDO_MIXTO',
@@ -804,15 +817,6 @@ watch(citas_bRef, async () => {
 })
 
 form.setFieldValue('programa_conahcyt', 'vacio', { shouldValidate: false })
-watch(recibio_apoyo_conahcyt, async () => {
-  if (recibio_apoyo_conahcyt.value) {
-    form.setFieldValue('programa_conahcyt', 'vacio', { shouldValidate: false })
-  } else {
-    form.setFieldValue('programa_conahcyt', null, { shouldValidate: false })
-  }
-
-  await form.validateField('programa_conahcyt')
-})
 
 const handleChange = () => {
   recibio_apoyo_conahcyt.value = !recibio_apoyo_conahcyt.value
