@@ -132,12 +132,12 @@
                   <FormMessage />
                 </FormItem>
               </FormField>
-              <FormField v-slot="{ componentField }" name="dictaminado">
+              <FormField v-slot="{ value, handleChange }" name="dictaminado">
                 <FormItem>
                   <FormLabel>Está dictaminado</FormLabel>
                   <FormControl>
-                    <div class="border rounded-md p-[.35rem]">
-                      <Switch v-bind="componentField" />
+                    <div class="pt-[.5rem]">
+                      <Switch :checked="value" @update:checked="handleChange" />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -145,7 +145,104 @@
               </FormField>
             </div>
           </div>
-
+          <!-- Traducción -->
+          <div class="border rounded-md p-4 col-span-1 bg-background shadow space-y-4">
+            <div>
+              <h2 class="text-lg font-semibold">Traducción</h2>
+              <p class="text-zinc-500 text-sm">
+                Si el libro es una traducción, llena los siguientes campos
+              </p>
+              <Separator class="mt-2 mb-3" />
+            </div>
+            <FormField v-slot="{ componentField }" name="titulo_traduccion">
+              <FormItem>
+                <FormLabel>Título</FormLabel>
+                <FormControl>
+                  <Input type="text" v-bind="componentField" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            </FormField>
+            <div class="grid grid-cols-2 gap-4">
+              <FormField v-slot="{ componentField }" name="isbn_traduccion">
+                <FormItem>
+                  <FormLabel>ISBN</FormLabel>
+                  <FormControl>
+                    <Input type="text" v-bind="componentField" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+              <FormField v-slot="{ componentField }" name="idioma_traduccion">
+                <FormItem>
+                  <FormLabel>Idioma</FormLabel>
+                  <FormControl>
+                    <Input type="text" v-bind="componentField" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+            </div>
+          </div>
+          <!-- Autores -->
+          <div class="border p-4 rounded-md bg-background shadow">
+            <div>
+              <h2 class="text-lg font-semibold">Autores</h2>
+              <p class="text-muted-foreground text-sm">Agrega los autores del libro</p>
+              <Separator class="mt-2 mb-3" />
+            </div>
+            <!-- <FormField v-slot="{ componentField }" name="rol_autor">
+              <FormItem>
+                <FormLabel>Rol de participación</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
+                </FormControl>
+                <FormDescription>Idioma de la traducción</FormDescription>
+                <FormMessage />
+              </FormItem>
+            </FormField> -->
+            <FormField v-slot="{ componentField }" name="rol_autor">
+              <FormItem>
+                <FormLabel>Rol de partipación</FormLabel>
+                  <Select v-bind="componentField">
+                <FormControl>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="ASESOR_PRINCIPAL">Asesor principal</SelectItem>
+                        <SelectItem value="AUTOR">Autor</SelectItem>
+                        <SelectItem value="AUTOR_PARA_CORRESPONDENCIA">Autor para correspondencia</SelectItem>
+                        <SelectItem value="AUTOR_PRINCIPAL">Autor principal</SelectItem>
+                        <SelectItem value="AUTOR_UNICO">Autor único</SelectItem>
+                        <SelectItem value="AUTOR_DE_CORRESPONDENCIA">Autor de correspondencia</SelectItem>
+                        <SelectItem value="CO_AUTOR">Co-autor</SelectItem>
+                        <SelectItem value="CO_COORDINADOR">Co-coordinador</SelectItem>
+                        <SelectItem value="CO_INVENTOR">Co-inventor</SelectItem>
+                        <SelectItem value="COLABORADOR">Colaborador</SelectItem>
+                        <SelectItem value="COMPIADOR">Compilador</SelectItem>
+                        <SelectItem value="COORDINADOR">Coordinador</SelectItem>
+                        <SelectItem value="DIRECTOR">Director</SelectItem>
+                        <SelectItem value="DIRECTOR_Y_O_ASESOR_PRINCIPAL">Director y/o asesor principal</SelectItem>
+                        <SelectItem value="EDITOR">Editor</SelectItem>
+                        <SelectItem value="ESTUDIANTE_AUTOR_PRINCIPAL">Estudiante es el autor principal</SelectItem>
+                        <SelectItem value="INVENTOR">Inventor</SelectItem>
+                        <SelectItem value="LIDER">Líder</SelectItem>
+                        <SelectItem value="PARTICIPANTE">Participante</SelectItem>
+                        <SelectItem value="TECNICO">Técnico</SelectItem>
+                        <SelectItem value="TRADUCTOR">Traductor</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                    <FormDescription>
+                      Seleccione su rol de participación
+                    </FormDescription>
+                </FormControl>
+                  </Select>
+                <FormMessage />
+              </FormItem>
+            </FormField>
+          </div>
           <!-- Section Conahcyt -->
           <div class="border p-4 rounded-md bg-background shadow space-y-4">
             <FormField v-slot="{ value, handleChange }" name="apoyo_conahcyt">
@@ -191,83 +288,6 @@
             </div>
           </div>
 
-          <!-- Section Translation -->
-          <div class="border rounded-md p-4 col-span-1 bg-background shadow space-y-4">
-            <div>
-              <h2 class="text-lg font-semibold">Traducción</h2>
-              <p class="text-zinc-500 text-sm">
-                Si el libro es una traducción, llena los siguientes campos
-              </p>
-              <Separator class="mt-2 mb-3" />
-            </div>
-            <FormField v-slot="{ componentField }" name="titulo_traduccion">
-              <FormItem>
-                <FormLabel>Título</FormLabel>
-                <FormControl>
-                  <Input type="text" v-bind="componentField" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-            <div class="grid grid-cols-2 gap-4">
-              <FormField v-slot="{ componentField }" name="isbn_traduccion">
-                <FormItem>
-                  <FormLabel>ISBN</FormLabel>
-                  <FormControl>
-                    <Input type="text" v-bind="componentField" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
-              <FormField v-slot="{ componentField }" name="idioma_traduccion">
-                <FormItem>
-                  <FormLabel>Idioma</FormLabel>
-                  <FormControl>
-                    <Input type="text" v-bind="componentField" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
-            </div>
-          </div>
-
-          <div class="border p-4 rounded-md bg-background shadow">
-            <div>
-              <h2 class="text-lg font-semibold">Autores</h2>
-              <p class="text-muted-foreground text-sm">Agrega los autores del libro</p>
-              <Separator class="mt-2 mb-3" />
-            </div>
-            <FormField v-slot="{ componentField }" name="rol_autor">
-              <FormItem>
-                <FormLabel>Rol del autor</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
-                </FormControl>
-                <FormDescription>Idioma de la traducción</FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="objetivo">
-              <FormItem>
-                <FormLabel>Objetivo de la publicación</FormLabel>
-                <FormControl>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona un objetivo" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="1"> Objetivo 1 </SelectItem>
-                        <SelectItem value="2"> Objetivo 2 </SelectItem>
-                        <SelectItem value="3"> Objetivo 3 </SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-          </div>
           <div class="border p-4 rounded-md bg-background shadow">
             <div>
               <h2 class="text-lg font-semibold">Citas</h2>
@@ -358,6 +378,14 @@
               </div>
             </div>
           </div>
+          <div class="space-y-2 mt-4">
+            <h3 class="text-sm font-semibold">Autores</h3>
+            <div>
+              <h4 class="text-muted-foreground text-xs">Rol de participación</h4>
+              <Separator class="mt-5" v-if="!form.values.rol_autor" />
+              <p class="text-sm">{{ autorRolDictionary[form.values.rol_autor] }}</p>
+            </div>
+          </div>
           <div class="flex justify-end">
             <Button class="mt-4 w-28" @click="() => form.submit()">Enviar</Button>
           </div>
@@ -444,6 +472,30 @@ const form = useForm({
 const handleSubmit = form.handleSubmit((values, actions) => {
   console.log('Form submitted!', values)
 })
+
+const autorRolDictionary = {
+  ASESOR_PRINCIPAL: 'Asesor principal',
+  AUTOR: 'Autor',
+  AUTOR_PARA_CORRESPONDENCIA: 'Autor para correspondencia',
+  AUTOR_PRINCIPAL: 'Autor principal',
+  AUTOR_UNICO: 'Autor único',
+  AUTOR_DE_CORRESPONDENCIA: 'Autor de correspondencia',
+  CO_AUTOR: 'Co-autor',
+  CO_COORDINADOR: 'Co-coordinador',
+  CO_INVENTOR: 'Co-inventor',
+  COLABORADOR: 'Colaborador',
+  COMPIADOR: 'Compilador',
+  COORDINADOR: 'Coordinador',
+  DIRECTOR: 'Director',
+  DIRECTOR_Y_O_ASESOR_PRINCIPAL: 'Director y/o asesor principal',
+  EDITOR: 'Editor',
+  ESTUDIANTE_AUTOR_PRINCIPAL: 'Estudiante es el autor principal',
+  INVENTOR: 'Inventor',
+  LIDER: 'Líder',
+  PARTICIPANTE: 'Participante',
+  TECNICO: 'Técnico',
+  TRADUCTOR: 'Traductor'
+}
 
 // Calculate the years for the date picker
 const currentYear = new Date().getFullYear()
