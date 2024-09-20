@@ -79,14 +79,19 @@
               <CardFooter
                 className="flex gap-2 px-4 p-2 justify-end bg-gray-100 border-t-2 border-gray-200"
               >
+                <RouterLink :to="`capacitaciones/${document.id}/descargar`">
+                  <Button size="sm" class="flex gap-1 items-center">
+                    <DownloadIcon />
+                  </Button>
+                </RouterLink>
                 <RouterLink :to="`capacitaciones/${document.id}/editar`">
                   <Button size="sm" class="flex gap-1 items-center">
-                    <Pencil2Icon /> Editar
+                    <Pencil2Icon />
                   </Button>
                 </RouterLink>
                 <RouterLink :to="`capacitaciones/${document.id}/visualizar`">
                   <Button size="sm" class="flex gap-1 items-center">
-                    <EyeOpenIcon /> Visualizar
+                    <EyeOpenIcon />
                   </Button>
                 </RouterLink>
                 <AlertDialog>
@@ -97,7 +102,6 @@
                       class="flex gap-1 items-center bg-red-500 text-white hover:text-white hover:bg-red-400"
                     >
                       <TrashIcon />
-                      <p class="text-xs">Eliminar</p>
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -210,6 +214,7 @@ import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Pencil2Icon } from '@radix-icons/vue'
 import { TrashIcon } from '@radix-icons/vue'
+import { DownloadIcon } from '@radix-icons/vue'
 import { ClockIcon } from '@radix-icons/vue'
 import { CalendarIcon } from '@radix-icons/vue'
 import { CubeIcon } from '@radix-icons/vue'

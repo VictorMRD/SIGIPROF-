@@ -166,6 +166,17 @@
               </FormItem>
             </FormField>
 
+            <FormField v-slot="{ componentField }" name="certificado">
+              <FormItem>
+                <FormLabel>Certificado recibido</FormLabel>
+                <FormControl>
+                  <Input type="file" @change="handleFileUpload" />
+                </FormControl>
+                <FormDescription>Suba el certificado entregado por la institución.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            </FormField>
+
             <FormField v-slot="{ componentField }" name="horas_totales">
               <FormItem>
                 <FormLabel>Horas totales</FormLabel>
@@ -437,5 +448,11 @@ const onSubmit = form.handleSubmit((values) => {
 })
 const turnBack = () => {
   router.push(`/capacitaciones`)
+}
+function handleFileUpload(event) {
+  //Lógica para agregar manejar el archivo
+  //A espera de la implementación de ese sistema en el backend
+  const file = event.target.files[0]
+  console.log(file)
 }
 </script>

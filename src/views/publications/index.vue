@@ -146,7 +146,6 @@
                 >
                   <Button size="sm" class="flex gap-1 items-center">
                     <DownloadIcon />
-                    <p class="text-xs">Descargar</p>
                   </Button>
                 </RouterLink>
                 <RouterLink
@@ -155,7 +154,6 @@
                 >
                   <Button size="sm" class="flex gap-1 items-center">
                     <PersonIcon />
-                    <p class="text-xs">Autores</p>
                   </Button>
                 </RouterLink>
                 <RouterLink
@@ -164,7 +162,6 @@
                 >
                   <Button size="sm" class="flex gap-1 items-center">
                     <EyeOpenIcon />
-                    <p class="text-xs">Visualizar</p>
                   </Button>
                 </RouterLink>
                 <RouterLink
@@ -173,7 +170,6 @@
                 >
                   <Button size="sm" class="flex gap-1 items-center">
                     <Pencil2Icon />
-                    <p class="text-xs">Editar</p>
                   </Button>
                 </RouterLink>
                 <AlertDialog>
@@ -183,7 +179,6 @@
                       class="flex gap-1 items-center bg-red-500 text-white hover:text-white hover:bg-red-400"
                     >
                       <TrashIcon />
-                      <p class="text-xs">Eliminar</p>
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>

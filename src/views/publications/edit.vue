@@ -112,9 +112,13 @@
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction>
-                    <Button type="submit" @click="onSubmit">Confirmar</Button>
-                  </AlertDialogAction>
+                  <AlertDialogCancel
+                    class="bg-black text-white hover:bg-slate-800 hover:text-white"
+                    type="submit"
+                    @click="onSubmit"
+                  >
+                    Confirmar
+                  </AlertDialogCancel>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -137,11 +141,11 @@
                   v-model="issn_type"
                 >
                   <div class="flex items-center space-x-2">
-                    <RadioGroupItem id="option-one" value="IMPRESO" v-model="issn_type" />
+                    <RadioGroupItem id="option-one" value="IMPRESO" />
                     <Label for="option-one">Impreso</Label>
                   </div>
                   <div class="flex items-center space-x-2">
-                    <RadioGroupItem id="option-two" value="ELECTRONICO" v-model="issn_type" />
+                    <RadioGroupItem id="option-two" value="ELECTRONICO" />
                     <Label for="option-two">Electrónico</Label>
                   </div>
                   <div class="flex items-center space-x-2">
@@ -431,7 +435,10 @@
             </FormItem>
           </FormField>
         </div>
-        <div class="flex justify-end pt-4">
+        <div class="flex justify-end pt-4 gap-2">
+          <Button type="button" @click="turnBack" class="bg-white-500 text-black hover:bg-gray-200">
+            Cancelar
+          </Button>
           <AlertDialog>
             <AlertDialogTrigger> <Button type="button">Confirmar</Button></AlertDialogTrigger>
             <AlertDialogContent>
@@ -509,9 +516,13 @@
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction>
-                  <Button type="submit" @click="onSubmit">Confirmar</Button>
-                </AlertDialogAction>
+                <AlertDialogCancel
+                  class="bg-black text-white hover:bg-slate-800 hover:text-white"
+                  type="submit"
+                  @click="onSubmit"
+                >
+                  Confirmar
+                </AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -575,6 +586,7 @@ import axios from '@/lib/axios'
 const route = useRoute()
 const dataId = route.params.id
 const preSelectedProgram = ref('')
+const dontDeleteIssnFlag = ref(true)
 const loadData = async () => {
   try {
     const res = await axios.get(`api/v1/publications/${dataId}`)
@@ -582,6 +594,7 @@ const loadData = async () => {
 
     // Establecer los valores en el formulario
     form.setFieldValue('issn_tipo', publicationData.issn_tipo)
+    issn_type.value = publicationData.issn_tipo
     form.setFieldValue(
       'issn_impreso',
       publicationData.issn_impreso !== null ? publicationData.issn_impreso.toString() : '88888888'
@@ -812,6 +825,17 @@ const showFormInfo = () => {
 }
 
 watch(issn_type, async () => {
+  if (dontDeleteIssnFlag.value) {
+    dontDeleteIssnFlag.value = false
+    if (issn_type.value === 'ELECTRONICO') {
+      isIssnElectronicoEnabled.value = false
+      isIssnImpresoEnabled.value = true
+    } else if (issn_type.value === 'IMPRESO') {
+      isIssnElectronicoEnabled.value = true
+      isIssnImpresoEnabled.value = false
+    }
+    return
+  }
   if (issn_type.value === 'IMPRESO') {
     isIssnImpresoEnabled.value = false
     isIssnElectronicoEnabled.value = true
@@ -846,6 +870,7 @@ watch(citas_bRef, async () => {
 form.setFieldValue('programa_conahcyt', 'vacio', { shouldValidate: false })
 watch(recibio_apoyo_conahcyt, async () => {
   if (recibio_apoyo_conahcyt.value) {
+    if (programas_conahcyt.value != 'vacio' && programas_conahcyt.value != null) return
     form.setFieldValue('programa_conahcyt', 'vacio', { shouldValidate: false })
   } else {
     form.setFieldValue('programa_conahcyt', null, { shouldValidate: false })

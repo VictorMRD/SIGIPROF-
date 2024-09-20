@@ -24,11 +24,55 @@
         <p class="text-3xl font-semibold">Visualizar en detalle</p>
         <div class="flex gap-4">
           <RouterLink :to="`/publicaciones`">
-            <Button class="py-0 px-10">Regresar</Button>
+            <Button type="sm" class="py-0 px-10 text-xs">Regresar</Button>
+          </RouterLink>
+          <RouterLink
+            :to="`/publicaciones/${dataId}/download`"
+            class="flex flex-col justify-center items-center"
+          >
+            <Button type="sm" class="flex gap-1 items-center">
+              <DownloadIcon />
+              <p class="text-xs">Descargar</p>
+            </Button>
           </RouterLink>
           <RouterLink :to="`/publicaciones/${dataId}/editar`">
-            <Button class="py-0 px-10">Editar</Button>
+            <Button type="sm" class="py-0 px-10 text-xs">Editar</Button>
           </RouterLink>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Button
+                type="sm"
+                class="flex gap-1 items-center bg-red-500 text-white hover:text-white hover:bg-red-400"
+              >
+                <TrashIcon />
+                <p class="text-xs">Eliminar</p>
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle
+                  >¿Estas completamente seguro de que quieres eliminar este elemento?
+                  <p class="text-sm font-normal">
+                    Esta acción no puede deshacerse, y una vez eliminada el registro no podrá ser
+                    recuperador de ninguna manera, afectando los registros de otras tablas y la
+                    integridad de las mismas.
+                  </p>
+                </AlertDialogTitle>
+                <AlertDialogDescription class="h-60 overflow-auto">
+                  <div v-for="(value, key) in publicationArray" :key="key" class="p-1">
+                    <p>
+                      <span class="capitalize text-gray-600 font-semibold">{{ key }}</span
+                      >: {{ value ? value : 'Undefined' }}
+                    </p>
+                  </div>
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction @click="deleteElement()"> Confirmar </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </div>
@@ -154,8 +198,20 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
 import axios from '@/lib/axios'
+import { TrashIcon } from '@radix-icons/vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ref } from 'vue'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
 import {
   Table,
   TableBody,
@@ -165,6 +221,8 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import { toast } from 'vue-sonner'
+import { DownloadIcon } from '@radix-icons/vue'
 
 const route = useRoute()
 const dataId = route.params.id
@@ -214,4 +272,17 @@ const loadData = async () => {
 }
 
 loadData()
+
+const router = useRouter()
+async function deleteElement() {
+  try {
+    const res = await axios.delete(`api/v1/publications/${dataId}`)
+    toast.success('Su registro se ha eliminado con éxito')
+    router.push(`/publicaciones`)
+  } catch (error) {
+    console.log(error)
+    toast.error('Ha ocurrido un error al intentar eliminar su registro...')
+    toast.error(error)
+  }
+}
 </script>
