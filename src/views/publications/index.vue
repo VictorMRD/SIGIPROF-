@@ -76,63 +76,39 @@
               <div class="flex justify-between w-3/4 gap-2 p-4">
                 <div class="flex flex-col justify-between gap-1">
                   <p>
+                    <span class="font-semibold">DOI</span><br />
+                    <span class="text-gray-600">
+                      {{ document.doi !== undefined ? document.doi : 'Undefined' }}
+                    </span>
+                  </p>
+                  <p>
+                    <span class="font-semibold">Año de publicación</span><br />
+                    <span class="text-gray-600">{{
+                      document.anio_publicacion !== undefined
+                        ? document.anio_publicacion
+                        : 'Undefined'
+                    }}</span>
+                  </p>
+                </div>
+                <div class="flex flex-col justify-between gap-1">
+                  <p class="text-nowrap w-40 overflow-hidden">
+                    <span class="font-semibold">ISSN Electronico</span><br />
+                    <span class="text-gray-600">{{
+                      document.issn_electronico ? document.issn_electronico : 'Undefined'
+                    }}</span>
+                  </p>
+                  <p class="text-nowrap w-40 overflow-hidden">
+                    <span class="font-semibold">ISSN Electronico</span><br />
+                    <span class="text-gray-600">{{
+                      document.issn_impreso ? document.issn_impreso : 'Undefined'
+                    }}</span>
+                  </p>
+                </div>
+                <div class="flex flex-col justify-between gap-1">
+                  <p>
                     <span class="font-semibold">Estado</span><br />
                     <span class="text-gray-600">{{
                       document.estatus ? document.estatus.join(', ') : 'Undefined'
-                    }}</span>
-                  </p>
-                  <p>
-                    <span class="font-semibold">Eje de CONAHCYT</span><br />
-                    <span class="text-gray-600">
-                      {{
-                        document.eje_conahcyt
-                          ? document.eje_conahcyt.join(', ').replace(/_/g, ' ').substring(0, 25) +
-                            (document.eje_conahcyt.join(', ').replace(/_/g, ' ').length > 25
-                              ? '...'
-                              : '')
-                          : 'Undefined'
-                      }}
-                    </span>
-                  </p>
-                </div>
-                <div class="flex flex-col justify-between gap-1">
-                  <p>
-                    <span class="font-semibold">Objetivo</span><br />
-                    <span class="text-gray-600">
-                      {{
-                        document.eje_conahcyt
-                          ? document.objetivo.join(', ').replace(/_/g, ' ').substring(0, 30) +
-                            (document.objetivo.join(', ').replace(/_/g, ' ').length > 30
-                              ? '...'
-                              : '')
-                          : 'Undefined'
-                      }}
-                    </span>
-                  </p>
-                  <p class="text-nowrap w-40 overflow-hidden">
-                    <span class="font-semibold">Programa CONAHCYT</span><br />
-                    <span class="text-gray-600">
-                      {{
-                        document.programa_conahcyt
-                          ? document.programa_conahcyt.join(', ').length > 30
-                            ? document.programa_conahcyt.join(', ').slice(0, 30) + '...'
-                            : document.programa_conahcyt.join(', ')
-                          : 'Undefined'
-                      }}
-                    </span>
-                  </p>
-                </div>
-                <div class="flex flex-col justify-between gap-1">
-                  <p>
-                    <span class="font-semibold">Citas A</span><br />
-                    <span class="text-gray-600">
-                      {{ document.cita_a !== undefined ? document.cita_a : 'Undefined' }}
-                    </span>
-                  </p>
-                  <p>
-                    <span class="font-semibold">Citas B</span><br />
-                    <span class="text-gray-600">{{
-                      document.cita_b !== undefined ? document.cita_b : 'Undefined'
                     }}</span>
                   </p>
                 </div>
