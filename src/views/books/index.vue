@@ -72,8 +72,9 @@
             v-for="book in books"
             :key="book.id"
             class="flex flex-col border rounded-md cursor-pointer hover:shadow-md"
+            @click="goToBook(book)"
           >
-            <RouterLink :to="`/libros/${book.id}`">
+            <!-- <RouterLink :to="`/libros/${book.id}`"> -->
               <!-- header  -->
               <div class="flex justify-between px-3 py-1">
                 <span class="text-xs font-semibold">{{ capitalize(book.pivot.rol) }}</span>
@@ -132,7 +133,7 @@
                 <span>ISBN</span>
                 <span>{{ formatISBN(book.isbn) }}</span>
               </div>
-            </RouterLink>
+            <!-- </RouterLink> -->
           </div>
           <!-- </RouterLink> -->
         </div>
@@ -159,6 +160,13 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { ref, onMounted } from 'vue'
 import axios from '@/lib/axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function goToBook(book) {
+  router.push(`/libros/${book.id}`)
+}
 
 const books = ref([])
 
