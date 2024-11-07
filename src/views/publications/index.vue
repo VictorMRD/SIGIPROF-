@@ -272,7 +272,7 @@ import axios from '@/lib/axios'
 /* Fake data */
 /* Aqui estaremos haciendo las llamadas a la API */
 interface DocumentInfo {
-  id: number1
+  id: number
   issn_tipo: string
   issn_impreso: string
   issn_electronico: string
@@ -280,15 +280,7 @@ interface DocumentInfo {
   nombre_revista: string
   titulo: string[]
   anio_publicacion: number
-  recibio_apoyo_conahcyt: boolean
-  programa_conahcyt: string[]
   estatus: string[]
-  objetivo: string[]
-  url_cita: string[]
-  cita_a: number
-  cita_b: number
-  total_citas: string[]
-  eje_conahcyt: string[]
 }
 
 const documents = ref<DocumentInfo[]>([])
@@ -315,18 +307,9 @@ const getPublications = async () => {
       nombre_revista: publication.nombre_revista || '',
       titulo: publication.titulo ? publication.titulo : [],
       anio_publicacion: publication.anio_publicacion || 0,
-      recibio_apoyo_conahcyt: publication.recibio_apoyo_conahcyt || false,
-      programa_conahcyt: publication.programa_conahcyt
-        ? publication.programa_conahcyt.split(',')
-        : [],
-      estatus: publication.estatus ? publication.estatus.split(',') : [],
-      objetivo: publication.objetivo ? publication.objetivo.split(',') : [],
-      url_cita: publication.url_cita ? publication.url_cita.split(',') : [],
-      cita_a: publication.cita_a || 0,
-      cita_b: publication.cita_b || 0,
-      total_citas: publication.total_citas ? publication.total_citas : [],
-      eje_conahcyt: publication.eje_conahcyt ? publication.eje_conahcyt.split(',') : []
+      estatus: publication.estatus ? publication.estatus.split(',') : []
     }))
+    console.log(processedPublications)
 
     documents.value = processedPublications
     copyOfDocuments = ref(documents.value)
@@ -368,17 +351,7 @@ async function deleteElement(deleteElementId) {
 
 function filterData(query) {
   const filteredData = secondCopyOfDocuments.value.filter((item) => {
-    const searchString = [
-      item.titulo,
-      item.estatus,
-      item.objetivo,
-      item.cita_a,
-      item.cita_b,
-      item.eje_conahcyt,
-      item.programa_conahcyt
-    ]
-      .join(' ')
-      .toLowerCase()
+    const searchString = [item.titulo, item.estatus].join(' ').toLowerCase()
 
     return searchString.includes(query.toLowerCase())
   })
