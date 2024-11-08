@@ -58,9 +58,7 @@
                   <span>{{ document.institucion }}</span>
                 </div>
                 <div className="prose text-sm pb-4">
-                  <p>
-                    {{ document.descripcion }}
-                  </p>
+                  <!-- Esta caja sirve para marcar un espacio -->
                 </div>
               </CardContent>
               <CardFooter
@@ -216,8 +214,6 @@ interface DocumentInfo {
   horas_totales: string
   institucion: string
   tipo_institucion: string[]
-  modalidad_institucion: string
-  descripcion: string
 }
 
 const documents = ref<DocumentInfo[]>([])
@@ -235,9 +231,7 @@ const getCourses = async () => {
       anio_curso: publication.anio || '',
       horas_totales: publication.horas_totales || '',
       institucion: publication.institucion || '',
-      tipo_institucion: publication.tipo_institucion || '',
-      modalidad_institucion: publication.modalidad_institucion || '',
-      descripcion: publication.descripcion || ''
+      tipo_institucion: publication.tipo_institucion || ''
     }))
 
     documents.value = processedCourses
