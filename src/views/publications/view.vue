@@ -97,53 +97,17 @@
       </div>
       <div class="prose prose-gray max-w-none dark:prose-invert border p-4 rounded-md my-4">
         <p class="text-gray-800 font-semibold">Detalles adicionales:</p>
-        <ul class="flex my-2 gap-10">
+        <ul class="flex my-2 gap-10 pt-2">
           <div class="flex flex-col gap-1">
             <li>
               <span class="text-gray-500">Año de publicación:</span>
               {{ publicationArray.anio_publicacion }}
             </li>
-            <li>
-              <span class="text-gray-500">Nombre de la revista:</span>
-              {{ publicationArray.nombre_revista }}
-            </li>
-            <li>
-              <span class="text-gray-500">Programa CONAHCYT:</span>
-              {{ publicationArray.programa_conahcyt }}
-            </li>
-            <li>
-              <span class="text-gray-500">Objetivo:</span>
-              {{ publicationArray.objetivo }}
-            </li>
-            <li>
-              <span class="text-gray-500">URL de la cita:</span>
-              {{ publicationArray.url_cita }}
-            </li>
-            <li>
-              <span class="text-gray-500">Cita A:</span>
-              {{ publicationArray.cita_a }}
-            </li>
           </div>
           <div class="flex flex-col gap-1">
             <li>
-              <span class="text-gray-500">Cita B:</span>
-              {{ publicationArray.cita_b }}
-            </li>
-            <li>
-              <span class="text-gray-500">Total de citas:</span>
-              {{ publicationArray.total_citas }}
-            </li>
-            <li>
-              <span class="text-gray-500">Eje CONAHCYT:</span>
-              {{ publicationArray.eje_conahcyt }}
-            </li>
-            <li>
-              <span class="text-gray-500">Recibió apoyo CONAHCYT:</span>
-              {{ publicationArray.recibio_apoyo_conahcyt ? 'Sí' : 'No' }}
-            </li>
-            <li>
-              <span class="text-gray-500">Programa preseleccionado:</span>
-              {{ publicationArray.preSelectedProgram }}
+              <span class="text-gray-500">Nombre de la revista:</span>
+              {{ publicationArray.nombre_revista }}
             </li>
           </div>
         </ul>
