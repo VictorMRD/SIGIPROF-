@@ -55,6 +55,8 @@
               <span class="text-gray-500">Nombre de la institucion:</span>
               {{ publicationArray.institucion }}
             </li>
+          </div>
+          <div class="flex flex-col gap-1 w-full">
             <li>
               <span class="text-gray-500">Horas Totales del curso:</span>
               {{ publicationArray.horas_totales }}
@@ -62,18 +64,6 @@
             <li>
               <span class="text-gray-500">Tipo de Institución:</span>
               {{ publicationArray.tipo_institucion }}
-            </li>
-          </div>
-          <div class="flex flex-col gap-1 w-full">
-            <li>
-              <span class="text-gray-500">Modalidad Institucional:</span>
-              {{ publicationArray.modalidad_institucion }}
-            </li>
-            <li>
-              <span class="text-gray-500">Descripción:</span>
-              <span class="text-wrap">
-                {{ publicationArray.descripcion }}
-              </span>
             </li>
           </div>
         </ul>
@@ -124,9 +114,7 @@ const loadData = async () => {
       anio: itemData.anio.toString(),
       horas_totales: itemData.horas_totales,
       institucion: itemData.institucion,
-      tipo_institucion: itemData.tipo_institucion,
-      modalidad_institucion: itemData.modalidad_institucion,
-      descripcion: itemData.descripcion
+      tipo_institucion: itemData.tipo_institucion
     }
 
     console.log(itemData)
