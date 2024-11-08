@@ -42,7 +42,7 @@
                       veces antes de confirmar el registro.
                     </p>
                   </AlertDialogTitle>
-                  <AlertDialogDescription class="h-60 overflow-auto">
+                  <AlertDialogDescription class="overflow-auto">
                     <div class="flex flex-col gap-2">
                       <p>
                         <span class="capitalize text-gray-600 font-semibold"
@@ -71,15 +71,6 @@
                         <span class="capitalize text-gray-600 font-semibold"
                           >Tipo de institucion</span
                         >: {{ form.values.tipo_institucion }}
-                      </p>
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold"
-                          >Modalidad del institucion</span
-                        >: {{ form.values.modalidad_institucion }}
-                      </p>
-                      <p>
-                        <span class="capitalize text-gray-600 font-semibold">Descripcion</span>:
-                        {{ form.values.descripcion }}
                       </p>
                     </div>
                   </AlertDialogDescription>
@@ -154,33 +145,34 @@
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                <FormDescription
-                  >Selecciona el area al que tu proyecto se acerca más.</FormDescription
-                >
-                <FormMessage />
-              </FormItem>
-            </FormField>
-
-            <FormField v-slot="{ componentField }" name="horas_totales">
-              <FormItem>
-                <FormLabel>Horas totales</FormLabel>
-                <FormControl>
-                  <Input type="number" v-bind="componentField" />
-                </FormControl>
-                <FormDescription>Escribe aquí las referencias.</FormDescription>
+                <FormDescription>Ingresa el año en que tomaste el curso.</FormDescription>
                 <FormMessage />
               </FormItem>
             </FormField>
           </div>
 
           <div class="flex flex-col w-full">
+            <FormField v-slot="{ componentField }" name="horas_totales">
+              <FormItem>
+                <FormLabel>Horas totales</FormLabel>
+                <FormControl>
+                  <Input type="number" v-bind="componentField" />
+                </FormControl>
+                <FormDescription
+                  >Ingresa las horas que cumpliste para terminar el curso.</FormDescription
+                >
+                <FormMessage />
+              </FormItem>
+            </FormField>
             <FormField v-slot="{ componentField }" name="institucion">
               <FormItem>
                 <FormLabel>Nombre de la institucion *</FormLabel>
                 <FormControl>
                   <Input type="text" v-bind="componentField" />
                 </FormControl>
-                <FormDescription>Escribe aquí el autor.</FormDescription>
+                <FormDescription>
+                  Ingresa el nombre de la institución que impartio el curso.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             </FormField>
@@ -201,41 +193,7 @@
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                <FormDescription>Escribe aquí la fecha de publicación.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-
-            <FormField v-slot="{ componentField }" name="modalidad_institucion">
-              <FormItem>
-                <FormLabel>Modalidad de la institucion *</FormLabel>
-                <Select v-bind="componentField">
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccione su rol correspondiente" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="PUBLICA_FEDERAL"> Publica - Federal </SelectItem>
-                      <SelectItem value="PUBLICA_ESTATAL"> Publica - Estatal </SelectItem>
-                      <SelectItem value="PUBLICA_MUNICIPAL"> Publica - Municipal </SelectItem>
-                      <SelectItem value="PRIVADA"> Privada </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormDescription>Escribe aquí el rol de participación.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-
-            <FormField v-slot="{ componentField }" name="descripcion">
-              <FormItem>
-                <FormLabel>Descripcion *</FormLabel>
-                <FormControl>
-                  <Input type="text" v-bind="componentField" />
-                </FormControl>
-                <FormDescription>Escribe aquí los participantes.</FormDescription>
+                <FormDescription>Selecciona el tipo de institución.</FormDescription>
                 <FormMessage />
               </FormItem>
             </FormField>
@@ -254,7 +212,7 @@
                     antes de confirmar el registro.
                   </p>
                 </AlertDialogTitle>
-                <AlertDialogDescription class="h-60 overflow-auto">
+                <AlertDialogDescription class="overflow-auto">
                   <div class="flex flex-col gap-2">
                     <p>
                       <span class="capitalize text-gray-600 font-semibold">Tipo de formacion:</span
@@ -280,15 +238,6 @@
                     <p>
                       <span class="capitalize text-gray-600 font-semibold">Tipo de institucion</span
                       >: {{ form.values.tipo_institucion }}
-                    </p>
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold"
-                        >Modalidad del institucion</span
-                      >: {{ form.values.modalidad_institucion }}
-                    </p>
-                    <p>
-                      <span class="capitalize text-gray-600 font-semibold">Descripcion</span>:
-                      {{ form.values.descripcion }}
                     </p>
                   </div>
                 </AlertDialogDescription>
@@ -379,13 +328,7 @@ const formSchema = toTypedSchema(
       .max(150, { message: 'El nombre de la institución no debe exceder los 150 caracteres' }),
     tipo_institucion: z.string({
       message: 'El tipo de institución es necesario para crear una nueva publicación'
-    }),
-    modalidad_institucion: z.string({
-      message: 'La modalidad de la institución es necesaria para crear una nueva publicación'
-    }),
-    descripcion: z
-      .string({ message: 'La descripción es necesaria para crear una nueva publicación' })
-      .min(10, { message: 'La descripción debe tener al menos 10 caracteres' })
+    })
   })
 )
 
