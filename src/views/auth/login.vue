@@ -2,10 +2,11 @@
   <div class="flex w-full">
     <div id="left-side" class="bg-black h-screen w-full flex flex-col justify-between">
       <div class="flex flex-col items-center justify-between h-full py-10">
-        <img
+        <!-- <img
           class="w-72"
           src="https://geekflare.com/wp-content/uploads/2023/03/img-placeholder.png"
-        />
+        /> -->
+        <div class="w-72"></div>
         <div class="flex flex-col items-center gap-1">
           <p class="text-white text-5xl font-semibold">SIGIPROF</p>
           <p class="text-white text-md italic">
