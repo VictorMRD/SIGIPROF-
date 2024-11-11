@@ -2,7 +2,7 @@
   <div class="flex w-full">
     <div
       id="left-side"
-      class="bg-muted/40 h-screen w-full flex flex-col items-center justify-center gap-3"
+      class="bg-zinc-900 border-r text-white border-border h-screen w-full flex flex-col items-center justify-center gap-3"
     >
       <p class="text-5xl font-semibold">SIGIPROF</p>
       <p class="text-md font-extralight">Sistema de Gestión de Información Profesional Docente</p>

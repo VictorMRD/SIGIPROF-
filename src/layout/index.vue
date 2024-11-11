@@ -27,7 +27,7 @@
       </Command>
     </div>
   </div>
-  <div class="sticky top-0 bg-background/50 backdrop-blur-lg border-b border-border">
+  <div class="sticky top-0 bg-background/90 backdrop-blur-lg border-b border-border">
     <div class="max-w-6xl mx-auto py-3">
       <div class="flex items-center justify-between">
         <NavigationMenu>
@@ -126,9 +126,9 @@
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <RouterLink to="/index" title="Boton para el index Capacitaciones">
+              <RouterLink to="/reportes" title="Boton para el index Capacitaciones">
                 <NavigationMenuLink :class="navigationMenuTriggerStyle()">
-                  <p class="font-semibold">Imprimir</p>
+                  <p class="font-semibold">Reportes</p>
                 </NavigationMenuLink>
               </RouterLink>
             </NavigationMenuItem>

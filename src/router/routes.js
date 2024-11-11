@@ -6,6 +6,12 @@ const routes = [
     component: () => import('@/layout/index.vue'),
     children: [
       {
+        path: '/reportes',
+        name: 'reportes',
+        meta: { requiresAuth: true },
+        component: () => import('@/views/reportes/index.vue')
+      },
+      {
         path: '/profile',
         name: 'profile',
         meta: { requiresAuth: true }
