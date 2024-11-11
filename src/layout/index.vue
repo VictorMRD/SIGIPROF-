@@ -1,4 +1,38 @@
 <template>
+  <div v-if="searchActivated" class="absolute w-full h-screen z-30 opacity-100 flex justify-center items-center">
+    <div class="bg-black absolute w-full h-screen opacity-50" @click="handleSearchInput"></div>
+    <div class="w-1/3 h-1/3 bg-white z-50 flex rounded-sm">
+      <Command class="w-full">
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList @click="handleSearchInput">
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem value="calendar">
+              Calendar
+            </CommandItem>
+            <CommandItem value="search-emoji">
+              Search Emoji
+            </CommandItem>
+            <CommandItem value="calculator">
+              Calculator
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Settings">
+            <CommandItem value="profile">
+              Profile
+            </CommandItem>
+            <CommandItem value="billing">
+              Billing
+            </CommandItem>
+            <CommandItem value="settings">
+              Settings
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </div>
+  </div>
   <div class="px-10 py-0 border-b-2 border-slate-200 border-solid w-full flex items-center justify-between px-24">
     <NavigationMenu>
       <NavigationMenuList>
@@ -72,10 +106,20 @@
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        
       </NavigationMenuList>
     </NavigationMenu>
     <div class="flex gap-4 justify-center items-center">
+      <div>
+        <Button variant="outline"
+        class="hover:bg-gray-100 transition-all duration-200 h-8 w-44 flex justify-start items-center select-none
+        focus-visible:ring-transparent font-normal"
+        @click="handleSearchInput">
+          Buscar...
+        </Button>
+        <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+          <Search class="size-6 text-muted-foreground" />
+        </span>
+      </div>
       <div>
         <DropdownMenu class="border-0">
           <DropdownMenuTrigger as-child>
@@ -99,7 +143,7 @@
         </DropdownMenu>
       </div>
       <DropdownMenu>
-        <DropdownMenuTrigger class="w-8 h-8 rounded-full bg-gray-400">
+        <DropdownMenuTrigger class="w-8 h-8 rounded-full">
           <img src="@/assets/new-uabcs-logo.png">
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -113,6 +157,9 @@
       </DropdownMenu>
     </div>
   </div>
+  <!-- <div class="absolute">
+    Hola
+  </div> -->
   <router-view />
 </template>
 
@@ -126,6 +173,18 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu'
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from '@/components/ui/command'
+import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Icon } from '@iconify/vue'
@@ -133,9 +192,11 @@ import { useColorMode } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import axios from '@/lib/axios'
 import { toast } from 'vue-sonner'
+import { ref } from 'vue'
 
 const router = useRouter()
 const mode = useColorMode()
+const searchActivated = ref(false)
 const logout = async () =>{
   try{
     const res = await axios.post('/logout')
@@ -146,5 +207,8 @@ const logout = async () =>{
   }catch(error){
     console.error(error)
   }
+}
+function handleSearchInput() {
+  searchActivated.value = !searchActivated.value
 }
 </script>
