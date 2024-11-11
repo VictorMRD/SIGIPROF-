@@ -74,64 +74,67 @@
             @click="goToBook(book)"
           >
             <!-- <RouterLink :to="`/libros/${book.id}`"> -->
-              <!-- header  -->
-              <div class="flex justify-between px-3 py-1">
-                <span class="text-xs font-semibold">{{ capitalize(book.pivot.rol) }}</span>
-                <span class="text-xs text-muted">{{ book.anio_publicacion }}</span>
+            <!-- header  -->
+            <div class="flex justify-between px-3 py-1">
+              <span class="text-xs font-semibold">{{ capitalize(book.pivot.rol) }}</span>
+              <span class="text-xs text-muted">{{ book.anio_publicacion }}</span>
+            </div>
+            <Separator />
+            <div class="p-3 flex flex-col gap-2 flex-1">
+              <!-- title -->
+              <div class="flex-1">
+                <h1 class="text-xl lg:text-sm font-semibold text-pretty">{{ book.titulo }}</h1>
               </div>
-              <Separator />
-              <div class="p-3 flex flex-col gap-2 flex-1">
-                <!-- title -->
-                <div class="flex-1">
-                  <h1 class="text-xl lg:text-sm font-semibold text-pretty">{{ book.titulo }}</h1>
-                </div>
-                <!-- status -->
-                <div>
-                  <span
-                    v-if="book.estado_publicacion === 'COMPLETADO'"
-                    class="rounded p-1 text-xs text-green-800 bg-green-100"
-                  >
-                    {{ formatEstadoPublicacion(book.estado_publicacion) }}
-                  </span>
-                  <span
-                    v-else-if="book.estado_publicacion === 'CANCELADO'"
-                    class="rounded p-1 text-xs text-red-800 bg-red-100"
-                  >
-                    {{ formatEstadoPublicacion(book.estado_publicacion) }}
-                  </span>
-                  <span
-                    v-else-if="book.estado_publicacion === 'RECHAZADO'"
-                    class="rounded p-1 text-xs text-red-800 bg-red-100 dark:bg-red-950 dark:text-red-900"
-                  >
-                    {{ formatEstadoPublicacion(book.estado_publicacion) }}
-                  </span>
-                  <span
-                    v-else-if="book.estado_publicacion === 'ATRASADO'"
-                    class="rounded p-1 text-xs text-orange-800 bg-orange-100 dark:bg-red-950 dark:text-red-400"
-                  >
-                    {{ formatEstadoPublicacion(book.estado_publicacion) }}
-                  </span>
-                  <span
-                    v-else-if="book.estado_publicacion === 'EN_ESPERA_DE_APROBACION'"
-                    class="rounded p-1 text-xs text-yellow-800 bg-yellow-100"
-                  >
-                    {{ formatEstadoPublicacion(book.estado_publicacion) }}
-                  </span>
-                  <span
-                    v-else-if="book.estado_publicacion === 'EN_PROGRESO'"
-                    class="rounded p-1 text-xs text-yellow-800 bg-yellow-100"
-                  >
-                    {{ formatEstadoPublicacion(book.estado_publicacion) }}
-                  </span>
-                  <span v-else class="rounded p-1 text-xs text-yellow-800 bg-yellow-100 dark:bg-yellow-950 dark:text-yellow-600">
-                    {{ formatEstadoPublicacion(book.estado_publicacion) }}
-                  </span>
-                </div>
+              <!-- status -->
+              <div>
+                <span
+                  v-if="book.estado_publicacion === 'COMPLETADO'"
+                  class="rounded p-1 text-xs text-green-800 bg-green-100"
+                >
+                  {{ formatEstadoPublicacion(book.estado_publicacion) }}
+                </span>
+                <span
+                  v-else-if="book.estado_publicacion === 'CANCELADO'"
+                  class="rounded p-1 text-xs text-red-800 bg-red-100"
+                >
+                  {{ formatEstadoPublicacion(book.estado_publicacion) }}
+                </span>
+                <span
+                  v-else-if="book.estado_publicacion === 'RECHAZADO'"
+                  class="rounded p-1 text-xs text-red-800 bg-red-100 dark:bg-red-950 dark:text-red-900"
+                >
+                  {{ formatEstadoPublicacion(book.estado_publicacion) }}
+                </span>
+                <span
+                  v-else-if="book.estado_publicacion === 'ATRASADO'"
+                  class="rounded p-1 text-xs text-orange-800 bg-orange-100 dark:bg-red-950 dark:text-red-400"
+                >
+                  {{ formatEstadoPublicacion(book.estado_publicacion) }}
+                </span>
+                <span
+                  v-else-if="book.estado_publicacion === 'EN_ESPERA_DE_APROBACION'"
+                  class="rounded p-1 text-xs text-yellow-800 bg-yellow-100"
+                >
+                  {{ formatEstadoPublicacion(book.estado_publicacion) }}
+                </span>
+                <span
+                  v-else-if="book.estado_publicacion === 'EN_PROGRESO'"
+                  class="rounded p-1 text-xs text-yellow-800 bg-yellow-100"
+                >
+                  {{ formatEstadoPublicacion(book.estado_publicacion) }}
+                </span>
+                <span
+                  v-else
+                  class="rounded p-1 text-xs text-yellow-800 bg-yellow-100 dark:bg-yellow-950 dark:text-yellow-600"
+                >
+                  {{ formatEstadoPublicacion(book.estado_publicacion) }}
+                </span>
               </div>
-              <div class="flex justify-between bg-muted/50 text-zinc-500 px-3 py-1 text-xs">
-                <span>ISBN</span>
-                <span>{{ formatISBN(book.isbn) }}</span>
-              </div>
+            </div>
+            <div class="flex justify-between bg-muted/50 text-zinc-500 px-3 py-1 text-xs">
+              <span>ISBN</span>
+              <span>{{ formatISBN(book.isbn) }}</span>
+            </div>
             <!-- </RouterLink> -->
           </div>
           <!-- </RouterLink> -->

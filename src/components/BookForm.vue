@@ -17,8 +17,8 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { z } from '@/lib/zod'
 import { Country as countries } from '@/lib/enums/Country'
 import { Language as languages } from '@/lib/enums/Language'
-import { BookStatus } from "@/lib/enums/BookStatus"
-import { AuthorRole } from "@/lib/enums/AuthorRole"
+import { BookStatus } from '@/lib/enums/BookStatus'
+import { AuthorRole } from '@/lib/enums/AuthorRole'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -57,11 +57,9 @@ const handleSubmit = form.handleSubmit((data, { resetForm }) => {
 <template>
   <form @submit="handleSubmit" class="space-y-4">
     <div>
-        <h2 class="text-lg font-semibold">Información general</h2>
-        <p class="text-muted-foreground text-sm">
-            Llena los siguientes campos para crear un libro
-        </p>
-        <Separator class="mt-2 mb-3" />
+      <h2 class="text-lg font-semibold">Información general</h2>
+      <p class="text-muted-foreground text-sm">Llena los siguientes campos para crear un libro</p>
+      <Separator class="mt-2 mb-3" />
     </div>
     <FormField v-slot="{ componentField }" name="titulo">
       <FormItem>
@@ -106,7 +104,7 @@ const handleSubmit = form.handleSubmit((data, { resetForm }) => {
                   <SelectLabel>Año de publicación</SelectLabel>
                   <SelectItem v-for="year in years" :value="year.toString()" :key="year">{{
                     year
-                    }}</SelectItem>
+                  }}</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </FormControl>
@@ -125,8 +123,11 @@ const handleSubmit = form.handleSubmit((data, { resetForm }) => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>País</SelectLabel>
-                  <SelectItem v-for="country in countries" :value="country.country" :key="country.iso_code">{{
-                    country.country }}
+                  <SelectItem
+                    v-for="country in countries"
+                    :value="country.country"
+                    :key="country.iso_code"
+                    >{{ country.country }}
                   </SelectItem>
                 </SelectGroup>
               </SelectContent>
@@ -146,8 +147,11 @@ const handleSubmit = form.handleSubmit((data, { resetForm }) => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Idioma</SelectLabel>
-                  <SelectItem v-for="language in languages" :value="language.code" :key="language.code">{{
-                    language.name }}
+                  <SelectItem
+                    v-for="language in languages"
+                    :value="language.code"
+                    :key="language.code"
+                    >{{ language.name }}
                   </SelectItem>
                 </SelectGroup>
               </SelectContent>
@@ -177,7 +181,12 @@ const handleSubmit = form.handleSubmit((data, { resetForm }) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                    <SelectItem v-for="[key, value] of Object.entries(AuthorRole)" :value="key" :key="key">{{value}}</SelectItem>
+                  <SelectItem
+                    v-for="[key, value] of Object.entries(AuthorRole)"
+                    :value="key"
+                    :key="key"
+                    >{{ value }}</SelectItem
+                  >
                 </SelectGroup>
               </SelectContent>
             </FormControl>
@@ -195,7 +204,12 @@ const handleSubmit = form.handleSubmit((data, { resetForm }) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                <SelectItem v-for="[key, value] of Object.entries(BookStatus)" :value="key" :key="key">{{value}}</SelectItem>
+                  <SelectItem
+                    v-for="[key, value] of Object.entries(BookStatus)"
+                    :value="key"
+                    :key="key"
+                    >{{ value }}</SelectItem
+                  >
                 </SelectGroup>
               </SelectContent>
             </FormControl>

@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div class="w-full h-56 flex items-center justify-center">
-      <img src="@/assets/uabcs-modified.jpeg" alt="Image" class="w-full h-full object-cover" />
+    <div class="w-full h-56 flex items-center justify-center relative -z-10">
+      <img
+        src="@/assets/uabcs-modified.jpeg"
+        alt="Image"
+        class="w-full h-full object-cover select-none"
+      />
       <div class="absolute text-white flex flex-col justify-center items-center">
         <p class="text-5xl font-bold">¡Bienvenido, Jorge!</p>
         <p class="italic mt-3">Sistema de Gestion de Información Profesional Docente</p>
@@ -80,25 +84,25 @@
           </CardContent>
         </Card>
         <Card>
-            <CardHeader>
-                <CardTitle>Lista de pendientes</CardTitle>
-                <CardDescription>Visualiza tus pendientes de manera detallada</CardDescription>
-            </CardHeader>
-            <CardContent class="space-y-2 overflow-y-scroll max-h-80">
-                <Card v-for="toDo in toDoList" :key="toDo.id" class="flex p-2">
-                    <div class="flex-1 flex flex-col justify-center">
-                        <h3 class="text-sm">{{ toDo.user.name }}</h3>
-                        <p class="text-xs text-muted-foreground">{{ toDo.user.email }}</p>
-                    </div>
-                    <div class="flex justify-center items-center gap-3">
-                        <div class="flex-1 flex flex-col justify-center items-end">
-                            <h3 class="text-sm">{{ toDo.description }}</h3>
-                            <p class="text-xs text-muted-foreground">{{ toDo.date }}</p>
-                        </div>
-                        <Checkbox id="terms" />
-                    </div>
-                </Card>
-            </CardContent>
+          <CardHeader>
+            <CardTitle>Lista de pendientes</CardTitle>
+            <CardDescription>Visualiza tus pendientes de manera detallada</CardDescription>
+          </CardHeader>
+          <CardContent class="space-y-2 overflow-y-scroll max-h-80">
+            <Card v-for="toDo in toDoList" :key="toDo.id" class="flex p-2">
+              <div class="flex-1 flex flex-col justify-center">
+                <h3 class="text-sm">{{ toDo.user.name }}</h3>
+                <p class="text-xs text-muted-foreground">{{ toDo.user.email }}</p>
+              </div>
+              <div class="flex justify-center items-center gap-3">
+                <div class="flex-1 flex flex-col justify-center items-end">
+                  <h3 class="text-sm">{{ toDo.description }}</h3>
+                  <p class="text-xs text-muted-foreground">{{ toDo.date }}</p>
+                </div>
+                <Checkbox id="terms" />
+              </div>
+            </Card>
+          </CardContent>
         </Card>
       </div>
     </div>

@@ -29,10 +29,10 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from '@/lib/zod'
 import { ref } from 'vue'
-import axios from "@/lib/axios"
+import axios from '@/lib/axios'
 
-import { BookStatus } from "@/lib/enums/BookStatus"
-import { AuthorRole } from "@/lib/enums/AuthorRole"
+import { BookStatus } from '@/lib/enums/BookStatus'
+import { AuthorRole } from '@/lib/enums/AuthorRole'
 import { Country as countries } from '@/lib/enums/Country'
 import { Language as languages } from '@/lib/enums/Language'
 
@@ -76,29 +76,27 @@ const addAuthor = (author) => {
 }
 
 const removeAuthor = (id) => {
-  authors.value = authors.value.filter(author => author.id !== id)
+  authors.value = authors.value.filter((author) => author.id !== id)
 }
 
 // This function handles the form submission, it makes an axios request to the backend
 // and handles the backend validation issues if there are any
-const handleSubmit = form.handleSubmit(
-  async (req) => {
-    if (authors.value.length > 0) {
-      req.autores = authors.value
-    }
+const handleSubmit = form.handleSubmit(async (req) => {
+  if (authors.value.length > 0) {
+    req.autores = authors.value
+  }
 
-    try {
-      const res = await axios.post('/api/v1/user/books', req)
-      console.log(res);
-    } catch (error) {
-      console.error(error)
-      console.error(error.response.data);
-      for (const [err, msj] of Object.entries(error.response.data.errors)) {
-        toast.error('Error: ' + msj[0])
-      }
+  try {
+    const res = await axios.post('/api/v1/user/books', req)
+    console.log(res)
+  } catch (error) {
+    console.error(error)
+    console.error(error.response.data)
+    for (const [err, msj] of Object.entries(error.response.data.errors)) {
+      toast.error('Error: ' + msj[0])
     }
-  },
-)
+  }
+})
 </script>
 
 <template>
@@ -175,7 +173,7 @@ const handleSubmit = form.handleSubmit(
                       <SelectLabel>Año de publicación</SelectLabel>
                       <SelectItem v-for="year in years" :value="year.toString()" :key="year">{{
                         year
-                        }}</SelectItem>
+                      }}</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </FormControl>
@@ -194,8 +192,11 @@ const handleSubmit = form.handleSubmit(
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>País</SelectLabel>
-                      <SelectItem v-for="country in countries" :value="country.country" :key="country.iso_code">{{
-                        country.country }}
+                      <SelectItem
+                        v-for="country in countries"
+                        :value="country.country"
+                        :key="country.iso_code"
+                        >{{ country.country }}
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -215,8 +216,11 @@ const handleSubmit = form.handleSubmit(
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Idioma</SelectLabel>
-                      <SelectItem v-for="language in languages" :value="language.code" :key="language.code">{{
-                        language.name }}
+                      <SelectItem
+                        v-for="language in languages"
+                        :value="language.code"
+                        :key="language.code"
+                        >{{ language.name }}
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -246,7 +250,12 @@ const handleSubmit = form.handleSubmit(
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                        <SelectItem v-for="[key, value] of Object.entries(AuthorRole)" :value="key" :key="key">{{value}}</SelectItem>
+                      <SelectItem
+                        v-for="[key, value] of Object.entries(AuthorRole)"
+                        :value="key"
+                        :key="key"
+                        >{{ value }}</SelectItem
+                      >
                     </SelectGroup>
                   </SelectContent>
                 </FormControl>
@@ -264,7 +273,12 @@ const handleSubmit = form.handleSubmit(
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                    <SelectItem v-for="[key, value] of Object.entries(BookStatus)" :value="key" :key="key">{{value}}</SelectItem>
+                      <SelectItem
+                        v-for="[key, value] of Object.entries(BookStatus)"
+                        :value="key"
+                        :key="key"
+                        >{{ value }}</SelectItem
+                      >
                     </SelectGroup>
                   </SelectContent>
                 </FormControl>

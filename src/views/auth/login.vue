@@ -1,10 +1,11 @@
 <template>
   <div class="flex w-full">
-    <div id="left-side" class="bg-muted/40 h-screen w-full flex flex-col items-center justify-center gap-3">
-        <p class="text-5xl font-semibold">SIGIPROF</p>
-        <p class="text-md font-extralight">
-            Sistema de Gestión de Información Profesional Docente
-        </p>
+    <div
+      id="left-side"
+      class="bg-muted/40 h-screen w-full flex flex-col items-center justify-center gap-3"
+    >
+      <p class="text-5xl font-semibold">SIGIPROF</p>
+      <p class="text-md font-extralight">Sistema de Gestión de Información Profesional Docente</p>
     </div>
     <div id="right-side" class="h-sreen w-full flex justify-center items-center">
       <div class="w-72 flex flex-col gap-4">
