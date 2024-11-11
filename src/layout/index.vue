@@ -79,19 +79,43 @@
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-    <DropdownMenu>
-      <DropdownMenuTrigger class="w-8 h-8 rounded-full bg-gray-400">
-        <img src="@/assets/new-uabcs-logo.png">
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Mi perfil</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <!-- <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem> -->
-        <DropdownMenuItem @click="logout">Cerrar Sesión</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div class="flex gap-4 justify-center items-center">
+      <div>
+        <DropdownMenu class="border-0">
+          <DropdownMenuTrigger as-child>
+            <Button variant="primary">
+              <Icon icon="radix-icons:moon" class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Icon icon="radix-icons:sun" class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span class="sr-only">Toggle theme</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem @click="mode = 'light'">
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem @click="mode = 'dark'">
+              Dark
+            </DropdownMenuItem>
+            <DropdownMenuItem @click="mode = 'auto'">
+              System
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger class="w-8 h-8 rounded-full bg-gray-400">
+          <img src="@/assets/new-uabcs-logo.png">
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Mi perfil</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <!-- <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>Team</DropdownMenuItem> -->
+          <DropdownMenuItem @click="logout">Cerrar Sesión</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   </div>
   <router-view />
 </template>
@@ -106,19 +130,16 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Icon } from '@iconify/vue'
+import { useColorMode } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import axios from '@/lib/axios'
 import { toast } from 'vue-sonner'
 
 const router = useRouter()
+const mode = useColorMode()
 const logout = async () =>{
   try{
     const res = await axios.post('/logout')
