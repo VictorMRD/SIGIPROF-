@@ -82,7 +82,7 @@
         <Card>
           <CardHeader>
             <CardTitle>Lista de pendientes</CardTitle>
-            <CardDescription>Mira que están haciendo tus compañeros</CardDescription>
+            <CardDescription>Visualiza tus pendientes de manera detallada</CardDescription>
           </CardHeader>
           <CardContent class="space-y-2 overflow-y-scroll max-h-80">
             <div v-for="toDo in toDoList" :key="toDo.id" class="flex border-2 p-2 rounded-md">
