@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8">
+  <div class="py-8 max-w-6xl mx-auto">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
@@ -13,7 +13,7 @@
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-    <div class="py-4 flex flex-col gap-4">
+    <div class="flex flex-col gap-4">
       <div class="flex justify-between">
         <p class="text-3xl font-semibold">Capacitaciones</p>
         <RouterLink :to="`/capacitaciones/crear`">

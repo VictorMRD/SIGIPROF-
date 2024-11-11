@@ -80,28 +80,27 @@
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
-            <CardTitle>Lista de pendientes</CardTitle>
-            <CardDescription>Visualiza tus pendientes de manera detallada</CardDescription>
-          </CardHeader>
-          <CardContent class="space-y-2 overflow-y-scroll max-h-80">
-            <div v-for="toDo in toDoList" :key="toDo.id" class="flex border-2 p-2 rounded-md">
-              <div class="flex-1 flex flex-col justify-center">
-                <h3 class="text-sm">{{ toDo.user.name }}</h3>
-                <p class="text-xs text-muted-foreground">{{ toDo.user.email }}</p>
-              </div>
-              <div class="flex justify-center items-center gap-3">
-                <div class="flex-1 flex flex-col justify-center items-end">
-                  <h3 class="text-sm">{{ toDo.description }}</h3>
-                  <p class="text-xs text-muted-foreground">{{ toDo.date }}</p>
-                </div>
-                <Checkbox id="terms" />
-              </div>
-            </div>
-          </CardContent>
+            <CardHeader>
+                <CardTitle>Lista de pendientes</CardTitle>
+                <CardDescription>Visualiza tus pendientes de manera detallada</CardDescription>
+            </CardHeader>
+            <CardContent class="space-y-2 overflow-y-scroll max-h-80">
+                <Card v-for="toDo in toDoList" :key="toDo.id" class="flex p-2">
+                    <div class="flex-1 flex flex-col justify-center">
+                        <h3 class="text-sm">{{ toDo.user.name }}</h3>
+                        <p class="text-xs text-muted-foreground">{{ toDo.user.email }}</p>
+                    </div>
+                    <div class="flex justify-center items-center gap-3">
+                        <div class="flex-1 flex flex-col justify-center items-end">
+                            <h3 class="text-sm">{{ toDo.description }}</h3>
+                            <p class="text-xs text-muted-foreground">{{ toDo.date }}</p>
+                        </div>
+                        <Checkbox id="terms" />
+                    </div>
+                </Card>
+            </CardContent>
         </Card>
       </div>
-      <div class="h-10"></div>
     </div>
   </div>
 </template>

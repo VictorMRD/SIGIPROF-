@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8">
+  <div class="py-8 max-w-6xl mx-auto">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
@@ -20,18 +20,6 @@
           <Button class="py-0 px-10">Nuevo</Button>
         </RouterLink>
       </div>
-      <!--       <div>
-        <Alert class="w-fit">
-          <InfoCircledIcon class="h-4 w-4" />
-          <AlertTitle
-            >Este año has realizado un total de {{ totalDocuments }} publicaciones</AlertTitle
-          >
-          <AlertDescription>
-            De las cuáles 2 han sido investigaciones en el ámbito educativo <br />
-            y 1 en el científico.
-          </AlertDescription>
-        </Alert>
-      </div> -->
       <div class="flex flex-col gap-4">
         <Input
           placeholder="Buscar publicación..."
@@ -39,154 +27,141 @@
           class="w-1/3"
           @input="filterData($event.target.value)"
         />
-        <div class="flex flex-col gap-2">
-          <div class="flex justify-between text-xs font-semibold text-gray-400">
-            <p>Total de documentos: {{ totalDocuments }}</p>
-            <p>Pagina: {{ actualPage }} de {{ totalPages }}</p>
-          </div>
-          <div id="cards" class="flex flex-col gap-4">
-            <div
-              id="card-object"
-              class="gap-2 flex flex-col h-fit w-full rounded-md border-2 border-gray-100 border-solid shadow-sm bg-gray-50"
-              v-for="document in paginatedInformation"
-              :key="document.id"
+        <div class="flex justify-between text-sm text-muted-foreground">
+          <p>Total de documentos: {{ totalDocuments }}</p>
+          <p>Pagina: {{ actualPage }} de {{ totalPages }}</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <Card v-for="document in paginatedInformation" :key="document.id">
+            <CardHeader
+              class="border-b border-border bg-muted/40 flex flex-row items-center gap-5 h-20 py-0 px-4"
             >
-              <div class="flex items-center gap-2 bg-white p-4 border-b-2 border-gray-100">
-                <div
-                  class="text-2xl font-bold bg-gray-200 px-4 py-2 rounded-full flex items-center"
-                >
-                  {{ document.titulo ? document.titulo[0] : 'Undefined' }}
-                </div>
-                <div class="flex flex-col w-full">
-                  <p class="text-lg font-semibold">
-                    {{ document.titulo ? document.titulo : 'Undefined' }}
-                  </p>
-                  <span class="text-gray-600">{{
-                    document.nombre_revista ? document.nombre_revista : 'Undefined'
-                  }}</span>
-                </div>
-                <div class="w-1/4 text-nowrap flex justify-end items-center px-10 gap-2">
-                  <CalendarIcon />
-                  <span class="text-gray-600">{{
-                    document.anio_publicacion ? document.anio_publicacion : 'Undefined'
-                  }}</span>
-                </div>
-              </div>
-
-              <div class="flex justify-between w-3/4 gap-2 p-4">
-                <div class="flex flex-col justify-between gap-1">
-                  <p>
-                    <span class="font-semibold">DOI</span><br />
-                    <span class="text-gray-600">
-                      {{ document.doi !== undefined ? document.doi : 'Undefined' }}
-                    </span>
-                  </p>
-                  <p>
-                    <span class="font-semibold">Año de publicación</span><br />
-                    <span class="text-gray-600">{{
-                      document.anio_publicacion !== undefined
-                        ? document.anio_publicacion
-                        : 'Undefined'
-                    }}</span>
-                  </p>
-                </div>
-                <div class="flex flex-col justify-between gap-1">
-                  <p class="text-nowrap w-40 overflow-hidden">
-                    <span class="font-semibold">ISSN Electronico</span><br />
-                    <span class="text-gray-600">{{
-                      document.issn_electronico ? document.issn_electronico : 'Undefined'
-                    }}</span>
-                  </p>
-                  <p class="text-nowrap w-40 overflow-hidden">
-                    <span class="font-semibold">ISSN Electronico</span><br />
-                    <span class="text-gray-600">{{
-                      document.issn_impreso ? document.issn_impreso : 'Undefined'
-                    }}</span>
-                  </p>
-                </div>
-                <div class="flex flex-col justify-between gap-1">
-                  <p>
-                    <span class="font-semibold">Estado</span><br />
-                    <span class="text-gray-600">{{
-                      document.estatus ? document.estatus.join(', ') : 'Undefined'
-                    }}</span>
-                  </p>
-                </div>
-              </div>
               <div
-                class="flex justify-end gap-3 select-none p-4 bg-white border-t-2 border-gray-100"
+                class="text-2xl font-semibold bg-muted-foreground/20 h-12 w-12 rounded-full flex items-center justify-center"
               >
-                <RouterLink
-                  :to="`/publicaciones/${document.id}/download`"
-                  class="flex flex-col justify-center items-center"
-                >
-                  <Button size="sm" class="flex gap-1 items-center">
-                    <DownloadIcon />
-                  </Button>
-                </RouterLink>
-                <RouterLink
-                  :to="`/publicaciones/${document.id}/agregar-autores`"
-                  class="flex flex-col justify-center items-center"
-                >
-                  <Button size="sm" class="flex gap-1 items-center">
-                    <PersonIcon />
-                  </Button>
-                </RouterLink>
-                <RouterLink
-                  :to="`/publicaciones/${document.id}/visualizar`"
-                  class="flex flex-col justify-center items-center"
-                >
-                  <Button size="sm" class="flex gap-1 items-center">
-                    <EyeOpenIcon />
-                  </Button>
-                </RouterLink>
-                <RouterLink
-                  :to="`/publicaciones/${document.id}/editar`"
-                  class="flex flex-col justify-center items-center"
-                >
-                  <Button size="sm" class="flex gap-1 items-center">
-                    <Pencil2Icon />
-                  </Button>
-                </RouterLink>
-                <AlertDialog>
-                  <AlertDialogTrigger>
-                    <Button
-                      size="sm"
-                      class="flex gap-1 items-center bg-red-500 text-white hover:text-white hover:bg-red-400"
-                    >
-                      <TrashIcon />
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle
-                        >¿Estas completamente seguro de que quieres eliminar este elemento?
-                        <p class="text-sm font-normal">
-                          Esta acción no puede deshacerse, y una vez eliminada el registro no podrá
-                          ser recuperador de ninguna manera, afectando los registros de otras tablas
-                          y la integridad de las mismas.
-                        </p>
-                      </AlertDialogTitle>
-                      <AlertDialogDescription class="h-60 overflow-auto">
-                        <div v-for="(value, key) in document" :key="key" class="p-1">
-                          <p>
-                            <span class="capitalize text-gray-600 font-semibold">{{ key }}</span
-                            >: {{ value ? value : 'Undefined' }}
-                          </p>
-                        </div>
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                      <AlertDialogAction @click="deleteElement(document.id)">
-                        Confirmar
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                {{ document.titulo ? document.titulo[0] : 'Undefined' }}
               </div>
-            </div>
-          </div>
+              <div class="flex-1">
+                <p>
+                  {{ document.titulo ? document.titulo : 'Undefined' }}
+                </p>
+                <span class="text-sm text-muted-foreground">
+                  {{ document.nombre_revista ? document.nombre_revista : 'Undefined' }}
+                </span>
+              </div>
+              <div class="text-nowrap flex justify-end items-center gap-2">
+                <CalendarIcon />
+                <span class="text-muted-foreground text-sm">
+                  {{ document.anio_publicacion ? document.anio_publicacion : 'Undefined' }}
+                </span>
+              </div>
+            </CardHeader>
+            <CardContent class="py-10">
+              <div class="grid grid-cols-3 gap-4">
+                <p>
+                  <span class="font-semibold">DOI</span><br />
+                  <span class="text-muted-foreground/80">
+                    {{ document.doi !== undefined ? document.doi : 'Undefined' }}
+                  </span>
+                </p>
+                <p>
+                  <span class="font-semibold">Año de publicación</span><br />
+                  <span class="text-muted-foreground/80">{{
+                    document.anio_publicacion !== undefined
+                      ? document.anio_publicacion
+                      : 'Undefined'
+                  }}</span>
+                </p>
+                <p class="text-nowrap w-40 overflow-hidden">
+                  <span class="font-semibold">ISSN Electronico</span><br />
+                  <span class="text-muted-foreground/80">{{
+                    document.issn_electronico ? document.issn_electronico : 'Undefined'
+                  }}</span>
+                </p>
+                <p class="text-nowrap w-40 overflow-hidden">
+                  <span class="font-semibold">ISSN Electronico</span><br />
+                  <span class="text-muted-foreground/80">{{
+                    document.issn_impreso ? document.issn_impreso : 'Undefined'
+                  }}</span>
+                </p>
+                <p>
+                  <span class="font-semibold">Estado</span><br />
+                  <span class="text-muted-foreground/80">{{
+                    document.estatus ? document.estatus.join(', ') : 'Undefined'
+                  }}</span>
+                </p>
+              </div>
+            </CardContent>
+            <CardFooter
+              class="border-t border-border bg-muted/40 flex justify-end gap-3 items-center py-0 px-4 h-20"
+            >
+              <RouterLink
+                :to="`/publicaciones/${document.id}/download`"
+                class="flex flex-col justify-center items-center"
+              >
+                <Button size="icon" variant="outline">
+                  <DownloadIcon />
+                </Button>
+              </RouterLink>
+              <RouterLink
+                :to="`/publicaciones/${document.id}/agregar-autores`"
+                class="flex flex-col justify-center items-center"
+              >
+                <Button size="icon" variant="outline">
+                  <PersonIcon />
+                </Button>
+              </RouterLink>
+              <RouterLink
+                :to="`/publicaciones/${document.id}/visualizar`"
+                class="flex flex-col justify-center items-center"
+              >
+                <Button size="icon" variant="outline">
+                  <EyeOpenIcon />
+                </Button>
+              </RouterLink>
+              <RouterLink
+                :to="`/publicaciones/${document.id}/editar`"
+                class="flex flex-col justify-center items-center"
+              >
+                <Button size="icon" variant="outline">
+                  <Pencil2Icon />
+                </Button>
+              </RouterLink>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <Button size="icon" variant="destructive">
+                    <TrashIcon />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle
+                      >¿Estas completamente seguro de que quieres eliminar este elemento?
+                      <p class="text-sm font-normal">
+                        Esta acción no puede deshacerse, y una vez eliminada el registro no podrá
+                        ser recuperador de ninguna manera, afectando los registros de otras tablas y
+                        la integridad de las mismas.
+                      </p>
+                    </AlertDialogTitle>
+                    <AlertDialogDescription class="h-60 overflow-auto">
+                      <div v-for="(value, key) in document" :key="key" class="p-1">
+                        <p>
+                          <span class="capitalize text-gray-600 font-semibold">{{ key }}</span
+                          >: {{ value ? value : 'Undefined' }}
+                        </p>
+                      </div>
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction @click="deleteElement(document.id)">
+                      Confirmar
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </CardFooter>
+          </Card>
         </div>
       </div>
       <Pagination
@@ -268,6 +243,7 @@ import { Input } from '@/components/ui/input'
 import { ref } from 'vue'
 import { toast } from 'vue-sonner'
 import axios from '@/lib/axios'
+import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card'
 
 /* Fake data */
 /* Aqui estaremos haciendo las llamadas a la API */

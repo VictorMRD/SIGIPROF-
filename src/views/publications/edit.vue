@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8 space-y-4 max-w-4xl mx-auto">
+  <div class="py-8 space-y-4 max-w-6xl mx-auto">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>

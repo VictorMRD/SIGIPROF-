@@ -1,47 +1,30 @@
 <template>
   <div class="flex w-full">
-    <div id="left-side" class="bg-black h-screen w-full flex flex-col justify-between">
-      <div class="flex flex-col items-center justify-between h-full py-10">
-        <!-- <img
-          class="w-72"
-          src="https://geekflare.com/wp-content/uploads/2023/03/img-placeholder.png"
-        /> -->
-        <div class="flex flex-col items-center gap-1">
-          <p class="text-white text-5xl font-semibold">SIGIPROF</p>
-          <p class="text-white text-md italic">
+    <div id="left-side" class="bg-muted/40 h-screen w-full flex flex-col items-center justify-center gap-3">
+        <p class="text-5xl font-semibold">SIGIPROF</p>
+        <p class="text-md font-extralight">
             Sistema de Gestión de Información Profesional Docente
-          </p>
-        </div>
-      </div>
-      <div class="h-full flex flex-col items-center justify-end py-2">
-        <p class="text-white font-thin italic">
-          Sistema creado por el departamento IDS de la UABCS
         </p>
-        <p class="text-white font-thin italic font-siz">Derechos reservados.</p>
-      </div>
     </div>
-    <div id="right-side" class="bg-white h-sreen w-full flex justify-center items-center">
+    <div id="right-side" class="h-sreen w-full flex justify-center items-center">
       <div class="w-72 flex flex-col gap-4">
-        <div class="flex flex-col justify-center items-center">
+        <div class="text-center space-y-2">
           <p class="font-semibold text-3xl">Inicia Sesión</p>
-          <p class="text-xs text-center text-gray-500 text-nowrap">
+          <p class="text-sm text-center text-muted-foreground text-nowrap">
             Ingresa tus credenciales para entrar al sistema
           </p>
         </div>
         <form @submit="onSubmit" class="flex flex-col gap-2">
           <FormField v-slot="{ componentField }" name="email">
             <FormItem>
-              <!-- <FormLabel>Correo Electronico</FormLabel> -->
               <FormControl>
                 <Input type="email" placeholder="Correo Electronico" v-bind="componentField" />
               </FormControl>
-              <!-- <FormDescription> Aquí va el correo utilizado en tu registro. </FormDescription> -->
               <FormMessage />
             </FormItem>
           </FormField>
           <FormField v-slot="{ componentField }" name="password">
             <FormItem>
-              <!-- <FormLabel>Contraseña</FormLabel> -->
               <FormControl>
                 <Input type="password" placeholder="Contraseña" v-bind="componentField" />
               </FormControl>
@@ -50,7 +33,7 @@
           </FormField>
           <Button type="submit"> Submit </Button>
         </form>
-        <p class="text-xs text-center text-gray-500">
+        <p class="text-xs text-center text-muted-foreground">
           Al iniciar sesión acepta todos los terminos y condiciones acerca del servicio y la
           privacidad del mismo.
         </p>
@@ -112,9 +95,9 @@ const onSubmit = form.handleSubmit(async (values) => {
 </script>
 
 <style scope>
-#left-side {
+/* #left-side {
   background-image: url('@/assets/uabcs-modified.jpeg');
   background-position: center;
   background-size: cover;
-}
+} */
 </style>

@@ -1,6 +1,5 @@
 <template>
-  <!-- <div class="p-8 space-y-4 bg-[#f4f4f566]"> -->
-  <div class="p-8 space-y-4">
+  <div class="max-w-6xl mx-auto space-y-4 py-8">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
@@ -102,13 +101,13 @@
                   </span>
                   <span
                     v-else-if="book.estado_publicacion === 'RECHAZADO'"
-                    class="rounded p-1 text-xs text-red-800 bg-red-100"
+                    class="rounded p-1 text-xs text-red-800 bg-red-100 dark:bg-red-950 dark:text-red-900"
                   >
                     {{ formatEstadoPublicacion(book.estado_publicacion) }}
                   </span>
                   <span
                     v-else-if="book.estado_publicacion === 'ATRASADO'"
-                    class="rounded p-1 text-xs text-orange-800 bg-orange-100"
+                    class="rounded p-1 text-xs text-orange-800 bg-orange-100 dark:bg-red-950 dark:text-red-400"
                   >
                     {{ formatEstadoPublicacion(book.estado_publicacion) }}
                   </span>
@@ -124,12 +123,12 @@
                   >
                     {{ formatEstadoPublicacion(book.estado_publicacion) }}
                   </span>
-                  <span v-else class="rounded p-1 text-xs text-yellow-800 bg-yellow-100">
+                  <span v-else class="rounded p-1 text-xs text-yellow-800 bg-yellow-100 dark:bg-yellow-950 dark:text-yellow-600">
                     {{ formatEstadoPublicacion(book.estado_publicacion) }}
                   </span>
                 </div>
               </div>
-              <div class="flex justify-between bg-zinc-100 text-zinc-500 px-3 py-1 text-xs">
+              <div class="flex justify-between bg-muted/50 text-zinc-500 px-3 py-1 text-xs">
                 <span>ISBN</span>
                 <span>{{ formatISBN(book.isbn) }}</span>
               </div>
