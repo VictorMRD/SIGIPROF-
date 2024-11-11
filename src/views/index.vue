@@ -63,14 +63,18 @@
         <Card>
             <CardHeader>
                 <CardTitle>Actividad Reciente</CardTitle>
-                <CardDescription>Placeholder</CardDescription>
+                <CardDescription>Mira que están haciendo tus compañeros</CardDescription>
             </CardHeader>
-            <CardContent>
-                <div class="flex gap-4">
-                    <img src="https://i.pravatar.cc/40" class="rounded-full w-12 h-12">
+            <CardContent class="space-y-7">
+                <div v-for="activity in activities" :key="activity.id" class="flex gap-4">
+                    <img :src="activity.user.image" class="rounded-full w-10 h-10">
                     <div class="flex-1 flex flex-col justify-center">
-                        <h3 class="text-sm">Olivia Martin</h3>
-                        <p class="text-xs text-muted-foreground">olivia.martin@email.com</p>
+                        <h3 class="text-sm">{{ activity.user.name }}</h3>
+                        <p class="text-xs text-muted-foreground">{{ activity.user.email }}</p>
+                    </div>
+                    <div class="flex-1 flex flex-col justify-center items-end">
+                        <h3 class="text-sm">{{ activity.name }}</h3>
+                        <p class="text-xs text-muted-foreground">{{ activity.date }}</p>
                     </div>
                 </div>
             </CardContent>
@@ -104,4 +108,59 @@ const getUserWorkData = async () => {
 }
 
 getUserWorkData()
+
+
+const activities = [
+  {
+    id: 1,
+    user: {
+      name: 'Alma Díaz',
+      email: 'alma.diaz@email.com',
+      image: 'https://avatar.iran.liara.run/public/55',
+    },
+    name: "Ha creado un artículo",
+    date: "Domingo, 10 de Noviembre"
+  },
+  {
+    id: 2,
+    user: {
+      name: 'Victor Martín',
+      email: 'victor.martin@email.com',
+      image: 'https://avatar.iran.liara.run/public/39',
+    },
+    name: "Ha asistido a un curso",
+    date: "Viernes, 8 de Noviembre"
+  },
+  {
+    id: 3,
+    user: {
+      name: 'Sarah Agundez',
+      email: 'srh.agundez@email.com',
+      image: 'https://avatar.iran.liara.run/public/80',
+    },
+    name: "Ha creado una publicación",
+    date: "Miércoles, 6 de Noviembre"
+  },
+  {
+    id: 4,
+    user: {
+      name: 'Jesus Cardenas',
+      email: 'jesus.cardenas@email.com',
+      image: 'https://avatar.iran.liara.run/public/44',
+    },
+    name: "Ha creado un libro",
+    date: "Martes, 5 de Noviembre"
+  },
+  {
+    id: 5,
+    user: {
+      name: 'Cinthya Flores',
+      email: 'cinth.flores@email.com',
+      image: 'https://avatar.iran.liara.run/public/81',
+    },
+    name: "Ha asistido a una capacitación",
+    date: "Domingo, 3 de Noviembre"
+  },
+]
+
 </script>
