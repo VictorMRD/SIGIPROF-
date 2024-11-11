@@ -50,24 +50,24 @@
                   </div>
                   <div className="flex items-center space-x-2">
                     <Avatar className="w-6 h-6 border-2 border-white dark:border-gray-950">
-                      <img
+                      <!-- <img
                         src="https://puppytoob.com/wp-content/uploads/2017/03/Black-Pug.jpg"
                         alt="User 1"
-                      />
+                      /> -->
                       <AvatarFallback>JD</AvatarFallback>
                     </Avatar>
                     <Avatar className="w-6 h-6 border-2 border-white dark:border-gray-950">
-                      <img
+                      <!-- <img
                         src="https://puppytoob.com/wp-content/uploads/2017/03/Black-Pug.jpg"
                         alt="User 2"
-                      />
+                      /> -->
                       <AvatarFallback>SM</AvatarFallback>
                     </Avatar>
                     <Avatar className="w-6 h-6 border-2 border-white dark:border-gray-950">
-                      <img
+                      <!-- <img
                         src="https://puppytoob.com/wp-content/uploads/2017/03/Black-Pug.jpg"
                         alt="User 3"
-                      />
+                      /> -->
                       <AvatarFallback>KL</AvatarFallback>
                     </Avatar>
                   </div>
