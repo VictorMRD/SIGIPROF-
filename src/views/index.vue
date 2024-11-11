@@ -3,7 +3,7 @@
     <div class="w-full h-56 flex items-center justify-center">
       <img src="@/assets/uabcs-modified.jpeg" alt="Image" class="w-full h-full object-cover" />
       <div class="absolute text-white flex flex-col justify-center items-center">
-        <p class="text-5xl font-bold">¡Bienvenido, {user}!</p>
+        <p class="text-5xl font-bold">¡Bienvenido, Jorge!</p>
         <p class="italic mt-3">Sistema de Gestion de Información Profesional Docente</p>
       </div>
     </div>
