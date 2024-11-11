@@ -1,0 +1,23 @@
+export enum AuthorRole {
+  ASESOR_PRINCIPAL = 'Asesor principal',
+  AUTOR = 'Autor',
+  AUTOR_PARA_CORRESPONDENCIA = 'Autor para correspondencia',
+  AUTOR_PRINCIPAL = 'Autor principal',
+  AUTOR_UNICO = 'Autor único',
+  AUTOR_DE_CORRESPONDENCIA = 'Autor de correspondencia',
+  CO_AUTOR = 'Co-autor',
+  CO_COORDINADOR = 'Co-coordinador',
+  CO_INVENTOR = 'Co-inventor',
+  COLABORADOR = 'Colaborador',
+  COMPILADOR = 'Compilador',
+  COORDINADOR = 'Coordinador',
+  DIRECTOR = 'Director',
+  DIRECTOR_Y_O_ASESOR_PRINCIPAL = 'Director y/o asesor principal',
+  EDITOR = 'Editor',
+  ESTUDIANTE_AUTOR_PRINCIPAL = 'Estudiante es el autor principal',
+  INVENTOR = 'Inventor',
+  LIDER = 'Líder',
+  PARTICIPANTE = 'Participante',
+  TECNICO = 'Técnico',
+  TRADUCTOR = 'Traductor'
+}

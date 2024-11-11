@@ -1,19 +1,19 @@
 <script setup>
-import { computed } from 'vue'
-import TableRow from './TableRow.vue'
-import TableCell from './TableCell.vue'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
+import { computed } from 'vue';
+import TableCell from './TableCell.vue';
+import TableRow from './TableRow.vue';
 
 const props = defineProps({
   class: { type: null, required: false },
-  colspan: { type: Number, required: false, default: 1 }
-})
+  colspan: { type: Number, required: false, default: 1 },
+});
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+  const { class: _, ...delegated } = props;
 
-  return delegated
-})
+  return delegated;
+});
 </script>
 
 <template>
@@ -21,8 +21,8 @@ const delegatedProps = computed(() => {
     <TableCell
       :class="
         cn(
-          'p-4 whitespace-nowrap align-middle text-sm text-slate-950 dark:text-slate-50',
-          props.class
+          'p-4 whitespace-nowrap align-middle text-sm text-foreground',
+          props.class,
         )
       "
       v-bind="delegatedProps"

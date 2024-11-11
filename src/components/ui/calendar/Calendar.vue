@@ -38,6 +38,8 @@ const props = defineProps({
   isDateDisabled: { type: Function, required: false },
   isDateUnavailable: { type: Function, required: false },
   dir: { type: String, required: false },
+  nextPage: { type: Function, required: false },
+  prevPage: { type: Function, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
   class: { type: null, required: false },

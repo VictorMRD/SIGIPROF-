@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { RangeCalendarGridRow, useForwardProps } from "radix-vue";
+import { AccordionContent } from "radix-vue";
 import { cn } from "@/lib/utils";
 
 const props = defineProps({
@@ -14,15 +14,15 @@ const delegatedProps = computed(() => {
 
   return delegated;
 });
-
-const forwardedProps = useForwardProps(delegatedProps);
 </script>
 
 <template>
-  <RangeCalendarGridRow
-    :class="cn('flex mt-2 w-full', props.class)"
-    v-bind="forwardedProps"
+  <AccordionContent
+    v-bind="delegatedProps"
+    class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
   >
-    <slot />
-  </RangeCalendarGridRow>
+    <div :class="cn('pb-4 pt-0', props.class)">
+      <slot />
+    </div>
+  </AccordionContent>
 </template>

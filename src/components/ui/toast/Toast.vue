@@ -1,8 +1,8 @@
 <script setup>
-import { computed } from "vue";
-import { ToastRoot, useForwardPropsEmits } from "radix-vue";
-import { toastVariants } from ".";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { ToastRoot, useForwardPropsEmits } from 'radix-vue';
+import { computed } from 'vue';
+import { toastVariants } from '.';
 
 const props = defineProps({
   class: { type: null, required: false },
@@ -18,14 +18,14 @@ const props = defineProps({
 });
 
 const emits = defineEmits([
-  "escapeKeyDown",
-  "pause",
-  "resume",
-  "swipeStart",
-  "swipeMove",
-  "swipeCancel",
-  "swipeEnd",
-  "update:open",
+  'escapeKeyDown',
+  'pause',
+  'resume',
+  'swipeStart',
+  'swipeMove',
+  'swipeCancel',
+  'swipeEnd',
+  'update:open',
 ]);
 
 const delegatedProps = computed(() => {

@@ -1,5 +1,108 @@
+<script setup lang="ts">
+import { Card } from '@/components/ui/card'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
+} from '@/components/ui/breadcrumb'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
+import AuthorForm from '@/components/AuthorForm.vue'
+import AuthorTable from '@/components/AuthorTable.vue'
+import { toast } from 'vue-sonner'
+
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import { z } from '@/lib/zod'
+import { ref } from 'vue'
+import axios from "@/lib/axios"
+
+import { BookStatus } from "@/lib/enums/BookStatus"
+import { AuthorRole } from "@/lib/enums/AuthorRole"
+import { Country as countries } from '@/lib/enums/Country'
+import { Language as languages } from '@/lib/enums/Language'
+
+// Define the form schema
+const formSchema = toTypedSchema(
+  z.object({
+    isbn: z.string().length(13),
+    doi: z.string().min(2),
+    titulo: z.string(),
+    anio_publicacion: z.preprocess((value) => Number(value), z.number().min(1900).max(2100)),
+    editorial: z.string(),
+    pais: z.string().refine((value) => countries.some((country) => country.country === value), {
+      message: 'País no válido'
+    }),
+    idioma: z.string().refine((value) => languages.some((language) => language.code === value), {
+      message: 'Idioma no válido'
+    }),
+    estado_publicacion: z.string(),
+    rol_usuario_creador: z.string()
+  })
+)
+
+// Create the form instance
+const form = useForm({
+  validationSchema: formSchema
+})
+
+// Calculate the years for the date picker
+const currentYear = new Date().getFullYear()
+let years = Array.from({ length: currentYear - 1899 }, (_, index) => currentYear - index)
+
+// An additional form is used to allow adding multiple authors as needed, so an additional schema, `autorFormSchema`,
+// is defined to validate each author's data. A buffer array, `autores`, is also created to store
+// the details of all added authors.
+
+const authors = ref([])
+
+const addAuthor = (author) => {
+  author.id = Date.now()
+  authors.value = [...authors.value, author]
+}
+
+const removeAuthor = (id) => {
+  authors.value = authors.value.filter(author => author.id !== id)
+}
+
+// This function handles the form submission, it makes an axios request to the backend
+// and handles the backend validation issues if there are any
+const handleSubmit = form.handleSubmit(
+  async (req) => {
+    if (authors.value.length > 0) {
+      req.autores = authors.value
+    }
+
+    try {
+      const res = await axios.post('/api/v1/user/books', req)
+      console.log(res);
+    } catch (error) {
+      console.error(error)
+      console.error(error.response.data);
+      for (const [err, msj] of Object.entries(error.response.data.errors)) {
+        toast.error('Error: ' + msj[0])
+      }
+    }
+  },
+)
+</script>
+
 <template>
-  <div class="p-8 space-y-4">
+  <div class="p-8 space-y-4 max-w-4xl mx-auto">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
@@ -20,309 +123,174 @@
       </BreadcrumbList>
     </Breadcrumb>
     <h1 class="text-3xl font-semibold">Crear un libro</h1>
-    <form @submit="onSubmit" class="space-y-3">
-      <div class="gap-4 grid md:grid-cols-3">
-        <div class="border rounded-md p-4 col-span-2">
-          <div>
-            <h2 class="text-lg font-semibold">Información general</h2>
-            <p class="text-zinc-500 text-sm">Llena los siguientes campos para crear un libro</p>
-            <Separator class="mt-2 mb-3" />
-          </div>
-          <FormField v-slot="{ componentField }" name="titulo">
+    <form @submit="handleSubmit" class="space-y-5">
+      <Card class="bg-background p-4 col-span-2 space-y-4">
+        <div>
+          <h2 class="text-lg font-semibold">Información general</h2>
+          <p class="text-muted-foreground text-sm">
+            Llena los siguientes campos para crear un libro
+          </p>
+          <Separator class="mt-2 mb-3" />
+        </div>
+        <FormField v-slot="{ componentField }" name="titulo">
+          <FormItem>
+            <FormLabel>Título*</FormLabel>
+            <FormControl>
+              <Input type="text" v-bind="componentField" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <FormField v-slot="{ componentField }" name="isbn">
             <FormItem>
-              <FormLabel>Título</FormLabel>
+              <FormLabel>ISBN*</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="El principito" v-bind="componentField" />
+                <Input type="text" v-bind="componentField" />
               </FormControl>
-              <FormDescription> Título del libro a crear </FormDescription>
               <FormMessage />
             </FormItem>
           </FormField>
-          <div class="grid gap-4 sm:grid-cols-2">
-            <FormField v-slot="{ componentField }" name="isbn">
-              <FormItem>
-                <FormLabel>ISBN</FormLabel>
+          <FormField v-slot="{ componentField }" name="doi">
+            <FormItem>
+              <FormLabel>DOI*</FormLabel>
+              <FormControl>
+                <Input type="text" v-bind="componentField" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+        </div>
+        <div class="grid gap-4 md:grid-cols-3">
+          <FormField v-slot="{ componentField }" name="anio_publicacion">
+            <FormItem>
+              <FormLabel>Año de publicación*</FormLabel>
+              <Select v-bind="componentField">
                 <FormControl>
-                  <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Año de publicación</SelectLabel>
+                      <SelectItem v-for="year in years" :value="year.toString()" :key="year">{{
+                        year
+                        }}</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
                 </FormControl>
-                <FormDescription> ISBN del libro a crear </FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="doi">
-              <FormItem>
-                <FormLabel>DOI</FormLabel>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField }" name="pais">
+            <FormItem>
+              <FormLabel>País*</FormLabel>
+              <Select v-bind="componentField">
                 <FormControl>
-                  <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>País</SelectLabel>
+                      <SelectItem v-for="country in countries" :value="country.country" :key="country.iso_code">{{
+                        country.country }}
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
                 </FormControl>
-                <FormDescription> DOI del libro a crear </FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-          </div>
-          <div class="grid gap-4 md:grid-cols-3">
-            <FormField v-slot="{ componentField }" name="ano_publication">
-              <FormItem>
-                <FormLabel>Fecha de publicación</FormLabel>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField }" name="idioma">
+            <FormItem>
+              <FormLabel>Idioma*</FormLabel>
+              <Select v-bind="componentField">
                 <FormControl>
-                  <div>
-                    <Popover>
-                      <PopoverTrigger as-child>
-                        <Button
-                          variant="outline"
-                          class="w-full justify-start text-left font-normal"
-                        >
-                          <CalendarIcon class="mr-2 h-4 w-4" />
-                          {{
-                            value
-                              ? df.format(value.toDate(getLocalTimeZone()))
-                              : 'Selecciona una fecha'
-                          }}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent class="w-auto p-0">
-                        <Calendar v-bind="componentField" initial-focus />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Idioma</SelectLabel>
+                      <SelectItem v-for="language in languages" :value="language.code" :key="language.code">{{
+                        language.name }}
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
                 </FormControl>
-                <FormDescription> Fecha en que el libro fue publicado </FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="pais">
-              <FormItem>
-                <FormLabel>País</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="México" v-bind="componentField" />
-                </FormControl>
-                <FormDescription> País donde el libro fue publicado </FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-            <FormField v-slot="{ componentField }" name="idioma">
-              <FormItem>
-                <FormLabel>Idioma</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="Español" v-bind="componentField" />
-                </FormControl>
-                <FormDescription> Idioma </FormDescription>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-          </div>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
           <FormField v-slot="{ componentField }" name="editorial">
             <FormItem>
-              <FormLabel>Editorial</FormLabel>
+              <FormLabel>Editorial*</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Editorial de muestra" v-bind="componentField" />
+                <Input type="text" v-bind="componentField" />
               </FormControl>
-              <FormDescription> La editorial de tu libro </FormDescription>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField }" name="rol_usuario_creador">
+            <FormItem>
+              <FormLabel>Rol*</FormLabel>
+              <Select v-bind="componentField">
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                        <SelectItem v-for="[key, value] of Object.entries(AuthorRole)" :value="key" :key="key">{{value}}</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </FormControl>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField }" name="estado_publicacion">
+            <FormItem>
+              <FormLabel>Estado*</FormLabel>
+              <Select v-bind="componentField">
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                    <SelectItem v-for="[key, value] of Object.entries(BookStatus)" :value="key" :key="key">{{value}}</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </FormControl>
+              </Select>
               <FormMessage />
             </FormItem>
           </FormField>
         </div>
-        <div class="border rounded-md p-4 col-span-1">
-          <div>
-            <h2 class="text-lg font-semibold">Traducción</h2>
-            <p class="text-zinc-500 text-sm">
-              Si el libro es una traducción, llena los siguientes campos
-            </p>
-            <Separator class="mt-2 mb-3" />
-          </div>
-          <FormField v-slot="{ componentField }" name="titulo_traduccion">
-            <FormItem>
-              <FormLabel>Título</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="El principito" />
-              </FormControl>
-              <FormDescription> Título de la traducción </FormDescription>
-              <FormMessage />
-            </FormItem>
-          </FormField>
-          <FormField v-slot="{ componentField }" name="isbn_traduccion">
-            <FormItem>
-              <FormLabel>ISBN</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
-              </FormControl>
-              <FormDescription> ISBN de la traducción </FormDescription>
-              <FormMessage />
-            </FormItem>
-          </FormField>
-          <FormField v-slot="{ componentField }" name="idioma_traduccion">
-            <FormItem>
-              <FormLabel>Idioma</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
-              </FormControl>
-              <FormDescription>Idioma de la traducción</FormDescription>
-              <FormMessage />
-            </FormItem>
-          </FormField>
+      </Card>
+      <Card class="p-4 bg-background space-y-4">
+        <div>
+          <h2 class="text-lg font-semibold">Autores</h2>
+          <p class="text-muted-foreground text-sm">Agrega los autores del libro</p>
+          <Separator class="mt-2 mb-3" />
         </div>
-      </div>
-      <div class="border p-4 rounded-md">
-        <FormField v-slot="{ componentField }" name="rol_autor">
-          <FormItem>
-            <FormLabel>Rol del autor</FormLabel>
-            <FormControl>
-              <Input type="text" placeholder="xxx-xx-xxxxx-xx-x" v-bind="componentField" />
-            </FormControl>
-            <FormDescription>Idioma de la traducción</FormDescription>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="apoyo_conahcyt">
-          <FormItem>
-            <FormLabel>Recibió apoyo del CONAHCYT</FormLabel>
-            <FormControl>
-              <div>
-                <Switch v-bind="componentField" />
-              </div>
-            </FormControl>
-            <FormDescription>
-              Si el libro recibió apoyo del CONAHCYT, selecciona esta opción
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="estado_publicacion">
-          <FormItem>
-            <FormLabel>Estado de la publicación</FormLabel>
-            <FormControl>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecciona un estado" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="Pendiente">
-                      Pendiente
-                    </SelectItem>
-                    <SelectItem value="Revisión">
-                      En Revisión
-                    </SelectItem>
-                    <SelectItem value="Publicado">
-                      Publicado
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="objetivo">
-          <FormItem>
-            <FormLabel>Objetivo de la publicación</FormLabel>
-            <FormControl>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecciona un objetivo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="1">
-                      Objetivo 1
-                    </SelectItem>
-                    <SelectItem value="2">
-                      Objetivo 2
-                    </SelectItem>
-                    <SelectItem value="3">
-                      Objetivo 3
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField> 
-        <FormField v-slot="{ componentField }" name="dictaminado">
-          <FormItem>
-            <FormLabel>Está dictaminado</FormLabel>
-            <FormControl>
-              <div>
-                <Switch v-bind="componentField" />
-              </div>
-            </FormControl>
-            <FormDescription>
-              Si el libro se encuentra dictaminado
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        </FormField>
+        <AuthorForm @submit="addAuthor" />
+      </Card>
+      <Card class="p-4">
+        <AuthorTable v-if="authors.length > 0" :authors="authors" @removeAuthor="removeAuthor" />
+        <div v-else class="h-10 flex justify-center items-center">
+          <h1 class="text-sm text-muted-foreground">Aquí apareceran los autores agregados</h1>
+        </div>
+      </Card>
+      <div class="flex justify-end">
+        <Button class="w-28">Crear</Button>
       </div>
     </form>
   </div>
 </template>
-
-<script setup lang="ts">
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from '@/components/ui/breadcrumb'
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { Input } from '@/components/ui/input'
-import { CalendarIcon } from '@radix-icons/vue'
-import { Calendar } from '@/components/ui/calendar'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { Switch } from '@/components/ui/switch'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { DateFormatter, type DateValue, getLocalTimeZone } from '@internationalized/date'
-import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
-
-const formSchema = toTypedSchema(
-  z.object({
-    isbn: z.string().length(13, { message: 'Must be 13 characters long' }),
-    doi: z.string().min(2),
-    titulo: z.string(),
-    ano_publication: z.string().date(),
-    editorial: z.string(),
-    pais: z.string(),
-    idioma: z.string(),
-    isbn_traduccion: z.string(),
-    idioma_traduccion: z.string(),
-    titulo_traduccion: z.string(),
-
-    apoyo_conahcyt: z.boolean(),
-    rol_autor: z.string(),
-    estado_publicacion: z.string(),
-    objetivo: z.string(),
-    dictaminado: z.boolean(),
-    portada: z.string()
-  })
-)
-
-const form = useForm({
-  validationSchema: formSchema
-})
-
-const onSubmit = form.handleSubmit((values) => {
-  console.log('Form submitted!', values)
-})
-</script>

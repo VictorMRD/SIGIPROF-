@@ -6,7 +6,6 @@
           class="w-72"
           src="https://geekflare.com/wp-content/uploads/2023/03/img-placeholder.png"
         /> -->
-        <div class="w-72"></div>
         <div class="flex flex-col items-center gap-1">
           <p class="text-white text-5xl font-semibold">SIGIPROF</p>
           <p class="text-white text-md italic">

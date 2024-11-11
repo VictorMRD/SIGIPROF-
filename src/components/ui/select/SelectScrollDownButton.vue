@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { SelectScrollDownButton, useForwardProps } from "radix-vue";
-import { ChevronDownIcon } from "@radix-icons/vue";
+import { ChevronDown } from "lucide-vue-next";
 import { cn } from "@/lib/utils";
 
 const props = defineProps({
@@ -27,7 +27,7 @@ const forwardedProps = useForwardProps(delegatedProps);
     "
   >
     <slot>
-      <ChevronDownIcon />
+      <ChevronDown class="h-4 w-4" />
     </slot>
   </SelectScrollDownButton>
 </template>

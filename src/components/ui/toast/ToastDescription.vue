@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from "vue";
-import { ToastDescription } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { ToastDescription } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },

@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from "vue";
-import { ToastTitle } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { ToastTitle } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },
@@ -19,7 +19,7 @@ const delegatedProps = computed(() => {
 <template>
   <ToastTitle
     v-bind="delegatedProps"
-    :class="cn('text-sm font-semibold [&+div]:text-xs', props.class)"
+    :class="cn('text-sm font-semibold', props.class)"
   >
     <slot />
   </ToastTitle>

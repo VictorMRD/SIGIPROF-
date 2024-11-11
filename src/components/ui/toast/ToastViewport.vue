@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from "vue";
-import { ToastViewport } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { ToastViewport } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   hotkey: { type: Array, required: false },

@@ -1,14 +1,15 @@
 <script setup>
-import { RangeCalendarGridBody } from "radix-vue";
+import { AspectRatio } from "radix-vue";
 
 const props = defineProps({
+  ratio: { type: Number, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
 });
 </script>
 
 <template>
-  <RangeCalendarGridBody v-bind="props">
+  <AspectRatio v-bind="props">
     <slot />
-  </RangeCalendarGridBody>
+  </AspectRatio>
 </template>
