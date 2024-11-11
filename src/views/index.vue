@@ -3,22 +3,19 @@
     <div class="w-full h-56 flex items-center justify-center">
       <img src="@/assets/uabcs-modified.jpeg" alt="Image" class="w-full h-full object-cover" />
       <div class="absolute text-white flex flex-col justify-center items-center">
-        <p class="text-5xl font-bold">UABCS: SIGIPROF</p>
-        <p class="italic">Sistema de Gestion de Información Profesional Docente</p>
+        <p class="text-5xl font-bold">¡Bienvenido, {user}!</p>
+        <p class="italic mt-3">Sistema de Gestion de Información Profesional Docente</p>
       </div>
     </div>
-    <div class="p-4">
-      <!-- <div id="welcome-message" class="w-full flex justify-center p-8">
-        <p class="text-4xl font-semibold">¡Bienvenido, Isaac! {{}}</p>
-      </div> -->
+    <div class="max-w-6xl mx-auto mt-5">
       <div id="card-holder">
-        <p class="py-2 italic text-gray-600">Tú trabajo en el último mes</p>
-        <div class="flex gap-4">
+        <p class="py-2 italic text-muted-foreground ">Tú trabajo en el último mes</p>
+        <div class="grid grid-cols-4 gap-4">
           <Card class="w-full">
             <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle class="text-sm font-medium"> Publicaciones </CardTitle>
+              <CardTitle class="text-md font-medium">Publicaciones</CardTitle>
               <RouterLink :to="`/publicaciones/crear`">
-                <Button class="h-6 px-4 bg-white text-black hover:bg-gray-100">Crear</Button>
+                <Button class="h-7">Crear</Button>
               </RouterLink>
             </CardHeader>
             <CardContent>
@@ -28,9 +25,9 @@
           </Card>
           <Card class="w-full">
             <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle class="text-sm font-medium"> Libros </CardTitle>
+              <CardTitle class="text-md font-medium">Libros</CardTitle>
               <RouterLink :to="`/libros/crear`">
-                <Button class="h-6 px-4 bg-white text-black hover:bg-gray-100">Crear</Button>
+                <Button class="h-7">Crear</Button>
               </RouterLink>
             </CardHeader>
             <CardContent>
@@ -40,9 +37,9 @@
           </Card>
           <Card class="w-full">
             <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle class="text-sm font-medium"> Cursos </CardTitle>
+              <CardTitle class="text-md font-medium"> Cursos </CardTitle>
               <RouterLink :to="`/cursos/crear`">
-                <Button class="h-6 px-4 bg-white text-black hover:bg-gray-100">Crear</Button>
+                <Button class="h-7">Crear</Button>
               </RouterLink>
             </CardHeader>
             <CardContent>
@@ -52,9 +49,9 @@
           </Card>
           <Card class="w-full">
             <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle class="text-sm font-medium"> Capacitaciones </CardTitle>
+              <CardTitle class="text-md font-medium"> Capacitaciones </CardTitle>
               <RouterLink :to="`/capacitaciones/crear`">
-                <Button class="h-6 px-4 bg-white text-black hover:bg-gray-100">Crear</Button>
+                <Button class="h-7">Crear</Button>
               </RouterLink>
             </CardHeader>
             <CardContent>
