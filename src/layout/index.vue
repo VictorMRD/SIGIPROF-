@@ -72,11 +72,7 @@
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink href="/docs" :class="navigationMenuTriggerStyle()">
-            Documentation
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+        
       </NavigationMenuList>
     </NavigationMenu>
     <div class="flex gap-4 justify-center items-center">
