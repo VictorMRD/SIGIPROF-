@@ -8,10 +8,9 @@
       </div>
     </div>
     <div class="max-w-6xl mx-auto mt-5">
-      <div id="card-holder">
         <p class="py-2 italic text-muted-foreground ">Tú trabajo en el último mes</p>
         <div class="grid grid-cols-4 gap-4">
-          <Card class="w-full">
+          <Card>
             <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle class="text-md font-medium">Publicaciones</CardTitle>
               <RouterLink :to="`/publicaciones/crear`">
@@ -23,7 +22,7 @@
               <p class="text-xs text-muted-foreground">+30% en comparación al mes pasado</p>
             </CardContent>
           </Card>
-          <Card class="w-full">
+          <Card>
             <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle class="text-md font-medium">Libros</CardTitle>
               <RouterLink :to="`/libros/crear`">
@@ -35,7 +34,7 @@
               <p class="text-xs text-muted-foreground">1 más que en el mes pasado</p>
             </CardContent>
           </Card>
-          <Card class="w-full">
+          <Card>
             <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle class="text-md font-medium"> Cursos </CardTitle>
               <RouterLink :to="`/cursos/crear`">
@@ -47,7 +46,7 @@
               <p class="text-xs text-muted-foreground">2 más que en el mes pasado</p>
             </CardContent>
           </Card>
-          <Card class="w-full">
+          <Card>
             <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle class="text-md font-medium"> Capacitaciones </CardTitle>
               <RouterLink :to="`/capacitaciones/crear`">
@@ -60,7 +59,23 @@
             </CardContent>
           </Card>
         </div>
-      </div>
+        <div class="grid grid-cols-2 mt-4">
+        <Card>
+            <CardHeader>
+                <CardTitle>Actividad Reciente</CardTitle>
+                <CardDescription>Placeholder</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="flex gap-4">
+                    <img src="https://i.pravatar.cc/40" class="rounded-full w-12 h-12">
+                    <div class="flex-1 flex flex-col justify-center">
+                        <h3 class="text-sm">Olivia Martin</h3>
+                        <p class="text-xs text-muted-foreground">olivia.martin@email.com</p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+        </div>
     </div>
   </div>
 </template>
