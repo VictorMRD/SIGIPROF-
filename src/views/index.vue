@@ -85,7 +85,17 @@
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Lista de pendientes</CardTitle>
+            <div class="flex justify-between">
+              <CardTitle>Lista de pendientes</CardTitle>
+              <Popover>
+                <PopoverTrigger>
+                  <Button class="h-7">Crear tarea</Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <Input class="focus-visible:ring-transparent" />
+                </PopoverContent>
+              </Popover>
+            </div>
             <CardDescription>Visualiza tus pendientes de manera detallada</CardDescription>
           </CardHeader>
           <CardContent class="space-y-2 overflow-y-scroll max-h-80">
@@ -100,6 +110,12 @@
                   <p class="text-xs text-muted-foreground">{{ toDo.date }}</p>
                 </div>
                 <Checkbox id="terms" />
+                <Button class="h-5 w-5 px-0 text-xs font-semibold bg-red-500 dark:bg-red-700">
+                  X
+                </Button>
+                <Button class="h-5 w-5 px-0 text-xs font-semibold">
+                  <Pencil2Icon />
+                </Button>
               </div>
             </Card>
           </CardContent>
@@ -138,6 +154,10 @@ import { Checkbox } from '@/components/ui/checkbox'
 import DataTable from '@/components/ui/DataTable.vue'
 import { columns } from '../components/columns/columns'
 import { bookColumns } from '../components/columns/booksColumns'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Pencil2Icon } from '@radix-icons/vue'
 
 import axios from '@/lib/axios'
 import { ref, onMounted, h } from 'vue'
