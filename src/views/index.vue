@@ -106,7 +106,7 @@
         </Card>
       </div>
       <div class="grid grid-cols-3 mt-4 gap-4">
-        <Card class="col-span-2">
+        <Card class="col-span-1">
           <CardHeader>
             <CardTitle>Cursos</CardTitle>
             <CardDescription>Visualiza tus pendientes de manera detallada</CardDescription>
@@ -115,13 +115,13 @@
             <DataTable :columns="columns" :data="courses" v-if="courses != null" />
           </CardContent>
         </Card>
-        <Card class="col-span-1">
+        <Card class="col-span-2">
           <CardHeader>
-            <CardTitle>Calendario</CardTitle>
+            <CardTitle>Libros</CardTitle>
             <CardDescription>Selecciona el periodo de tiempo que quieres revisar</CardDescription>
           </CardHeader>
           <CardContent class="space-y-2 overflow-y-scroll max-h-80">
-            <div class="flex border-2 p-2 rounded-md"><!-- Calendario --></div>
+            <DataTable :columns="bookColumns" :data="books" v-if="books != null" />
           </CardContent>
         </Card>
       </div>
@@ -137,6 +137,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/lib/registry/new-yor
 import { Checkbox } from '@/components/ui/checkbox'
 import DataTable from '@/components/ui/DataTable.vue'
 import { columns } from '../components/columns/columns'
+import { bookColumns } from '../components/columns/booksColumns'
 
 import axios from '@/lib/axios'
 import { ref, onMounted, h } from 'vue'
@@ -156,29 +157,6 @@ const getUserWorkData = async () => {
 }
 
 getUserWorkData()
-
-const data = ref<any>([])
-function generateRandomData(numObjects) {
-  const statuses = ['pending', 'processing', 'completed']
-  const emails = ['example@gmail.com', 'm@example.com', 'test@example.com', 'user@example.com']
-
-  const randomData: any[] = []
-
-  for (let i = 0; i < numObjects; i++) {
-    const id = Math.random().toString(36).substr(2, 8)
-    const amount = Math.floor(Math.random() * 500) + 50
-    const status = statuses[Math.floor(Math.random() * statuses.length)]
-    const email = emails[Math.floor(Math.random() * emails.length)]
-
-    randomData.push({ id, amount, status, email })
-  }
-
-  return (data.value = randomData)
-}
-
-onMounted(() => {
-  generateRandomData(10)
-})
 
 const activities = [
   {
