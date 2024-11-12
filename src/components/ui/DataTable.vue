@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="TData, TValue">
-import type { ColumnDef } from '@tanstack/vue-table'
+import type { ColumnDef, SortingState } from '@tanstack/vue-table'
 import {
   Table,
   TableBody,
@@ -9,13 +9,16 @@ import {
   TableRow
 } from '@/components/ui/table'
 
-import { FlexRender, getCoreRowModel, useVueTable } from '@tanstack/vue-table'
+import { FlexRender, getCoreRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table'
+import { valueUpdater } from '@/lib/utils'
+import { ref } from 'vue'
 
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }>()
 
+const sorting = ref<SortingState>([])
 const table = useVueTable({
   get data() {
     return props.data
