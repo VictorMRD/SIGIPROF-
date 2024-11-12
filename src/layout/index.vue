@@ -220,7 +220,7 @@ import { useColorMode } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import axios from '@/lib/axios'
 import { toast } from 'vue-sonner'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const router = useRouter()
 const mode = useColorMode()
@@ -239,4 +239,14 @@ const logout = async () => {
 function handleSearchInput() {
   searchActivated.value = !searchActivated.value
 }
+
+watch(searchActivated, () => {
+  if (searchActivated.value == true) {
+    document.body.style.overflow = 'hidden'
+    console.log('hidden')
+  } else {
+    console.log('visible')
+    document.body.style.overflow = 'visible'
+  }
+})
 </script>
