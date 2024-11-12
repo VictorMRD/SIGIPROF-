@@ -11,8 +11,6 @@ export function exportAsPdf(id) {
   html2pdf().from(element).save()
 }
 
-export function valueUpdater<T extends Updater<any>>(updaterOrValue: T, ref: Ref) {
-  ref.value = typeof updaterOrValue === 'function'
-    ? updaterOrValue(ref.value)
-    : updaterOrValue
+export function valueUpdater(updaterOrValue, ref) {
+  ref.value = typeof updaterOrValue === 'function' ? updaterOrValue(ref.value) : updaterOrValue
 }
