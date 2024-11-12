@@ -1,5 +1,6 @@
 import axios from 'axios'
-// import { useRouter } from 'vue-router'
+import router from '@/router'
+import { useAppStore } from '@/stores/app'
 
 const instance = axios.create({
   withCredentials: true,
@@ -7,16 +8,20 @@ const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL
 })
 
-// const router = useRouter()
+// Add a response interceptor
+instance.interceptors.response.use(
+  response => response, // Pass through successful responses
+  error => {
+    if (error.response && error.response.status === 401) {
+      // Session expired, redirect to login page and clear user data
+      //
+      const appStore = useAppStore();
+      appStore.clearUser(); // Clear user data from Pinia store
 
-// instance.interceptors.response.use(
-//   response => response,
-//   error => {
-//     if (error.response && error.response.status === 419) {
-//       // Redirect to login page on 419 error
-//       router.push('/login')
-//     }
-//   }
-// )
+      router.push({ name: 'login' }); // Redirect to login page
+    }
+    return Promise.reject(error); // Pass through other errors
+  }
+);
 
 export default instance

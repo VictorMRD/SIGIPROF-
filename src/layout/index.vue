@@ -221,16 +221,18 @@ import { useRouter } from 'vue-router'
 import axios from '@/lib/axios'
 import { toast } from 'vue-sonner'
 import { ref, watch } from 'vue'
+import { useAppStore } from '@/stores/app'
+
+const appStore = useAppStore()
 
 const router = useRouter()
 const mode = useColorMode()
 const searchActivated = ref(false)
 const logout = async () => {
   try {
-    const res = await axios.post('/logout')
-
+    await axios.post('/logout')
+    appStore.clearUser()
     toast.success('Ha cerrado sesión')
-    localStorage.removeItem('user')
     router.push(`/login`)
   } catch (error) {
     console.error(error)

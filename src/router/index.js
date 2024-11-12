@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAppStore } from '@/stores/app'
 import routes from './routes'
 import axios from '@/lib/axios'
 
@@ -15,7 +16,14 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  const appStore = useAppStore()
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+
+  if (to.name == 'login' && appStore.isLoggedIn) {
+    next({ name: 'index'})
+  } else {
+    next()
+  }
 
   if (requiresAuth) {
     try {

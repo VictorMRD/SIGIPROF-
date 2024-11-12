@@ -46,7 +46,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { toTypedSchema } from '@vee-validate/zod'
 import {
   FormControl,
   FormDescription,
@@ -55,13 +54,17 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+
 import * as z from 'zod'
+import axios from '@/lib/axios'
+import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { useRouter } from 'vue-router'
-import axios from '@/lib/axios'
 import { toast } from 'vue-sonner'
+import { useAppStore } from '@/stores/app'
 
-/* Login Form Schema */
+const app = useAppStore()
+
 const formSchema = toTypedSchema(
   z.object({
     email: z
@@ -80,25 +83,22 @@ const form = useForm({
 })
 const router = useRouter()
 const onSubmit = form.handleSubmit(async (values) => {
-  console.log('Form submitted!', values)
   try {
+    // Get csrf token and try login
     await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/login', values)
 
-    const res = await axios.post('/login', values)
+    // Get user data and store it
+    const res = await axios.get('/api/v1/user')
+    const user = res.data
+    app.setUser(user)
 
+    // Log succes and redirect to dashboard
     toast.success('Ha iniciado sesión con éxito')
-    localStorage.setItem('user', JSON.stringify(res))
     router.push(`/index`)
   } catch (error) {
-    console.error(error)
+    // Log error at login
+    toast.error('Credenciales inválidas')
   }
 })
 </script>
-
-<style scope>
-/* #left-side {
-  background-image: url('@/assets/uabcs-modified.jpeg');
-  background-position: center;
-  background-size: cover;
-} */
-</style>
