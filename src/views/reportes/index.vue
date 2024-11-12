@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import Report from '@/components/Report.vue'
+
+const reportData = {
+  title: 'Reporte de actividades',
+  description: 'Lista de todas las publicaciones 2024/10/29 - 2024/11/10'
+}
 </script>
 
 <template>
@@ -9,7 +15,7 @@ import { Separator } from "@/components/ui/separator"
       <h1 class="text-3xl">Reportes</h1>
       <p class="text-muted-foreground">Aquí puedes generar reportes de tu actividad reciente</p>
     </div>
-    <div class="grid grid-cols-2">
+    <div class="grid grid-cols-2 gap-5">
       <div class="space-y-7">
         <div class="grid gap-4">
           <h2>Por módulo</h2>
@@ -27,6 +33,7 @@ import { Separator } from "@/components/ui/separator"
           <Button variant="outline" disabled>Anual</Button>
         </div>
       </div>
+      <Report :report="reportData" />
     </div>
   </div>
 </template>
