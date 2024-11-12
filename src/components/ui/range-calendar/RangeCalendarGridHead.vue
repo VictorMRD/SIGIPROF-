@@ -1,5 +1,5 @@
 <script setup>
-import { PopoverTrigger } from 'radix-vue';
+import { RangeCalendarGridHead } from 'radix-vue';
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },
@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <PopoverTrigger v-bind="props">
+  <RangeCalendarGridHead v-bind="props">
     <slot />
-  </PopoverTrigger>
+  </RangeCalendarGridHead>
 </template>
