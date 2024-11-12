@@ -105,6 +105,27 @@
           </CardContent>
         </Card>
       </div>
+      <div class="grid grid-cols-3 mt-4 gap-4">
+        <Card class="col-span-2">
+          <CardHeader>
+            <CardTitle>Cursos</CardTitle>
+            <CardDescription>Visualiza tus pendientes de manera detallada</CardDescription>
+          </CardHeader>
+          <CardContent class="space-y-2 overflow-y-scroll max-h-80">
+            <DataTable :columns="columns" :data="courses" v-if="courses != null" />
+          </CardContent>
+        </Card>
+        <Card class="col-span-1">
+          <CardHeader>
+            <CardTitle>Calendario</CardTitle>
+            <CardDescription>Selecciona el periodo de tiempo que quieres revisar</CardDescription>
+          </CardHeader>
+          <CardContent class="space-y-2 overflow-y-scroll max-h-80">
+            <div class="flex border-2 p-2 rounded-md"><!-- Calendario --></div>
+          </CardContent>
+        </Card>
+      </div>
+      <div class="h-10"></div>
     </div>
   </div>
 </template>
@@ -114,9 +135,11 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/lib/registry/new-york/ui/tabs'
 import { Checkbox } from '@/components/ui/checkbox'
+import DataTable from '@/components/ui/DataTable.vue'
+import { columns } from '../components/columns/columns'
 
 import axios from '@/lib/axios'
-import { ref } from 'vue'
+import { ref, onMounted, h } from 'vue'
 
 const courses = ref(null)
 const publications = ref(null)
@@ -126,14 +149,36 @@ const getUserWorkData = async () => {
     courses.value = (await axios.get('api/v1/user/courses')).data
     publications.value = (await axios.get('api/v1/user/publications')).data
     books.value = (await axios.get('api/v1/user/books')).data
-    //const capacitations = (await axios.get('api/v1/user/capacitations')).data
-    console.log(courses)
+    /* const combination = [...courses.value, ...publications.value, ...books.value] */
   } catch (error) {
     console.error(error)
   }
 }
 
 getUserWorkData()
+
+const data = ref<any>([])
+function generateRandomData(numObjects) {
+  const statuses = ['pending', 'processing', 'completed']
+  const emails = ['example@gmail.com', 'm@example.com', 'test@example.com', 'user@example.com']
+
+  const randomData: any[] = []
+
+  for (let i = 0; i < numObjects; i++) {
+    const id = Math.random().toString(36).substr(2, 8)
+    const amount = Math.floor(Math.random() * 500) + 50
+    const status = statuses[Math.floor(Math.random() * statuses.length)]
+    const email = emails[Math.floor(Math.random() * emails.length)]
+
+    randomData.push({ id, amount, status, email })
+  }
+
+  return (data.value = randomData)
+}
+
+onMounted(() => {
+  generateRandomData(10)
+})
 
 const activities = [
   {
