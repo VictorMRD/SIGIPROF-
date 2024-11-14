@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-6xl mx-auto space-y-4 py-8">
+  <div class="max-w-6xl mx-auto space-y-4 py-8 px-4">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
@@ -14,21 +14,21 @@
       </BreadcrumbList>
     </Breadcrumb>
     <h1 class="text-3xl font-semibold">Libros</h1>
-    <h2 class="text-zinc-500">Explora y Gestiona tus Publicaciones Académicas</h2>
+    <h2 class="text-zinc-500">Explora y gestiona tus libros</h2>
     <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
       <Card>
         <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle class="text-sm font-medium">Libros Publicados</CardTitle>
+          <CardTitle class="text-sm font-medium">Libros publicados</CardTitle>
           <Book class="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div class="text-2xl font-bold">{{ books.length }}</div>
-          <p class="text-xs text-muted-foreground">+11% que el año pasado</p>
+          <p class="text-xs text-muted-foreground">+10% que el año pasado</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle class="text-sm font-medium">Colaboraciones como Coautor</CardTitle>
+          <CardTitle class="text-sm font-medium">Colaboraciones</CardTitle>
           <User class="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -40,12 +40,12 @@
       </Card>
       <Card>
         <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle class="text-sm font-medium">Proyectos en Proceso</CardTitle>
+          <CardTitle class="text-sm font-medium">Proyectos en proceso</CardTitle>
           <Construction class="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div class="text-2xl font-bold">4</div>
-          <p class="text-xs text-muted-foreground">+0% que el año pasado</p>
+          <div class="text-2xl font-bold">3</div>
+          <p class="text-xs text-muted-foreground">+15% que el año pasado</p>
         </CardContent>
       </Card>
     </div>
@@ -60,24 +60,18 @@
         <TabsTrigger value="cards"><Grid2X2 /></TabsTrigger>
         <TabsTrigger value="table"><Table /></TabsTrigger>
       </TabsList>
-      <TabsContent value="cards">
+      <TabsContent value="cards" class="mt-2">
         <div class="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
-          <!-- <RouterLink
-            v-for="book in books"
-            :key="book.id"
-            :to="`/libros/${book.id}`"
-          > -->
           <div
             v-for="book in books"
             :key="book.id"
             class="flex flex-col border rounded-md cursor-pointer hover:shadow-md"
             @click="goToBook(book)"
           >
-            <!-- <RouterLink :to="`/libros/${book.id}`"> -->
             <!-- header  -->
             <div class="flex justify-between px-3 py-1">
-              <span class="text-xs font-semibold">{{ capitalize(book.pivot.rol) }}</span>
-              <span class="text-xs text-muted">{{ book.anio_publicacion }}</span>
+              <span class="text-xs text-muted-foreground">{{ AuthorRole[book.pivot.rol] }}</span>
+              <span class="text-xs text-muted-foreground">{{ book.anio_publicacion }}</span>
             </div>
             <Separator />
             <div class="p-3 flex flex-col gap-2 flex-1">
@@ -101,7 +95,7 @@
                 </span>
                 <span
                   v-else-if="book.estado_publicacion === 'RECHAZADO'"
-                  class="rounded p-1 text-xs text-red-800 bg-red-100 dark:bg-red-950 dark:text-red-900"
+                  class="rounded p-1 text-xs text-red-800 bg-red-100 dark:bg-red-950 dark:text-red-400"
                 >
                   {{ formatEstadoPublicacion(book.estado_publicacion) }}
                 </span>
@@ -113,13 +107,19 @@
                 </span>
                 <span
                   v-else-if="book.estado_publicacion === 'EN_ESPERA_DE_APROBACION'"
-                  class="rounded p-1 text-xs text-yellow-800 bg-yellow-100"
+                  class="rounded p-1 text-xs text-yellow-800 bg-yellow-100 dark:bg-yellow-950 dark:text-yellow-500"
+                >
+                  {{ formatEstadoPublicacion(book.estado_publicacion) }}
+                </span>
+                <span
+                  v-else-if="book.estado_publicacion === 'APROBADO'"
+                  class="rounded p-1 text-xs text-green-800 bg-green-100 dark:bg-green-950 dark:text-green-400"
                 >
                   {{ formatEstadoPublicacion(book.estado_publicacion) }}
                 </span>
                 <span
                   v-else-if="book.estado_publicacion === 'EN_PROGRESO'"
-                  class="rounded p-1 text-xs text-yellow-800 bg-yellow-100"
+                  class="rounded p-1 text-xs text-yellow-800 bg-yellow-100 dark:bg-yellow-950 dark:text-yellow-500"
                 >
                   {{ formatEstadoPublicacion(book.estado_publicacion) }}
                 </span>
@@ -160,6 +160,7 @@ import { Book, User, Construction, Grid2X2, Table } from 'lucide-vue-next'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import { AuthorRole } from '@/lib/enums/AuthorRole'
 import { ref, onMounted } from 'vue'
 import axios from '@/lib/axios'
 import { useRouter } from 'vue-router'
@@ -174,6 +175,7 @@ const books = ref([])
 
 onMounted(async () => {
   const response = await axios.get('api/v1/user/books')
+  console.log(response.data)
   books.value = response.data
 })
 

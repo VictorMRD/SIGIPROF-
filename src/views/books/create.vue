@@ -23,6 +23,7 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import AuthorForm from '@/components/AuthorForm.vue'
 import AuthorTable from '@/components/AuthorTable.vue'
+import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 
 import { useForm } from 'vee-validate'
@@ -35,6 +36,8 @@ import { BookStatus } from '@/lib/enums/BookStatus'
 import { AuthorRole } from '@/lib/enums/AuthorRole'
 import { Country as countries } from '@/lib/enums/Country'
 import { Language as languages } from '@/lib/enums/Language'
+
+const router = useRouter();
 
 // Define the form schema
 const formSchema = toTypedSchema(
@@ -88,6 +91,8 @@ const handleSubmit = form.handleSubmit(async (req) => {
 
   try {
     const res = await axios.post('/api/v1/user/books', req)
+    toast.success("Libro creado exitosamente.")
+    router.push('/libros')
     console.log(res)
   } catch (error) {
     console.error(error)
@@ -128,7 +133,7 @@ const handleSubmit = form.handleSubmit(async (req) => {
           <p class="text-muted-foreground text-sm">
             Llena los siguientes campos para crear un libro
           </p>
-          <Separator class="mt-2 mb-3" />
+          <Separator class="mt-2 mb-3 -z-10" />
         </div>
         <FormField v-slot="{ componentField }" name="titulo">
           <FormItem>

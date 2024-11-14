@@ -176,9 +176,9 @@ const toDoList = [
         <p class="italic mt-3">Sistema de Gestion de Información Profesional Docente</p>
       </div>
     </div>
-    <div class="max-w-6xl mx-auto mt-5">
+    <div class="max-w-6xl mx-auto mt-5 px-4">
       <p class="py-2 italic text-muted-foreground">Tú trabajo en el último mes</p>
-      <div class="grid grid-cols-4 gap-4">
+      <div class="grid grid-cols-3 gap-4">
         <Card>
           <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle class="text-md font-medium">Publicaciones</CardTitle>
@@ -215,7 +215,7 @@ const toDoList = [
             <p class="text-xs text-muted-foreground">2 más que en el mes pasado</p>
           </CardContent>
         </Card>
-        <Card>
+        <!-- <Card>
           <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle class="text-md font-medium"> Capacitaciones </CardTitle>
             <RouterLink :to="`/capacitaciones/crear`">
@@ -224,9 +224,9 @@ const toDoList = [
           </CardHeader>
           <CardContent>
             <div class="text-2xl font-bold">7</div>
-            <!-- <p class="text-xs text-muted-foreground">5 más que en el mes pasado</p> -->
+            <p class="text-xs text-muted-foreground">5 más que en el mes pasado</p>
           </CardContent>
-        </Card>
+        </Card> -->
       </div>
       <div class="grid grid-cols-2 mt-4 gap-4">
         <Card>

@@ -7,13 +7,31 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 
+import { toast } from 'vue-sonner'
 import { onMounted, ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import axios from '@/lib/axios'
 import { Language } from '@/lib/enums/Language'
+
+interface Author {
+  id: Number
+  nombre: String
+  orc_id: String
+  primer_apellido: String
+  segund_apellido: String
+}
 
 interface Book {
   id: number
@@ -25,17 +43,21 @@ interface Book {
   pais: string
   idioma: string
   estado_publicacion: string
+  authors: [Author]
 }
 
 const book = ref<Book | null>(null)
 const bookId = useRoute().params.id
+const router = useRouter()
 
 const language = computed(() => {
-  return Language.find(language => language.code === book.idioma)
+  const lang = Language.find(language => language.code === book.value.idioma)
+  return lang.name
 })
 
 onMounted(async () => {
   const response = await axios.get(`api/v1/books/${bookId}`)
+  console.log(response.data)
   book.value = response.data
 })
 
@@ -45,6 +67,17 @@ function capitalize(str) {
 
 function formatISBN(isbn) {
   return isbn.replace(/(\d{3})(\d{1})(\d{4})(\d{4})(\d{1})/, '$1-$2-$3-$4-$5')
+}
+
+async function handleRemove() {
+  try {
+    const res = axios.delete(`/api/v1/books/${bookId}`)
+    toast.success("Libro eliminado correctamente")
+    router.push('/libros')
+    console.log(res)
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 function formatEstadoPublicacion(estado) {
@@ -97,12 +130,12 @@ function formatEstadoPublicacion(estado) {
       </BreadcrumbList>
     </Breadcrumb>
     <h1 class="text-3xl font-semibold">{{ book.titulo }}</h1>
-    <div class="border rounded-md p-8 space-y-4">
+    <div class="border rounded-md p-8 space-y-8">
       <div>
         <h2 class="text-muted-foreground mb-2 text-sm">Título</h2>
         <p class="text-xl">{{ book.titulo }}</p>
       </div>
-      <Separator />
+      <!-- <Separator /> -->
       <div class="grid grid-cols-3 gap-4">
         <div>
           <h2 class="text-muted-foreground text-sm">ISBN</h2>
@@ -129,15 +162,33 @@ function formatEstadoPublicacion(estado) {
           <p>{{ language }}</p>
         </div>
       </div>
-      <Separator />
       <div>
-        <h2 class="text-muted-foreground text-sm">Autores</h2>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nombre</TableHead>
+              <TableHead>Primer apellido</TableHead>
+              <TableHead>Segundo apellido</TableHead>
+              <TableHead>ORC ID</TableHead>
+              <TableHead>Orden</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow v-for="author in book.authors" :key="author.id">
+              <TableCell>{{ author.nombre }}</TableCell>
+              <TableCell>{{ author.primer_apellido }}</TableCell>
+              <TableCell>{{ author.segundo_apellido }}</TableCell>
+              <TableCell>{{ author.orc_id }}</TableCell>
+              <TableCell>{{ author.pivot.orden }}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </div>
-      <Separator />
       <div class="flex justify-end gap-4">
         <RouterLink :to="`/libros`">
           <Button class="py-0 px-10">Regresar</Button>
         </RouterLink>
+        <Button class="py-0 px-10" @click="handleRemove">Eliminar</Button>
         <RouterLink :to="`/libros/${bookId}/editar`">
           <Button class="py-0 px-10">Editar</Button>
         </RouterLink>

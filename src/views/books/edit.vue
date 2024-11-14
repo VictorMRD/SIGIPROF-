@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8">
+  <div class="max-w-6xl mx-auto space-y-4 py-8">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
@@ -437,41 +437,9 @@ const formSchema = toTypedSchema(
     idioma: z.string({
       message: 'El idioma es necesario para crear una nueva publicación'
     }),
-    recibio_apoyo_conahcyt: z.boolean({
-      message: 'El campo recibió apoyo CONAHCYT debe ser verdadero o falso'
-    }),
-    programa_conahcyt: z
-      .string({
-        message: 'El programa CONAHCYT es necesario para crear una nueva publicación'
-      })
-      .min(2, { message: 'El programa CONAHCYT debe tener al menos 2 caracteres' })
-      .max(100, { message: 'El programa CONAHCYT no debe exceder los 100 caracteres' }),
-    esta_dictaminado: z.boolean({
-      message: 'El campo está dictaminado debe ser verdadero o falso'
-    }),
-    url_cita: z.string({
-      message: 'La URL de la cita es necesaria para crear una nueva publicación'
-    }),
-    cita_a: z.number({
-      message: 'La cita A es necesaria para crear una nueva publicación'
-    }),
-    cita_b: z.number({
-      message: 'La cita B es necesaria para crear una nueva publicación'
-    }),
-    total_citas: z
-      .number({
-        message: 'El total de citas es necesario para crear una nueva publicación'
-      })
-      .min(0, { message: 'El total de citas no puede ser menor que 0' }),
     estado_publicacion: z.string({
       message: 'El estado de la publicación es necesario para crear una nueva publicación'
     }),
-    modalidad_institucion: z.string({
-      message: 'La modalidad de la institución es necesaria para crear una nueva publicación'
-    }),
-    descripcion: z
-      .string({ message: 'La descripción es necesaria para crear una nueva publicación' })
-      .min(10, { message: 'La descripción debe tener al menos 10 caracteres' })
   })
 )
 

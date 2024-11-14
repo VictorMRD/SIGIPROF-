@@ -29,7 +29,7 @@
   </div>
   <div class="sticky top-0 bg-background/90 backdrop-blur-lg border-b border-border">
     <div class="max-w-6xl mx-auto py-3">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between z-10">
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
@@ -40,10 +40,10 @@
               </RouterLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Producción</NavigationMenuTrigger>
+              <NavigationMenuTrigger><span class="font-normal">Producción</span></NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul
-                  class="grid gap-3 p-6 md:w-[500px] lg:w-[500px] md:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)] lg:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)]"
+                  class="grid gap-3 p-6 md:w-[500px] lg:w-[500px] md:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)] lg:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)] z-10"
                 >
                   <li class="row-span-4">
                     <div
@@ -78,18 +78,18 @@
                     >
                       <NavigationMenuLink>Cursos</NavigationMenuLink>
                     </RouterLink>
-                    <RouterLink
+                    <!-- <RouterLink
                       to="/capacitaciones"
                       title="Boton para el index Capacitaciones"
                       :class="navigationMenuTriggerStyle()"
                     >
                       <NavigationMenuLink>Capacitaciones</NavigationMenuLink>
-                    </RouterLink>
+                    </RouterLink> -->
                   </div>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            <!-- <NavigationMenuItem>
               <NavigationMenuTrigger>Proyectos</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul
@@ -124,11 +124,11 @@
                   </div>
                 </ul>
               </NavigationMenuContent>
-            </NavigationMenuItem>
+            </NavigationMenuItem> -->
             <NavigationMenuItem>
               <RouterLink to="/reportes" title="Boton para el index Capacitaciones">
                 <NavigationMenuLink :class="navigationMenuTriggerStyle()">
-                  <p class="font-semibold">Reportes</p>
+                  <p class="font-normal">Reportes</p>
                 </NavigationMenuLink>
               </RouterLink>
             </NavigationMenuItem>
