@@ -22,7 +22,7 @@ const app = useAppStore()
 const stats = ref<UserStats>({
   publications: 0,
   books: 0,
-  courses: 0,
+  courses: 0
 })
 
 async function fetchStats() {
@@ -283,26 +283,6 @@ const toDoList = [
                 </Button>
               </div>
             </Card>
-          </CardContent>
-        </Card>
-      </div>
-      <div class="grid grid-cols-3 mt-4 gap-4">
-        <Card class="col-span-1">
-          <CardHeader>
-            <CardTitle>Cursos</CardTitle>
-            <CardDescription>Visualiza tus pendientes de manera detallada</CardDescription>
-          </CardHeader>
-          <CardContent class="space-y-2 overflow-y-scroll max-h-80">
-            <DataTable :columns="columns" :data="courses" v-if="courses != null" />
-          </CardContent>
-        </Card>
-        <Card class="col-span-2">
-          <CardHeader>
-            <CardTitle>Libros</CardTitle>
-            <CardDescription>Selecciona el periodo de tiempo que quieres revisar</CardDescription>
-          </CardHeader>
-          <CardContent class="space-y-2 overflow-y-scroll max-h-80">
-            <DataTable :columns="bookColumns" :data="books" v-if="books != null" />
           </CardContent>
         </Card>
       </div>
