@@ -24,13 +24,7 @@
         <div class="flex justify-between">
           <p class="text-3xl font-semibold">Crear una publicación</p>
           <div class="flex gap-2">
-            <Button
-              type="button"
-              @click="turnBack"
-              class="bg-white-500 text-black hover:bg-gray-200"
-            >
-              Cancelar
-            </Button>
+            <Button variant="destructive" @click="turnBack"> Cancelar </Button>
             <AlertDialog>
               <AlertDialogTrigger>
                 <Button type="button" @click="showFormInfo">Confirmar</Button></AlertDialogTrigger
@@ -48,49 +42,44 @@
                   <AlertDialogDescription class="h-60 overflow-auto">
                     <div class="flex flex-col gap-2">
                       <p>
-                        <span class="capitalize text-gray-600 font-semibold">ISSN Tipo</span>:
+                        <span class="capitalize font-semibold">ISSN Tipo</span>:
                         {{ form.values.issn_tipo }}
                       </p>
                       <p>
-                        <span class="capitalize text-gray-600 font-semibold">ISSN Impreso</span>:
+                        <span class="capitalize font-semibold">ISSN Impreso</span>:
                         {{ form.values.issn_impreso }}
                       </p>
                       <p>
-                        <span class="capitalize text-gray-600 font-semibold">ISSN Electrónico</span
-                        >:
+                        <span class="capitalize font-semibold">ISSN Electrónico</span>:
                         {{ form.values.issn_electronico }}
                       </p>
                       <p>
-                        <span class="capitalize text-gray-600 font-semibold">DOI</span>:
+                        <span class="capitalize font-semibold">DOI</span>:
                         {{ form.values.doi }}
                       </p>
                       <p>
-                        <span class="capitalize text-gray-600 font-semibold"
-                          >Nombre de la Revista</span
-                        >:
+                        <span class="capitalize font-semibold">Nombre de la Revista</span>:
                         {{ form.values.nombre_revista }}
                       </p>
                       <p>
-                        <span class="capitalize text-gray-600 font-semibold">Título</span>:
+                        <span class="capitalize font-semibold">Título</span>:
                         {{ form.values.titulo }}
                       </p>
                       <p>
-                        <span class="capitalize text-gray-600 font-semibold"
-                          >Año de Publicación</span
-                        >:
+                        <span class="capitalize font-semibold">Año de Publicación</span>:
                         {{ form.values.anio_publicacion }}
                       </p>
                       <p>
-                        <span class="capitalize text-gray-600 font-semibold">Estado</span>:
+                        <span class="capitalize font-semibold">Estado</span>:
                         {{ form.values.estatus }}
                       </p>
                     </div>
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel> Cancelar</AlertDialogCancel>
+                  <AlertDialogCancel> Cancelar </AlertDialogCancel>
                   <AlertDialogCancel
-                    class="bg-black text-white hover:bg-slate-800 hover:text-white"
+                    class="bg-black dark:bg-white dark:text-black text-white hover:bg-slate-800 hover:text-white"
                     type="submit"
                     @click="onSubmit"
                   >
@@ -251,9 +240,7 @@
         </div>
 
         <div class="flex justify-end pt-4 gap-2">
-          <Button type="button" @click="turnBack" class="bg-white-500 text-black hover:bg-gray-200">
-            Cancelar
-          </Button>
+          <Button type="button" @click="turnBack" variant="destructive"> Cancelar </Button>
           <AlertDialog>
             <AlertDialogTrigger> <Button type="button">Confirmar</Button></AlertDialogTrigger>
             <AlertDialogContent v-if="validationPassed">
@@ -269,38 +256,35 @@
                 <AlertDialogDescription class="h-60 overflow-auto">
                   <div class="flex flex-col gap-2">
                     <p>
-                      <span class="capitalize text-gray-600 font-semibold">ISSN Tipo</span>:
+                      <span class="capitalize font-semibold">ISSN Tipo</span>:
                       {{ form.values.issn_tipo }}
                     </p>
                     <p>
-                      <span class="capitalize text-gray-600 font-semibold">ISSN Impreso</span>:
+                      <span class="capitalize font-semibold">ISSN Impreso</span>:
                       {{ form.values.issn_impreso }}
                     </p>
                     <p>
-                      <span class="capitalize text-gray-600 font-semibold">ISSN Electrónico</span>:
+                      <span class="capitalize font-semibold">ISSN Electrónico</span>:
                       {{ form.values.issn_electronico }}
                     </p>
                     <p>
-                      <span class="capitalize text-gray-600 font-semibold">DOI</span>:
+                      <span class="capitalize font-semibold">DOI</span>:
                       {{ form.values.doi }}
                     </p>
                     <p>
-                      <span class="capitalize text-gray-600 font-semibold"
-                        >Nombre de la Revista</span
-                      >:
+                      <span class="capitalize font-semibold">Nombre de la Revista</span>:
                       {{ form.values.nombre_revista }}
                     </p>
                     <p>
-                      <span class="capitalize text-gray-600 font-semibold">Título</span>:
+                      <span class="capitalize font-semibold">Título</span>:
                       {{ form.values.titulo }}
                     </p>
                     <p>
-                      <span class="capitalize text-gray-600 font-semibold">Año de Publicación</span
-                      >:
+                      <span class="capitalize font-semibold">Año de Publicación</span>:
                       {{ form.values.anio_publicacion }}
                     </p>
                     <p>
-                      <span class="capitalize text-gray-600 font-semibold">Estado</span>:
+                      <span class="capitalize font-semibold">Estado</span>:
                       {{ form.values.estatus }}
                     </p>
                   </div>
@@ -309,7 +293,7 @@
               <AlertDialogFooter>
                 <AlertDialogCancel> Cancelar</AlertDialogCancel>
                 <AlertDialogCancel
-                  class="bg-black text-white hover:bg-slate-800 hover:text-white"
+                  class="bg-black dark:bg-white dark:text-black text-white hover:bg-slate-800 hover:text-white"
                   type="submit"
                   @click="onSubmit"
                 >
