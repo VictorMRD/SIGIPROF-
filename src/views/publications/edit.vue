@@ -27,7 +27,7 @@
             <Button
               type="button"
               @click="turnBack"
-              class="bg-white-500 text-black hover:bg-gray-200"
+              class="bg-white-500 text-black hover:bg-gray-200 dark:hover:bg-gray-900 border rounded-md dark:text-white"
               >Cancelar</Button
             >
             <AlertDialog>
@@ -248,7 +248,11 @@
           </div>
         </div>
         <div class="flex justify-end pt-4 gap-2">
-          <Button type="button" @click="turnBack" class="bg-white-500 text-black hover:bg-gray-200">
+          <Button
+            type="button"
+            @click="turnBack"
+            class="bg-white-500 text-black hover:bg-gray-200 dark:hover:bg-gray-900 border rounded-md dark:text-white"
+          >
             Cancelar
           </Button>
           <AlertDialog>

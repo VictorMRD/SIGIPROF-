@@ -24,10 +24,21 @@
         <div class="flex justify-between">
           <p class="text-3xl font-semibold">Crear una publicación</p>
           <div class="flex gap-2">
-            <Button variant="destructive" @click="turnBack"> Cancelar </Button>
+            <Button
+              type="button"
+              class="bg-white-500 text-black hover:bg-gray-200 dark:hover:bg-gray-300 dark:bg-white border"
+              @click="turnBack"
+            >
+              Cancelar
+            </Button>
             <AlertDialog>
               <AlertDialogTrigger>
-                <Button type="button" @click="showFormInfo">Confirmar</Button></AlertDialogTrigger
+                <Button
+                  type="button"
+                  class="dark:hover:bg-slate-950 dark:bg-black hover:bg-slate-800 text-white"
+                  @click="showFormInfo"
+                  >Confirmar</Button
+                ></AlertDialogTrigger
               >
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -77,9 +88,13 @@
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel> Cancelar </AlertDialogCancel>
                   <AlertDialogCancel
-                    class="bg-black dark:bg-white dark:text-black text-white hover:bg-slate-800 hover:text-white"
+                    class="bg-white-500 text-black hover:bg-gray-200 dark:hover:bg-gray-300 dark:hover:text-black dark:bg-white border"
+                  >
+                    Cancelar
+                  </AlertDialogCancel>
+                  <AlertDialogCancel
+                    class="bg-black text-white hover:bg-slate-800 dark:hover:bg-slate-950 hover:text-white"
                     type="submit"
                     @click="onSubmit"
                   >
@@ -240,9 +255,21 @@
         </div>
 
         <div class="flex justify-end pt-4 gap-2">
-          <Button type="button" @click="turnBack" variant="destructive"> Cancelar </Button>
+          <Button
+            class="bg-white-500 text-black hover:bg-gray-200 dark:hover:bg-gray-300 dark:bg-white border"
+            type="button"
+            @click="turnBack"
+          >
+            Cancelar
+          </Button>
           <AlertDialog>
-            <AlertDialogTrigger> <Button type="button">Confirmar</Button></AlertDialogTrigger>
+            <AlertDialogTrigger>
+              <Button
+                class="dark:hover:bg-slate-950 hover:bg-slate-800 dark:bg-black text-white"
+                type="button"
+                >Confirmar</Button
+              ></AlertDialogTrigger
+            >
             <AlertDialogContent v-if="validationPassed">
               <AlertDialogHeader>
                 <AlertDialogTitle
@@ -291,9 +318,13 @@
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel> Cancelar</AlertDialogCancel>
                 <AlertDialogCancel
-                  class="bg-black dark:bg-white dark:text-black text-white hover:bg-slate-800 hover:text-white"
+                  class="bg-white-500 text-black hover:bg-gray-200 dark:hover:bg-gray-300 dark:hover:text-black dark:bg-white border"
+                >
+                  Cancelar</AlertDialogCancel
+                >
+                <AlertDialogCancel
+                  class="bg-black text-white hover:bg-slate-800 dark:hover:bg-slate-950 hover:text-white"
                   type="submit"
                   @click="onSubmit"
                 >
