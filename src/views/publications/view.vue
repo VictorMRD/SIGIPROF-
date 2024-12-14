@@ -76,7 +76,7 @@
         </div>
       </div>
     </div>
-    <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg p-6 md:p-8  mx-auto">
+    <div className="border rounded-md p-8 rounded-lg shadow-lg p-6 md:p-8  mx-auto">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
         <div>
           <h1 class="text-2xl font-bold mb-1">{{ publicationArray.titulo }}</h1>
