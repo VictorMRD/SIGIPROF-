@@ -153,8 +153,14 @@
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction @click="deleteElement(document.id)">
+                    <AlertDialogCancel
+                      class="bg-white-500 text-black hover:bg-gray-200 dark:hover:bg-gray-300 dark:bg-white border dark:hover:text-black"
+                      >Cancelar</AlertDialogCancel
+                    >
+                    <AlertDialogAction
+                      @click="deleteElement(document.id)"
+                      class="dark:hover:bg-slate-950 hover:bg-slate-800 dark:bg-black text-white"
+                    >
                       Confirmar
                     </AlertDialogAction>
                   </AlertDialogFooter>

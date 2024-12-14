@@ -68,15 +68,23 @@
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction @click="deleteElement()"> Confirmar </AlertDialogAction>
+                <AlertDialogCancel
+                  class="bg-white-500 text-black hover:bg-gray-200 dark:hover:bg-gray-300 dark:bg-white border dark:hover:text-black"
+                  >Cancelar</AlertDialogCancel
+                >
+                <AlertDialogAction
+                  class="dark:hover:bg-slate-950 hover:bg-slate-800 dark:bg-black text-white"
+                  @click="deleteElement()"
+                >
+                  Confirmar
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         </div>
       </div>
     </div>
-    <div className="border rounded-md p-8 rounded-lg shadow-lg p-6 md:p-8  mx-auto">
+    <div className="border rounded-md p-8 shadow-lg md:p-8  mx-auto">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
         <div>
           <h1 class="text-2xl font-bold mb-1">{{ publicationArray.titulo }}</h1>
