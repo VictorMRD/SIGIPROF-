@@ -15,7 +15,10 @@
     </Breadcrumb>
     <div class="py-4 flex flex-col gap-4">
       <div class="flex justify-between">
-        <p class="text-3xl font-semibold">Cursos</p>
+        <div class="flex flex-col gap-2">
+          <p class="text-3xl font-semibold">Cursos</p>
+          <p class="text-xs font-semibold">Explora y gestiona tus cursos</p>
+        </div>
         <RouterLink :to="`/cursos/crear`">
           <Button class="py-0 px-10">Nuevo</Button>
         </RouterLink>
@@ -33,56 +36,103 @@
             <p>Total de documentos: {{ totalDocuments }}</p>
             <p>Pagina: {{ actualPage }} de {{ totalPages }}</p>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Div que engloba todas las entidades mostradas en el index -->
             <Card
               className="border"
               v-for="document in paginatedInformation"
-              style="display: flex; flex-direction: column; justify-content: space-between"
+              v-bind:key="document.name"
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border-radius: 4px;
+              "
             >
-              <CardHeader>
-                <CardTitle class="text-xl font-bold">{{ document.nombre }}</CardTitle>
+              <CardHeader
+                class="border-b border-border bg-muted/40 flex flex-row items-center gap-5 py-2 px-4"
+              >
+                <div class="flex-1">
+                  <p class="text-sm font-semibold">
+                    {{ document.nombre ? document.nombre : 'Indefinido' }}
+                  </p>
+                  <span class="text-sm text-muted-foreground">
+                    {{ document.nombre_revista ? document.nombre_revista : 'Indefinido' }}
+                  </span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-gray-500">
+                    {{ document.anio_curso ? document.anio_curso : '----' }}
+                  </p>
+                </div>
               </CardHeader>
-              <CardContent className="flex flex-col gap-4 justify-center px-8">
-                <div className="flex gap-2">
-                  <div className="flex items-center gap-2">
-                    <ClockIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                    <span>{{ document.horas_totales }}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CalendarIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                    <span>{{ document.anio_curso }}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <BookmarkIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                  <span>{{ document.institucion }}</span>
-                </div>
-                <div className="prose text-sm pb-4">
-                  <!-- Esta caja sirve para marcar un espacio -->
+              <CardContent class="py-2">
+                <div class="grid grid-cols-2 gap-2">
+                  <p class="text-nowrap w-40 overflow-hidden">
+                    <span class="text-sm">ISSN Electronico</span><br />
+                    <span class="text-muted-foreground/80">{{
+                      document.issn_electronico ? document.issn_electronico : 'Indefinido'
+                    }}</span>
+                  </p>
+                  <p>
+                    <span class="text-sm">DOI</span><br />
+                    <span class="text-muted-foreground/80">
+                      {{ document.doi !== undefined ? document.doi : 'Indefinido' }}
+                    </span>
+                  </p>
+                  <p>
+                    <span class="text-sm">Estado</span><br />
+                    <span class="text-muted-foreground/80">{{
+                      document.estatus ? document.estatus.join(', ') : 'Indefinido'
+                    }}</span>
+                  </p>
+                  <p class="text-nowrap w-40 overflow-hidden">
+                    <span class="text-sm">ISSN Electronico</span><br />
+                    <span class="text-muted-foreground/80">{{
+                      document.issn_impreso ? document.issn_impreso : 'Indefinido'
+                    }}</span>
+                  </p>
                 </div>
               </CardContent>
               <CardFooter
-                className="flex gap-2 px-4 p-2 justify-end bg-gray-100 border-t-2 border-gray-200"
+                class="border-t border-border bg-muted/40 flex justify-end gap-3 items-center py-2 px-4"
               >
-                <RouterLink :to="`cursos/${document.id}/editar`">
-                  <Button size="sm" class="flex gap-1 items-center">
-                    <Pencil2Icon /> Editar
+                <RouterLink
+                  :to="`/cursos/${document.id}/download`"
+                  class="flex flex-col justify-center items-center"
+                >
+                  <Button size="icon" variant="outline">
+                    <DownloadIcon />
                   </Button>
                 </RouterLink>
-                <RouterLink :to="`cursos/${document.id}/visualizar`">
-                  <Button size="sm" class="flex gap-1 items-center">
-                    <EyeOpenIcon /> Visualizar
+                <RouterLink
+                  :to="`/cursos/${document.id}/agregar-autores`"
+                  class="flex flex-col justify-center items-center"
+                >
+                  <Button size="icon" variant="outline">
+                    <PersonIcon />
+                  </Button>
+                </RouterLink>
+                <RouterLink
+                  :to="`/cursos/${document.id}/visualizar`"
+                  class="flex flex-col justify-center items-center"
+                >
+                  <Button size="icon" variant="outline">
+                    <EyeOpenIcon />
+                  </Button>
+                </RouterLink>
+                <RouterLink
+                  :to="`/cursos/${document.id}/editar`"
+                  class="flex flex-col justify-center items-center"
+                >
+                  <Button size="icon" variant="outline">
+                    <Pencil2Icon />
                   </Button>
                 </RouterLink>
                 <AlertDialog>
                   <AlertDialogTrigger>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      class="flex gap-1 items-center bg-red-500 text-white hover:text-white hover:bg-red-400"
-                    >
+                    <Button size="icon" variant="destructive">
                       <TrashIcon />
-                      <p class="text-xs">Eliminar</p>
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -99,14 +149,20 @@
                         <div v-for="(value, key) in document" :key="key" class="p-1">
                           <p>
                             <span class="capitalize text-gray-600 font-semibold">{{ key }}</span
-                            >: {{ value ? value : 'Undefined' }}
+                            >: {{ value ? value : 'Indefinido' }}
                           </p>
                         </div>
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                      <AlertDialogAction @click="deleteElement(document.id)">
+                      <AlertDialogCancel
+                        class="bg-white-500 text-black hover:bg-gray-200 dark:hover:bg-gray-300 dark:bg-white border dark:hover:text-black"
+                        >Cancelar</AlertDialogCancel
+                      >
+                      <AlertDialogAction
+                        @click="deleteElement(document.id)"
+                        class="dark:hover:bg-slate-950 hover:bg-slate-800 dark:bg-black text-white"
+                      >
                         Confirmar
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -198,7 +254,9 @@ import { TrashIcon } from '@radix-icons/vue'
 import { ClockIcon } from '@radix-icons/vue'
 import { CalendarIcon } from '@radix-icons/vue'
 import { BookmarkIcon } from '@radix-icons/vue'
+import { PersonIcon } from '@radix-icons/vue'
 import { EyeOpenIcon } from '@radix-icons/vue'
+import { DownloadIcon } from '@radix-icons/vue'
 import { Input } from '@/components/ui/input'
 import { ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
@@ -218,12 +276,20 @@ interface DocumentInfo {
 
 const documents = ref<DocumentInfo[]>([])
 
+var copyOfDocuments = ref(documents.value)
+var secondCopyOfDocuments = ref(documents.value)
+const paginatedInformation = ref([])
+const totalPages = ref(1)
+const totalDocuments = ref(3)
+const actualPage = ref(1)
+const searchQueryTrack = ref('')
+
 const getCourses = async () => {
   try {
     const res = await axios.get('api/v1/user/courses')
     const courses = res.data
 
-    console.log(courses)
+    /* console.log(courses) */
     const processedCourses: DocumentInfo[] = courses.map((publication: any) => ({
       id: publication.id,
       tipo_formacion: publication.tipo_formacion || '',
@@ -233,6 +299,7 @@ const getCourses = async () => {
       institucion: publication.institucion || '',
       tipo_institucion: publication.tipo_institucion || ''
     }))
+    console.log(processedCourses)
 
     documents.value = processedCourses
     copyOfDocuments = ref(documents.value)
@@ -248,20 +315,12 @@ const getCourses = async () => {
 
 getCourses()
 
-var copyOfDocuments = ref(documents)
-var secondCopyOfDocuments = ref(documents)
-const paginatedInformation = ref([])
-const totalPages = ref(1)
-const totalDocuments = ref(3)
-const actualPage = ref(1)
-const searchQueryTrack = ref('')
-
-totalDocuments.value = documents.length
-totalPages.value = Math.ceil(documents.length / 6)
+totalDocuments.value = documents.value.length
+totalPages.value = Math.ceil(documents.value.length / 6)
 
 function paginateInformation(pageIndex) {
-  const start = pageIndex * 6
-  const end = start + 6
+  const start = pageIndex * 5
+  const end = start + 5
   const paginatedInformationPlaceHolder = copyOfDocuments.value.slice(start, end)
   return paginatedInformationPlaceHolder
 }
