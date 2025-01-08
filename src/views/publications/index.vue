@@ -1,5 +1,5 @@
 <template>
-  <div class="py-8 max-w-6xl mx-auto">
+  <div class="max-w-6xl mx-auto space-y-4 py-8 px-4">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
@@ -13,87 +13,117 @@
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-    <div class="py-4 flex flex-col gap-4">
+
+    <div class="flex flex-col gap-4">
       <div class="flex justify-between">
         <p class="text-3xl font-semibold">Publicaciones</p>
-        <RouterLink :to="`/publicaciones/crear`">
-          <Button class="py-0 px-10">Nuevo</Button>
-        </RouterLink>
       </div>
+      <h2 class="text-zinc-500">Explora y gestiona tus publicaciones</h2>
+      <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+        <Card>
+          <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle class="text-sm font-medium">Publicaciones realizadas</CardTitle>
+            <Book class="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div class="text-2xl font-bold">{{ documents.length }}</div>
+            <p class="text-xs text-muted-foreground">Marcado undefined...</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle class="text-sm font-medium">Publicaciones aceptadas</CardTitle>
+            <Construction class="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div class="text-2xl font-bold">{{ acceptedPublications }}</div>
+            <p class="text-xs text-muted-foreground">Marcador undefined</p>
+          </CardContent>
+        </Card>
+      </div>
+
       <div class="flex flex-col gap-4">
-        <Input
-          placeholder="Buscar publicación..."
-          type="text"
-          class="w-1/3"
-          @input="filterData($event.target.value)"
-        />
+        <div class="flex justify-between">
+          <Input
+            placeholder="Buscar publicación..."
+            type="text"
+            class="w-1/3"
+            @input="filterData($event.target.value)"
+          />
+          <div class="flex justify-between">
+            <RouterLink :to="`/publicaciones/crear`">
+              <Button class="py-0 px-10">Nuevo</Button>
+            </RouterLink>
+          </div>
+        </div>
         <div class="flex justify-between text-sm text-muted-foreground">
           <p>Total de documentos: {{ totalDocuments }}</p>
           <p>Pagina: {{ actualPage }} de {{ totalPages }}</p>
         </div>
-        <div class="grid grid-cols-2 gap-4">
-          <Card v-for="document in paginatedInformation" :key="document.id">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card
+            className="border"
+            v-for="document in paginatedInformation"
+            v-bind:key="document.name"
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              border-radius: 4px;
+            "
+          >
             <CardHeader
-              class="border-b border-border bg-muted/40 flex flex-row items-center gap-5 h-20 py-0 px-4"
+              class="border-b border-border bg-muted/40 flex flex-row items-center gap-5 py-2 px-4 max-h-14 overflow-hidden"
             >
-              <div
-                class="text-2xl font-semibold bg-muted-foreground/20 h-12 w-12 rounded-full flex items-center justify-center"
-              >
-                {{ document.titulo ? document.titulo[0] : 'Undefined' }}
-              </div>
-              <div class="flex-1">
-                <p>
-                  {{ document.titulo ? document.titulo : 'Undefined' }}
+              <div class="flex-1 max-h-12">
+                <p class="text-sm font-semibold">
+                  {{
+                    document.nombre_revista?.length > 24
+                      ? document.nombre_revista.slice(0, 22) + '...'
+                      : document.nombre_revista || 'Indefinido'
+                  }}
                 </p>
                 <span class="text-sm text-muted-foreground">
-                  {{ document.nombre_revista ? document.nombre_revista : 'Undefined' }}
+                  {{ document.nombre_revista ? document.nombre_revista : 'Indefinido' }}
                 </span>
               </div>
-              <div class="text-nowrap flex justify-end items-center gap-2">
-                <CalendarIcon />
-                <span class="text-muted-foreground text-sm">
-                  {{ document.anio_publicacion ? document.anio_publicacion : 'Undefined' }}
-                </span>
+              <div>
+                <p class="text-sm font-semibold text-gray-500">
+                  {{ document.anio_publicacion ? document.anio_publicacion : '----' }}
+                </p>
               </div>
             </CardHeader>
-            <CardContent class="py-10">
-              <div class="grid grid-cols-3 gap-4">
+            <CardContent class="py-2">
+              <div class="grid grid-cols-2 gap-2">
+                <p class="text-nowrap w-40 overflow-hidden">
+                  <span class="text-sm">ISSN Electronico</span><br />
+                  <span class="text-muted-foreground/80">{{
+                    document.issn_electronico ? document.issn_electronico : 'Indefinido'
+                  }}</span>
+                </p>
                 <p>
-                  <span class="font-semibold">DOI</span><br />
+                  <span class="text-sm">DOI</span><br />
                   <span class="text-muted-foreground/80">
-                    {{ document.doi !== undefined ? document.doi : 'Undefined' }}
+                    {{ document.doi !== undefined ? document.doi : 'Indefinido' }}
                   </span>
                 </p>
                 <p>
-                  <span class="font-semibold">Año de publicación</span><br />
+                  <span class="text-sm">Estado</span><br />
                   <span class="text-muted-foreground/80">{{
-                    document.anio_publicacion !== undefined
-                      ? document.anio_publicacion
-                      : 'Undefined'
+                    document.estatus ? document.estatus.join(', ') : 'Indefinido'
                   }}</span>
                 </p>
                 <p class="text-nowrap w-40 overflow-hidden">
-                  <span class="font-semibold">ISSN Electronico</span><br />
+                  <span class="text-sm">ISSN Impreso</span><br />
                   <span class="text-muted-foreground/80">{{
-                    document.issn_electronico ? document.issn_electronico : 'Undefined'
-                  }}</span>
-                </p>
-                <p class="text-nowrap w-40 overflow-hidden">
-                  <span class="font-semibold">ISSN Electronico</span><br />
-                  <span class="text-muted-foreground/80">{{
-                    document.issn_impreso ? document.issn_impreso : 'Undefined'
-                  }}</span>
-                </p>
-                <p>
-                  <span class="font-semibold">Estado</span><br />
-                  <span class="text-muted-foreground/80">{{
-                    document.estatus ? document.estatus.join(', ') : 'Undefined'
+                    document.issn_impreso ? document.issn_impreso : 'Indefinido'
                   }}</span>
                 </p>
               </div>
             </CardContent>
             <CardFooter
-              class="border-t border-border bg-muted/40 flex justify-end gap-3 items-center py-0 px-4 h-20"
+              class="border-t border-border bg-muted/40 flex justify-end gap-3 items-center py-2 px-4"
             >
               <RouterLink
                 :to="`/publicaciones/${document.id}/download`"
@@ -147,7 +177,7 @@
                       <div v-for="(value, key) in document" :key="key" class="p-1">
                         <p>
                           <span class="capitalize text-gray-600 font-semibold">{{ key }}</span
-                          >: {{ value ? value : 'Undefined' }}
+                          >: {{ value ? value : 'Indefinido' }}
                         </p>
                       </div>
                     </AlertDialogDescription>
@@ -250,6 +280,7 @@ import { ref } from 'vue'
 import { toast } from 'vue-sonner'
 import axios from '@/lib/axios'
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card'
+import { forEach } from 'cypress/types/lodash'
 
 /* Fake data */
 /* Aqui estaremos haciendo las llamadas a la API */
@@ -273,6 +304,8 @@ const paginatedInformation = ref([])
 const totalPages = ref(1)
 const totalDocuments = ref(3)
 const actualPage = ref(1)
+const acceptedPublications = ref(0)
+const collaborations = ref(0)
 
 const getPublications = async () => {
   try {
@@ -291,7 +324,6 @@ const getPublications = async () => {
       anio_publicacion: publication.anio_publicacion || 0,
       estatus: publication.estatus ? publication.estatus.split(',') : []
     }))
-    console.log(processedPublications)
 
     documents.value = processedPublications
     copyOfDocuments = ref(documents.value)
@@ -299,7 +331,11 @@ const getPublications = async () => {
     paginatedInformation.value = paginateInformation(0)
 
     totalDocuments.value = documents.value.length
-    totalPages.value = Math.ceil(documents.value.length / 5)
+    totalPages.value = Math.ceil(documents.value.length / 8)
+
+    documents.value.forEach(function (item, index, array) {
+      if (item.estatus == 'ACEPTADO') acceptedPublications.value += 1
+    })
   } catch (error) {
     console.error(error)
   }
@@ -308,8 +344,8 @@ const getPublications = async () => {
 getPublications()
 
 function paginateInformation(pageIndex) {
-  const start = pageIndex * 5
-  const end = start + 5
+  const start = pageIndex * 8
+  const end = start + 8
   const paginatedInformationPlaceHolder = copyOfDocuments.value.slice(start, end)
   return paginatedInformationPlaceHolder
 }
@@ -333,7 +369,7 @@ async function deleteElement(deleteElementId) {
 
 function filterData(query) {
   const filteredData = secondCopyOfDocuments.value.filter((item) => {
-    const searchString = [item.titulo, item.estatus].join(' ').toLowerCase()
+    const searchString = [item.titulo, item.nombre_revista, item.doi].join(' ').toLowerCase()
 
     return searchString.includes(query.toLowerCase())
   })
