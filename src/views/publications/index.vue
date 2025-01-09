@@ -57,7 +57,7 @@
             </RouterLink>
           </div>
         </div>
-        <div class="flex justify-between text-sm text-muted-foreground">
+        <div class="flex justify-between text-xs font-semibold text-gray-400">
           <p>Total de documentos: {{ totalDocuments }}</p>
           <p>Pagina: {{ actualPage }} de {{ totalPages }}</p>
         </div>
@@ -123,7 +123,7 @@
               </div>
             </CardContent>
             <CardFooter
-              class="border-t border-border bg-muted/40 flex justify-end gap-3 items-center py-2 px-4"
+              class="border-t border-border bg-muted/40 flex justify-center gap-3 items-center py-2"
             >
               <RouterLink
                 :to="`/publicaciones/${document.id}/download`"
