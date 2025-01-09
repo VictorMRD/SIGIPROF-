@@ -1,5 +1,5 @@
 <template>
-  <div class="py-8 max-w-6xl mx-auto">
+  <div class="max-w-6xl mx-auto space-y-4 py-8 px-4">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
@@ -13,31 +13,55 @@
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-    <div class="py-4 flex flex-col gap-4">
+    <div class="flex flex-col gap-4">
       <div class="flex justify-between">
         <div class="flex flex-col gap-2">
           <p class="text-3xl font-semibold">Cursos</p>
-          <p class="text-xs font-semibold">Explora y gestiona tus cursos</p>
         </div>
-        <RouterLink :to="`/cursos/crear`">
-          <Button class="py-0 px-10">Nuevo</Button>
-        </RouterLink>
+      </div>
+      <h2 class="text-zinc-500">Explora y gestiona tus cursos</h2>
+      <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+        <Card>
+          <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle class="text-sm font-medium">Cursos realizados</CardTitle>
+            <Book class="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div class="text-2xl font-bold">{{ documents.length }}</div>
+            <p class="text-xs text-muted-foreground">Marcado undefined...</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle class="text-sm font-medium">Horas totales</CardTitle>
+            <Construction class="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div class="text-2xl font-bold">{{ hoursInCourses }}</div>
+            <p class="text-xs text-muted-foreground">Marcador undefined</p>
+          </CardContent>
+        </Card>
       </div>
       <div class="flex flex-col gap-4">
-        <Input
-          placeholder="Buscar curso..."
-          type="text"
-          class="w-1/3"
-          @input="filterData($event.target.value)"
-          v-model="searchQueryTrack"
-        />
+        <div class="flex justify-between">
+          <Input
+            placeholder="Buscar curso..."
+            type="text"
+            class="w-1/3"
+            @input="filterData($event.target.value)"
+            v-model="searchQueryTrack"
+          />
+          <RouterLink :to="`/cursos/crear`">
+            <Button class="py-0 px-10">Nuevo</Button>
+          </RouterLink>
+        </div>
         <div class="flex flex-col gap-2 w-full">
           <div class="flex justify-between text-xs font-semibold text-gray-400">
             <p>Total de documentos: {{ totalDocuments }}</p>
             <p>Pagina: {{ actualPage }} de {{ totalPages }}</p>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Div que engloba todas las entidades mostradas en el index -->
             <Card
               className="border"
               v-for="document in paginatedInformation"
@@ -50,14 +74,18 @@
               "
             >
               <CardHeader
-                class="border-b border-border bg-muted/40 flex flex-row items-center gap-5 py-2 px-4"
+                class="border-b border-border bg-muted/40 flex flex-row items-center gap-5 py-2 px-4 max-h-14 overflow-hidden"
               >
-                <div class="flex-1">
+                <div class="flex-1 max-h-12">
                   <p class="text-sm font-semibold">
-                    {{ document.nombre ? document.nombre : 'Indefinido' }}
+                    {{
+                      document.nombre?.length > 24
+                        ? document.nombre.slice(0, 22) + '...'
+                        : document.nombre || 'Indefinido'
+                    }}
                   </p>
                   <span class="text-sm text-muted-foreground">
-                    {{ document.nombre_revista ? document.nombre_revista : 'Indefinido' }}
+                    {{ document.tipo_formacion ? document.tipo_formacion : 'Indefinido' }}
                   </span>
                 </div>
                 <div>
@@ -69,48 +97,46 @@
               <CardContent class="py-2">
                 <div class="grid grid-cols-2 gap-2">
                   <p class="text-nowrap w-40 overflow-hidden">
-                    <span class="text-sm">ISSN Electronico</span><br />
+                    <span class="text-sm">Horas totales</span><br />
                     <span class="text-muted-foreground/80">{{
-                      document.issn_electronico ? document.issn_electronico : 'Indefinido'
+                      document.horas_totales ? document.horas_totales : 'Indefinido'
                     }}</span>
                   </p>
                   <p>
-                    <span class="text-sm">DOI</span><br />
+                    <span class="text-sm">Institucion</span><br />
                     <span class="text-muted-foreground/80">
-                      {{ document.doi !== undefined ? document.doi : 'Indefinido' }}
+                      {{
+                        document.institucion?.length > 10
+                          ? document.institucion.slice(0, 10) + '...'
+                          : document.institucion || 'Indefinido'
+                      }}
                     </span>
                   </p>
                   <p>
-                    <span class="text-sm">Estado</span><br />
+                    <span class="text-sm">Tipo</span><br />
                     <span class="text-muted-foreground/80">{{
-                      document.estatus ? document.estatus.join(', ') : 'Indefinido'
-                    }}</span>
-                  </p>
-                  <p class="text-nowrap w-40 overflow-hidden">
-                    <span class="text-sm">ISSN Electronico</span><br />
-                    <span class="text-muted-foreground/80">{{
-                      document.issn_impreso ? document.issn_impreso : 'Indefinido'
+                      document.tipo_institucion ? document.tipo_institucion : 'Indefinido'
                     }}</span>
                   </p>
                 </div>
               </CardContent>
               <CardFooter
-                class="border-t border-border bg-muted/40 flex justify-end gap-3 items-center py-2 px-4"
+                class="border-t border-border bg-muted/40 flex justify-center gap-3 items-center py-2"
               >
+                <div class="flex flex-col justify-center items-center">
+                  <Button
+                    size="icon"
+                    class="bg-transparent flex flex-col justify-center items-center"
+                    disabled
+                  >
+                  </Button>
+                </div>
                 <RouterLink
                   :to="`/cursos/${document.id}/download`"
                   class="flex flex-col justify-center items-center"
                 >
                   <Button size="icon" variant="outline">
                     <DownloadIcon />
-                  </Button>
-                </RouterLink>
-                <RouterLink
-                  :to="`/cursos/${document.id}/agregar-autores`"
-                  class="flex flex-col justify-center items-center"
-                >
-                  <Button size="icon" variant="outline">
-                    <PersonIcon />
                   </Button>
                 </RouterLink>
                 <RouterLink
@@ -283,6 +309,7 @@ const totalPages = ref(1)
 const totalDocuments = ref(3)
 const actualPage = ref(1)
 const searchQueryTrack = ref('')
+const hoursInCourses = ref(0)
 
 const getCourses = async () => {
   try {
@@ -305,6 +332,9 @@ const getCourses = async () => {
     copyOfDocuments = ref(documents.value)
     secondCopyOfDocuments = ref(documents.value)
     paginatedInformation.value = paginateInformation(0)
+    documents.value.forEach(function (item, index, array) {
+      hoursInCourses.value += Number(item.horas_totales)
+    })
 
     totalDocuments.value = documents.value.length
     totalPages.value = Math.ceil(documents.value.length / 6)
@@ -319,8 +349,8 @@ totalDocuments.value = documents.value.length
 totalPages.value = Math.ceil(documents.value.length / 6)
 
 function paginateInformation(pageIndex) {
-  const start = pageIndex * 5
-  const end = start + 5
+  const start = pageIndex * 8
+  const end = start + 8
   const paginatedInformationPlaceHolder = copyOfDocuments.value.slice(start, end)
   return paginatedInformationPlaceHolder
 }
